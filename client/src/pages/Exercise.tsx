@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,6 +8,10 @@ import NoteSection from "@/components/NoteSection";
 
 export default function Exercise() {
   const [activeTab, setActiveTab] = useState("instrucciones");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(80);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const { data: names, isLoading: namesLoading } = useQuery({
     queryKey: ["/api/names"],
@@ -17,8 +21,28 @@ export default function Exercise() {
     queryKey: ["/api/notes"],
   });
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackRate;
+    }
+  }, [playbackRate]);
+
   return (
     <div className="min-h-screen bg-background p-4">
+      <audio
+        ref={audioRef}
+        src="/audio/leccion46.wav"
+        onEnded={() => setIsPlaying(false)}
+        onPause={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+      />
+
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
           <h1 className="text-2xl font-light text-center mb-6">
@@ -77,7 +101,15 @@ export default function Exercise() {
             </TabsContent>
 
             <TabsContent value="audio">
-              <AudioPlayer />
+              <AudioPlayer
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                volume={volume}
+                setVolume={setVolume}
+                playbackRate={playbackRate}
+                setPlaybackRate={setPlaybackRate}
+                audioRef={audioRef}
+              />
             </TabsContent>
 
             <TabsContent value="notas">
