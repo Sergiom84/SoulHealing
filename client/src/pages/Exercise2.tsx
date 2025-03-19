@@ -37,7 +37,7 @@ export default function Exercise2() {
     <div className="min-h-screen bg-background p-4">
       <audio
         ref={audioRef}
-        src="/audio/leccion46.wav"
+        src="/audio/leccion68.mp3"
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
