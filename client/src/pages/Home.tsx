@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import InspiringQuotes from "@/components/InspiringQuotes";
 
 export default function Home() {
   return (
@@ -13,6 +14,8 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            <InspiringQuotes />
+
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Primer método</p>
             </div>
@@ -26,13 +29,11 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Segundo método</p>
             </div>
-
             <div className="text-center">
               <Link href="/exercise2">
                 <Button className="w-full" size="lg">
@@ -42,13 +43,11 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Tercer método</p>
             </div>
-
             <div className="text-center">
               <Link href="/exercise3">
                 <Button className="w-full" size="lg">
@@ -58,13 +57,11 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Cuarto método</p>
             </div>
-
             <div className="text-center">
               <Link href="/exercise4">
                 <Button className="w-full" size="lg">
@@ -74,13 +71,11 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Quinto método</p>
             </div>
-
             <div className="text-center">
               <Link href="/exercise5">
                 <Button className="w-full" size="lg">
