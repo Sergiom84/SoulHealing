@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
 import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
-import { queryClient } from "@/lib/queryClient";
 
 export default function Exercise() {
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("nombres");
 
   const { data: names, isLoading: namesLoading } = useQuery({
@@ -29,14 +26,54 @@ export default function Exercise() {
           </h1>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid grid-cols-3 w-full">
+            <TabsList className="grid grid-cols-4 w-full">
               <TabsTrigger value="nombres">Nombres</TabsTrigger>
+              <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>
               <TabsTrigger value="audio">Audio</TabsTrigger>
               <TabsTrigger value="notas">Notas</TabsTrigger>
             </TabsList>
 
             <TabsContent value="nombres">
               <NameList names={names} isLoading={namesLoading} />
+            </TabsContent>
+
+            <TabsContent value="instrucciones" className="space-y-6">
+              <div className="prose prose-sm dark:prose-invert max-w-none">
+                <p>Comienza, como de costumbre, repitiendo la idea de hoy para tus adentros. Cierra los ojos y dedica unos minutos a explorar tu mente en busca de aquellas personas que aún no has perdonado.</p>
+
+                <p>No importa en qué medida, o no, los haya perdonado. Si estás haciendo bien el ejercicio debes de tener unos cuantos con los que hacer la práctica.</p>
+
+                <p>Mención a cada una de las personas por su nombre y di:</p>
+                <ul className="list-none pl-4">
+                  <li>Alberto, Dios es el amor en el que te perdono.</li>
+                  <li>Carlota, Dios es el amor en el que te perdono.</li>
+                  <li>Carmen, Dios es el amor en el que te perdono.</li>
+                </ul>
+
+                <p>Como dice el curso en otra lección, ni siquiera te lo tienes que creer. Lo puedes decir perfectamente de boca.</p>
+
+                <p>El objetivo del ejercicio es que tú te perdones a ti mismo. Una vez que hayas aplicado la idea a todas las personas que te hayan venido a la mente, di para tus adentros: Dios es el amor en el que me perdono a mí mismo.</p>
+
+                <p>Después continuas con tu mala y empiezas a decir:</p>
+                <ul className="list-none pl-4">
+                  <li>Dios es el amor en el que me amo a mí mismo.</li>
+                  <li>Dios es el amor en el que me encuentro a mí mismo.</li>
+                  <li>Dios es el amor en el que me ando bendecido.</li>
+                  <li>Dios es el amor en el que sanó mi mente.</li>
+                  <li>Dios es el amor en el que me encuentro con los demás.</li>
+                </ul>
+
+                <p>De esta manera, se suaviza la mente. Aquí continúa un tiempo. Piensa que, en realidad, estás haciendo una oración.</p>
+
+                <p>Recuerda la idea central:</p>
+                <ul className="list-none pl-4">
+                  <li>No puedo ser culpable porque soy un hijo de dios.</li>
+                  <li>Ya he sido perdonado.</li>
+                  <li>No tengo necesidad de atacar porque el amor me ha perdonado.</li>
+                </ul>
+
+                <p>Y acaba la sesión de práctica diciendo: Dios es el amor en el que me perdono.</p>
+              </div>
             </TabsContent>
 
             <TabsContent value="audio">
