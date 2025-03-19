@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
@@ -74,6 +76,29 @@ export default function Exercise5() {
                 <p>Elegimos a nuestro crucificado, le ponemos todos los catálogos de los pecados, los examinamos y luego decimos: "¿Tú te acusarías a ti por todo lo que ha hecho?"</p>
 
                 <p>Debes dedicar el resto del tiempo a experimentar que te escapas de todas las pesadas cadenas con las que quisiste encadenar a tu hermano, pero que, de hecho, te encadenaban a ti.</p>
+
+                <Alert className="mt-8">
+                  <Info className="h-4 w-4" />
+                  <AlertDescription>
+                    <div className="space-y-4 mt-2">
+                      <p className="italic">
+                        "Este es un ladrón, me está engañando con el dinero. Me está mintiendo para sacarme dinero. Me está mostrando una cara y luego otra."
+                      </p>
+
+                      <p>
+                        Una vez aplicado el perdón, comenzamos a contemplar si nuestro "ladrón" tenía una necesidad económica, si no tuvo más opción y se aprovechó de la situación, como tú también lo habrías hecho. No puedes culpabilizarlo.
+                      </p>
+
+                      <p>
+                        Lo que yo estoy viendo en mi hermano, antes lo he proyectado. Y si lo he proyectado, es porque estaba en mi mente. Entonces, esa culpa que proyecto en mi hermano, yo la he vivido y la he sentido. Pero cuando la traigo dentro de mi mente y veo el agravio junto con la necesidad, me doy cuenta de que es perdonable. Y si es perdonable en mí, es perdonable en el otro. De esta manera, quedan perdonados los dos.
+                      </p>
+
+                      <p>
+                        Tú has visto esa culpa y el condicionante que te forzó a hacerlo.
+                      </p>
+                    </div>
+                  </AlertDescription>
+                </Alert>
               </div>
             </TabsContent>
 
