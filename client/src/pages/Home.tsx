@@ -13,13 +13,16 @@ export default function Home() {
               Un Curso de Milagros
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent>
             <InspiringQuotes />
+          </CardContent>
+        </Card>
 
+        <Card>
+          <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
               <p className="text-lg mb-2">Primer método</p>
             </div>
-
             <div className="text-center">
               <Link href="/exercise">
                 <Button className="w-full" size="lg">
@@ -29,6 +32,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
@@ -43,6 +47,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
@@ -57,6 +62,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
@@ -71,6 +77,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="text-center text-muted-foreground">
