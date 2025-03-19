@@ -74,10 +74,6 @@ export default function Exercise5() {
                 <p>Elegimos a nuestro crucificado, le ponemos todos los catálogos de los pecados, los examinamos y luego decimos: "¿Tú te acusarías a ti por todo lo que ha hecho?"</p>
 
                 <p>Debes dedicar el resto del tiempo a experimentar que te escapas de todas las pesadas cadenas con las que quisiste encadenar a tu hermano, pero que, de hecho, te encadenaban a ti.</p>
-
-                <p>Lo que yo estoy viendo en mi hermano, antes lo he proyectado. Y si lo he proyectado, es porque estaba en mi mente. Entonces, esa culpa que proyecto en mi hermano, yo la he vivido y la he sentido. Pero cuando la traigo dentro de mi mente y veo el agravio junto con la necesidad, me doy cuenta de que es perdonable. Y si es perdonable en mí, es perdonable en el otro. De esta manera, quedan perdonados los dos.</p>
-
-                <p>Tú has visto esa culpa y el condicionante que te forzó a hacerlo.</p>
               </div>
             </TabsContent>
 
