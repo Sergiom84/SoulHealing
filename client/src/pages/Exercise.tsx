@@ -7,7 +7,7 @@ import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
 
 export default function Exercise() {
-  const [activeTab, setActiveTab] = useState("nombres");
+  const [activeTab, setActiveTab] = useState("instrucciones");
 
   const { data: names, isLoading: namesLoading } = useQuery({
     queryKey: ["/api/names"],
@@ -27,15 +27,11 @@ export default function Exercise() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="nombres">Nombres</TabsTrigger>
               <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>
+              <TabsTrigger value="nombres">Nombres</TabsTrigger>
               <TabsTrigger value="audio">Audio</TabsTrigger>
               <TabsTrigger value="notas">Notas</TabsTrigger>
             </TabsList>
-
-            <TabsContent value="nombres">
-              <NameList names={names} isLoading={namesLoading} />
-            </TabsContent>
 
             <TabsContent value="instrucciones" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
@@ -74,6 +70,10 @@ export default function Exercise() {
 
                 <p>Y acaba la sesión de práctica diciendo: Dios es el Amor en el que me perdono.</p>
               </div>
+            </TabsContent>
+
+            <TabsContent value="nombres">
+              <NameList names={names} isLoading={namesLoading} />
             </TabsContent>
 
             <TabsContent value="audio">
