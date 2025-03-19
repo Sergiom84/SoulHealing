@@ -61,7 +61,23 @@ export default function Exercise5() {
 
             <TabsContent value="instrucciones" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                {/* Las instrucciones se añadirán cuando el usuario las proporcione */}
+                <p>Escoge a un hermano, tal como el Espíritu te indique, y cataloga sus pecados uno por uno a medida que crucen tu mente.</p>
+
+                <p>Asegúrate de no concentrarte en ninguno de ellos en particular; antes bien, date cuenta de que te estás valiendo de sus ofensas para salvar al mundo de toda idea de pecado.</p>
+
+                <p>Examina brevemente todas las cosas negativas que hayas pensado acerca de él y pregúntate en cada caso: "¿Me condenaría a mí mismo por haber hecho esto?"</p>
+
+                <p>Libéralo de todos los pensamientos de pecado que hayas tenido en relación con él, y tú mismo estarás preparado para ser libre.</p>
+
+                <p>Si has estado practicando hasta ahora de buen grado y con honestidad, empezarás a notar una sensación de elevación, un gran alivio en tu pecho y un sentimiento profundo e inequívoco de desahogo.</p>
+
+                <p>Elegimos a nuestro crucificado, le ponemos todos los catálogos de los pecados, los examinamos y luego decimos: "¿Tú te acusarías a ti por todo lo que ha hecho?"</p>
+
+                <p>Debes dedicar el resto del tiempo a experimentar que te escapas de todas las pesadas cadenas con las que quisiste encadenar a tu hermano, pero que, de hecho, te encadenaban a ti.</p>
+
+                <p>Lo que yo estoy viendo en mi hermano, antes lo he proyectado. Y si lo he proyectado, es porque estaba en mi mente. Entonces, esa culpa que proyecto en mi hermano, yo la he vivido y la he sentido. Pero cuando la traigo dentro de mi mente y veo el agravio junto con la necesidad, me doy cuenta de que es perdonable. Y si es perdonable en mí, es perdonable en el otro. De esta manera, quedan perdonados los dos.</p>
+
+                <p>Tú has visto esa culpa y el condicionante que te forzó a hacerlo.</p>
               </div>
             </TabsContent>
 
