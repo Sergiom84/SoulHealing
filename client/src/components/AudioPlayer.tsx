@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, Volume2, Timer } from "lucide-react";
-import { type RefObject } from "react";
+import { type RefObject, useCallback } from "react";
 
 interface AudioPlayerProps {
   isPlaying: boolean;
@@ -23,20 +23,23 @@ export default function AudioPlayer({
   setPlaybackRate,
   audioRef,
 }: AudioPlayerProps) {
-  const togglePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
+  const togglePlayPause = useCallback(async () => {
+    if (!audioRef.current) return;
 
-  const toggleSpeed = () => {
-    setPlaybackRate(current => current === 1 ? 0.5 : 1);
-  };
+    try {
+      if (isPlaying) {
+        await audioRef.current.pause();
+      } else {
+        await audioRef.current.play();
+      }
+    } catch (error) {
+      console.error("Error toggling audio:", error);
+    }
+  }, [isPlaying, audioRef]);
+
+  const toggleSpeed = useCallback(() => {
+    setPlaybackRate(playbackRate === 1 ? 0.5 : 1);
+  }, [playbackRate, setPlaybackRate]);
 
   return (
     <Card>
