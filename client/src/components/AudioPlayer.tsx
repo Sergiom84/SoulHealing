@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -7,6 +7,24 @@ import { Play, Pause, Volume2 } from "lucide-react";
 export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <Card>
@@ -18,11 +36,19 @@ export default function AudioPlayer() {
           </p>
         </div>
 
+        <audio
+          ref={audioRef}
+          src="/audio/leccion46.wav"
+          onEnded={() => setIsPlaying(false)}
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
+        />
+
         <div className="flex items-center justify-center gap-4">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={togglePlayPause}
           >
             {isPlaying ? (
               <Pause className="h-4 w-4" />
