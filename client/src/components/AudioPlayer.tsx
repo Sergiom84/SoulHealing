@@ -12,6 +12,7 @@ interface AudioPlayerProps {
   playbackRate: number;
   setPlaybackRate: (rate: number) => void;
   audioRef: RefObject<HTMLAudioElement>;
+  title?: string;
 }
 
 export default function AudioPlayer({
@@ -22,6 +23,7 @@ export default function AudioPlayer({
   playbackRate,
   setPlaybackRate,
   audioRef,
+  title,
 }: AudioPlayerProps) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -86,9 +88,11 @@ export default function AudioPlayer({
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
-        <div className="text-center mb-6">
-          <h3 className="text-lg font-medium">Cierra los ojos y escucha.</h3>
-        </div>
+        {title && (
+          <div className="text-center mb-6">
+            <h3 className="text-lg font-medium">{title}</h3>
+          </div>
+        )}
 
         <div className="space-y-4">
           <div className="flex items-center justify-center gap-2">

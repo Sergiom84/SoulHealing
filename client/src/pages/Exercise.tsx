@@ -45,10 +45,7 @@ export default function Exercise() {
 
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
-          <h1 className="text-2xl font-light text-center mb-6">
-            Lección 46. Dios es el Amor en el que perdono.
-          </h1>
-
+          {/*Removed Title*/}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
               <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>

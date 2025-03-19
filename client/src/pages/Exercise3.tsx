@@ -116,6 +116,7 @@ export default function Exercise3() {
                 playbackRate={playbackRate}
                 setPlaybackRate={setPlaybackRate}
                 audioRef={audioRef}
+                title="Cierra los ojos y escucha."
               />
             </TabsContent>
 
