@@ -9,6 +9,7 @@ import Home from "@/pages/Home";
 import Exercise from "@/pages/Exercise";
 import Exercise2 from "@/pages/Exercise2";
 import Exercise3 from "@/pages/Exercise3";
+import Exercise4 from "@/pages/Exercise4";
 
 function Router() {
   return (
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/exercise" component={Exercise} />
       <Route path="/exercise2" component={Exercise2} />
       <Route path="/exercise3" component={Exercise3} />
+      <Route path="/exercise4" component={Exercise4} />
       <Route component={NotFound} />
     </Switch>
   );

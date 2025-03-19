@@ -58,6 +58,22 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardContent className="space-y-6 pt-6">
+            <div className="text-center text-muted-foreground">
+              <p className="text-lg mb-2">Cuarto método</p>
+            </div>
+
+            <div className="text-center">
+              <Link href="/exercise4">
+                <Button className="w-full" size="lg">
+                  Comenzar Ejercicio
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
