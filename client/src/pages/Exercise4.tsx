@@ -41,13 +41,15 @@ export default function Exercise4() {
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
       >
-        <source src="/audio/leccion89.mp3" type="audio/mpeg" />
+        <source src="/audio/leccion121.mp3" type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
-          {/* Removed Title */}
+          <h1 className="text-2xl font-light text-center mb-6">
+            Lección 121. El perdón es la llave de la felicidad.
+          </h1>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
