@@ -50,7 +50,7 @@ export default function Exercise5() {
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
       >
-        <source src="/attached_assets/Quinto ejercicio_UCDM.wav" type="audio/wav" />
+        <source src="/audio/leccion134.wav" type="audio/wav" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
