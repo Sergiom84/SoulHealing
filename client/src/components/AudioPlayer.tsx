@@ -38,53 +38,55 @@ export default function AudioPlayer() {
   };
 
   return (
-    <Card>
-      <CardContent className="p-6 space-y-4">
-        <div className="text-center mb-6">
-          <h3 className="text-lg font-medium">Escucha la lección</h3>
-        </div>
+    <>
+      <audio
+        ref={audioRef}
+        src="/audio/leccion46.wav"
+        onEnded={() => setIsPlaying(false)}
+        onPause={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+      />
 
-        <audio
-          ref={audioRef}
-          src="/audio/leccion46.wav"
-          onEnded={() => setIsPlaying(false)}
-          onPause={() => setIsPlaying(false)}
-          onPlay={() => setIsPlaying(true)}
-        />
-
-        <div className="flex items-center justify-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={togglePlayPause}
-          >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" />
-            ) : (
-              <Play className="h-4 w-4" />
-            )}
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleSpeed}
-            className={playbackRate === 0.5 ? "bg-accent" : ""}
-          >
-            <Timer className="h-4 w-4" />
-          </Button>
-
-          <div className="flex items-center gap-2 w-48">
-            <Volume2 className="h-4 w-4" />
-            <Slider
-              value={[volume]}
-              max={100}
-              step={1}
-              onValueChange={(vals) => setVolume(vals[0])}
-            />
+      <Card>
+        <CardContent className="p-6 space-y-4">
+          <div className="text-center mb-6">
+            <h3 className="text-lg font-medium">Escucha la lección.</h3>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+
+          <div className="flex items-center justify-center gap-4">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={togglePlayPause}
+            >
+              {isPlaying ? (
+                <Pause className="h-4 w-4" />
+              ) : (
+                <Play className="h-4 w-4" />
+              )}
+            </Button>
+
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleSpeed}
+              className={playbackRate === 0.5 ? "bg-accent" : ""}
+            >
+              <Timer className="h-4 w-4" />
+            </Button>
+
+            <div className="flex items-center gap-2 w-48">
+              <Volume2 className="h-4 w-4" />
+              <Slider
+                value={[volume]}
+                max={100}
+                step={1}
+                onValueChange={(vals) => setVolume(vals[0])}
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 }
