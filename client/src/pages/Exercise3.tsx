@@ -48,7 +48,7 @@ export default function Exercise3() {
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
           <h1 className="text-2xl font-light text-center mb-6">
-            Lección 78: Que los milagros reemplacen todos mis resentimientos
+            Lección 78. Que los milagros reemplacen todos mis resentimientos.
           </h1>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
