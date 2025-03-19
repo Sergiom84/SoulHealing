@@ -2,11 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, Volume2 } from "lucide-react";
+import { Play, Pause, Volume2, Timer } from "lucide-react";
 
 export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
+  const [playbackRate, setPlaybackRate] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -14,6 +15,12 @@ export default function AudioPlayer() {
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackRate;
+    }
+  }, [playbackRate]);
 
   const togglePlayPause = () => {
     if (audioRef.current) {
@@ -26,14 +33,15 @@ export default function AudioPlayer() {
     }
   };
 
+  const toggleSpeed = () => {
+    setPlaybackRate(current => current === 1 ? 0.5 : 1);
+  };
+
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
         <div className="text-center mb-6">
-          <h3 className="text-lg font-medium">Meditación Guiada</h3>
-          <p className="text-sm text-muted-foreground">
-            Escucha la lección mientras meditas
-          </p>
+          <h3 className="text-lg font-medium">Escucha la lección</h3>
         </div>
 
         <audio
@@ -55,6 +63,15 @@ export default function AudioPlayer() {
             ) : (
               <Play className="h-4 w-4" />
             )}
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleSpeed}
+            className={playbackRate === 0.5 ? "bg-accent" : ""}
+          >
+            <Timer className="h-4 w-4" />
           </Button>
 
           <div className="flex items-center gap-2 w-48">
