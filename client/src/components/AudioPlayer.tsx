@@ -87,7 +87,7 @@ export default function AudioPlayer({
     <Card>
       <CardContent className="p-6 space-y-4">
         <div className="text-center mb-6">
-          <h3 className="text-lg font-medium">Escucha la lección.</h3>
+          <h3 className="text-lg font-medium">Cierra los ojos y escucha.</h3>
         </div>
 
         <div className="space-y-4">
