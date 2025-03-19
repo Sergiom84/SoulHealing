@@ -7,12 +7,14 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Exercise from "@/pages/Exercise";
+import Exercise2 from "@/pages/Exercise2";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/exercise" component={Exercise} />
+      <Route path="/exercise2" component={Exercise2} />
       <Route component={NotFound} />
     </Switch>
   );
