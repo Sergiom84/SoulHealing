@@ -37,11 +37,13 @@ export default function Exercise2() {
     <div className="min-h-screen bg-background p-4">
       <audio
         ref={audioRef}
-        src="/audio/leccion68.mp3"
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
-      />
+      >
+        <source src="/audio/leccion68.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
 
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
