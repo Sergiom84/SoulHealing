@@ -35,15 +35,22 @@ export default function Exercise5() {
     }
   }, [playbackRate]);
 
+  // Añadimos un manejador de errores para el audio
+  const handleAudioError = (e: Event) => {
+    const audioElement = e.target as HTMLAudioElement;
+    console.error('Error loading audio:', audioElement.error);
+  };
+
   return (
     <div className="min-h-screen bg-background p-4">
       <audio
         ref={audioRef}
+        onError={handleAudioError}
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
       >
-        <source src="/audio/leccion134.wav" type="audio/wav" />
+        <source src="/attached_assets/Quinto ejercicio_UCDM.wav" type="audio/wav" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
