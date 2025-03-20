@@ -1,8 +1,8 @@
 {
   "variant": "professional",
-  "primary": "hsl(45, 100%, 55%)",
+  "primary": "hsl(225, 64%, 30%)",  // Navy blue primary color
   "appearance": "light",
   "radius": 0.5,
-  "accent": "hsl(225, 64%, 30%)",
-  "background": "hsl(40, 38%, 97%)"
+  "accent": "hsl(45, 100%, 55%)",   // Gold accent color
+  "background": "hsl(40, 38%, 97%)" // Creamy white background
 }
