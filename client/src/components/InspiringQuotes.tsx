@@ -30,7 +30,7 @@ export default function InspiringQuotes() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 1 }}
-          className="text-lg text-muted-foreground text-center italic max-w-md mx-auto px-4"
+          className="text-lg text-muted-foreground text-center italic max-w-md mx-auto px-4 text-accent hover:text-accent-foreground"
         >
           {quotes[currentQuote]}
         </motion.p>
