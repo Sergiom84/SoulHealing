@@ -43,13 +43,17 @@ export default function ExerciseProgress() {
   // Función para renderizar el contenido del día
   const renderDayContent = (day: Date) => {
     const exercise = getProgress(day);
-    return exercise ? (
-      <div className="relative w-full h-full">
-        <span className="absolute top-0 left-0 text-xs font-medium text-primary">
+    if (!exercise) return null;
+
+    return (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div 
+          className="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-primary text-primary-foreground rounded-full text-[10px] font-semibold"
+        >
           {exercise}
-        </span>
+        </div>
       </div>
-    ) : null;
+    );
   };
 
   return (
