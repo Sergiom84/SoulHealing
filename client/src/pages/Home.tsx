@@ -1,98 +1,117 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { CheckCircle, Repeat, Heart, ScrollText } from "lucide-react";
 import InspiringQuotes from "@/components/InspiringQuotes";
 
-export default function Home() {
+function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-lg space-y-6">
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-light">
-              Un Curso de Milagros
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <InspiringQuotes />
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-6">
+      <motion.div
+        className="text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <h1 className="text-4xl font-serif mb-6">Un Curso de Milagros</h1>
+        <p className="text-lg text-muted-foreground max-w-xl mb-8">
+          "El perdón es la llave de la felicidad."<br />
+          <span className="text-sm italic">– Un Curso de Milagros</span>
+        </p>
+        <Button
+          className="px-6 py-3 rounded-2xl shadow hover:bg-primary/90 transition"
+          onClick={onContinue}
+        >
+          Entrar a la app
+        </Button>
+      </motion.div>
+    </div>
+  );
+}
 
-        <Card>
-          <CardContent className="space-y-6 pt-6">
-            <div className="text-center text-muted-foreground">
-              <p className="text-lg mb-2">Primer método</p>
-            </div>
-            <div className="text-center">
-              <Link href="/exercise">
-                <Button className="w-full" size="lg">
-                  Comenzar Ejercicio
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+function MainAppContent() {
+  return (
+    <div className="min-h-screen bg-background text-foreground p-6 flex flex-col items-center justify-center">
+      <motion.h1
+        className="text-4xl font-serif mb-4"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Un Curso de Milagros
+      </motion.h1>
 
-        <Card>
-          <CardContent className="space-y-6 pt-6">
-            <div className="text-center text-muted-foreground">
-              <p className="text-lg mb-2">Segundo método</p>
-            </div>
-            <div className="text-center">
-              <Link href="/exercise2">
-                <Button className="w-full" size="lg">
-                  Comenzar Ejercicio
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="mb-8"
+      >
+        <InspiringQuotes />
+      </motion.div>
 
-        <Card>
-          <CardContent className="space-y-6 pt-6">
-            <div className="text-center text-muted-foreground">
-              <p className="text-lg mb-2">Tercer método</p>
-            </div>
-            <div className="text-center">
-              <Link href="/exercise3">
-                <Button className="w-full" size="lg">
-                  Comenzar Ejercicio
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
+        <Link href="/exercise">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <CheckCircle className="text-primary w-8 h-8 mb-2" />
+              <h2 className="text-xl font-semibold mb-2">Primer método</h2>
+              <p className="text-muted-foreground">Dios es el Amor en el que perdono.</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card>
-          <CardContent className="space-y-6 pt-6">
-            <div className="text-center text-muted-foreground">
-              <p className="text-lg mb-2">Cuarto método</p>
-            </div>
-            <div className="text-center">
-              <Link href="/exercise4">
-                <Button className="w-full" size="lg">
-                  Comenzar Ejercicio
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <Link href="/exercise2">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <Repeat className="text-primary w-8 h-8 mb-2" />
+              <h2 className="text-xl font-semibold mb-2">Segundo método</h2>
+              <p className="text-muted-foreground">El amor no abriga resentimientos.</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card>
-          <CardContent className="space-y-6 pt-6">
-            <div className="text-center text-muted-foreground">
-              <p className="text-lg mb-2">Quinto método</p>
-            </div>
-            <div className="text-center">
-              <Link href="/exercise5">
-                <Button className="w-full" size="lg">
-                  Comenzar Ejercicio
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <Link href="/exercise3">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <Heart className="text-primary w-8 h-8 mb-2" />
+              <h2 className="text-xl font-semibold mb-2">Tercer método</h2>
+              <p className="text-muted-foreground">Que los milagros reemplacen todos mis resentimientos.</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/exercise4">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <ScrollText className="text-primary w-8 h-8 mb-2" />
+              <h2 className="text-xl font-semibold mb-2">Cuarto método</h2>
+              <p className="text-muted-foreground">El perdón es la llave de la felicidad.</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/exercise5" className="sm:col-span-2">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <ScrollText className="text-primary w-8 h-8 mb-2" />
+              <h2 className="text-xl font-semibold mb-2">Quinto método</h2>
+              <p className="text-muted-foreground">Quiero percibir el perdón tal como es.</p>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
     </div>
+  );
+}
+
+export default function Home() {
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  return showWelcome ? (
+    <WelcomeScreen onContinue={() => setShowWelcome(false)} />
+  ) : (
+    <MainAppContent />
   );
 }
