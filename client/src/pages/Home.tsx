@@ -51,7 +51,7 @@ function MainAppContent() {
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
-        <Link href="/exercise">
+        <Link href="/exercise1">
           <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300">
             <CardContent className="p-6 flex flex-col items-center text-center">
               <div className="w-full h-40 mb-4 rounded-lg overflow-hidden">
