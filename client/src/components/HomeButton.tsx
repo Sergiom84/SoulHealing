@@ -6,7 +6,7 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    setLocation("/home");
+    setLocation("/home");  // Esta ruta es correcta según App.tsx
   };
 
   return (
