@@ -6,7 +6,7 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    setLocation("/");
+    setLocation("/home");
   };
 
   return (
