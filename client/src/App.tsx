@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/contexts/theme-provider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import ExerciseProgress from "@/components/ExerciseProgress";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Exercise from "@/pages/Exercise";
@@ -31,6 +32,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark">
         <ThemeToggle />
+        <ExerciseProgress />
         <Router />
         <Toaster />
       </ThemeProvider>
