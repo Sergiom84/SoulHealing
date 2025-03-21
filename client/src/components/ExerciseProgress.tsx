@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,20 +49,6 @@ export default function ExerciseProgress() {
     return progress[dateKey];
   };
 
-  // Función para renderizar el contenido del día
-  const renderDayContent = (day: Date) => {
-    const exercise = getProgress(day);
-    if (!exercise) return null;
-
-    return (
-      <div className="relative w-full h-full">
-        <div 
-          className={`absolute inset-0 ${exerciseColors[exercise as keyof typeof exerciseColors]} rounded-md`}
-        />
-      </div>
-    );
-  };
-
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -82,10 +68,7 @@ export default function ExerciseProgress() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md border [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9 [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10 [&_.rdp-day]:relative [&_.rdp-day]:z-0"
-            components={{
-              DayContent: ({ date }) => renderDayContent(date)
-            }}
+            className="rounded-md border [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9 [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10 [&_.rdp-day]:relative [&_.rdp-day]:z-0 [&_.rdp-day_number]:text-black [&_.rdp-day_number]:font-medium [&_.rdp-day--selected]:bg-blue-500 [&_.rdp-day--selected]:text-white" //Added classnames for styling
           />
           <div className="mt-4">
             <Select value={selectedExercise} onValueChange={setSelectedExercise}>
