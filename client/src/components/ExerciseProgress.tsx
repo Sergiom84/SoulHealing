@@ -82,7 +82,7 @@ export default function ExerciseProgress() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md border"
+            className="rounded-md border [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10"
             components={{
               DayContent: ({ date }) => renderDayContent(date)
             }}
