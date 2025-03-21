@@ -20,11 +20,11 @@ import { Calendar as CalendarIcon } from "lucide-react";
 
 // Definir colores para cada ejercicio
 const exerciseColors = {
-  "1": "bg-blue-100 dark:bg-blue-900/30",
-  "2": "bg-green-100 dark:bg-green-900/30",
-  "3": "bg-purple-100 dark:bg-purple-900/30",
-  "4": "bg-amber-100 dark:bg-amber-900/30",
-  "5": "bg-rose-100 dark:bg-rose-900/30"
+  "1": "bg-blue-100/50 dark:bg-blue-900/30",
+  "2": "bg-green-100/50 dark:bg-green-900/30",
+  "3": "bg-purple-100/50 dark:bg-purple-900/30",
+  "4": "bg-amber-100/50 dark:bg-amber-900/30",
+  "5": "bg-rose-100/50 dark:bg-rose-900/30"
 };
 
 export default function ExerciseProgress() {
