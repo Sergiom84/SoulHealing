@@ -63,7 +63,19 @@ export default function Exercise5() {
 
             <TabsContent value="introduccion" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                {/*  Content for the introduction tab.  This would need to be added based on requirements. */}
+                <p>Intentaré ver qué es el perdón hoy. Ha sido mal entendido y se le han dado distintos significados. Se le ha hecho parecer una debilidad, un sacrificio orgulloso y altanero, un falso gesto de indulgencia y una cura que en realidad no sirve.</p>
+
+                <p>El perdón es tranquilo y sosegado. Mira, observa y no juzga. No ataca ni se defiende. Simplemente observa y espera y no juzga. No exige nada. Es un estado mental completamente abierto, sin ningún propósito salvo el de estar dispuesto a ver las cosas de manera diferente.</p>
+
+                <p>El perdón no tiene que ver con las apariencias ni con la conducta. No se centra en el cuerpo. Mira más allá de las apariencias, más allá de las acciones, más allá de la conducta que se observa en la superficie.</p>
+
+                <p>Quiero hoy ver el perdón tal como es. Para ello, primero debo admitir que no sé lo que es. Y si pienso que lo sé, estoy creando obstáculos a mi aprendizaje. Quiero aprender lo que es el perdón, sin mis viejas ideas al respecto.</p>
+
+                <p>El perdón me muestra que lo que pensaba real no lo es, y me ayuda a ver lo que por el contrario es real. El perdón es la gran liberadora de la culpa. Lo que veo como culpable no lo es, y culpa no hay.</p>
+
+                <p>Así pues, Padre, quiero percibir el perdón tal como es. Permíteme ver la faz de Cristo resplandecer en todos aquellos a quienes miro. Enséñame a reconocer la luz de la verdad en ellos, y a ver más allá de las sombras del ego hasta su impecabilidad.</p>
+
+                <p>Quiero contemplar a todas las personas a través de los ojos del perdón, para que pueda ver su santidad y aprender de ellos la verdad. Permíteme percibir el perdón tal como es.</p>
               </div>
             </TabsContent>
 
