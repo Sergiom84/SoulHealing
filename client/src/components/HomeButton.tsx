@@ -6,7 +6,7 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    setLocation("/home");  // Esta ruta es correcta según App.tsx
+    setLocation("/home");  // Ruta a la página principal de ejercicios
   };
 
   return (
