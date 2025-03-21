@@ -30,9 +30,12 @@ export default function NameList({ names = [], isLoading }: NameListProps) {
   const addName = useMutation({
     mutationFn: async (name: string) => {
       const response = await apiRequest("POST", "/api/names", { name, forgiven: false });
-      return response;
+      return response as Name;
     },
     onSuccess: (newName) => {
+      // Actualizar la lista local inmediatamente
+      setLocalNames(prev => [...prev, newName]);
+
       queryClient.invalidateQueries({ queryKey: ["/api/names"] });
       setNewName("");
       toast({
@@ -80,7 +83,7 @@ export default function NameList({ names = [], isLoading }: NameListProps) {
             className="flex items-center gap-2 p-2 rounded hover:bg-accent"
           >
             <Checkbox
-              checked={name.forgiven}
+              checked={name.forgiven || false}
               onCheckedChange={(checked) =>
                 toggleForgiveness.mutate({
                   id: name.id,
@@ -92,11 +95,9 @@ export default function NameList({ names = [], isLoading }: NameListProps) {
               <span className={name.forgiven ? "line-through text-muted-foreground" : ""}>
                 {name.name}
               </span>
-              {name.createdAt && (
-                <p className="text-xs text-muted-foreground">
-                  Agregado el {format(new Date(name.createdAt), "PP", { locale: es })}
-                </p>
-              )}
+              <p className="text-xs text-muted-foreground">
+                Agregado el {format(new Date(name.createdAt || new Date()), "PP", { locale: es })}
+              </p>
             </div>
           </div>
         ))}
