@@ -5,9 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
+import HomeButton from "@/components/HomeButton";
 
 export default function Exercise2() {
-  const [activeTab, setActiveTab] = useState("instrucciones");
+  const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -35,6 +36,7 @@ export default function Exercise2() {
 
   return (
     <div className="min-h-screen bg-background p-4">
+      <HomeButton />
       <audio
         ref={audioRef}
         onEnded={() => setIsPlaying(false)}
@@ -48,18 +50,18 @@ export default function Exercise2() {
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
           <h1 className="text-2xl font-light text-center mb-6">
-            Lección 68. El amor no abriga resentimientos.
+            Lección 68: El amor no abriga resentimientos.
           </h1>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>
+              <TabsTrigger value="introduccion">Introducción</TabsTrigger>
               <TabsTrigger value="nombres">Nombres</TabsTrigger>
               <TabsTrigger value="audio">Audio</TabsTrigger>
               <TabsTrigger value="notas">Notas</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="instrucciones" className="space-y-6">
+            <TabsContent value="introduccion" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p>Comienza la sesión de práctica buscando en tu mente a aquellas personas que son objeto de algunos de tus mayores resentimientos. Algunas de ellas serán muy fáciles de identificar.</p>
 

@@ -4,8 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import type { Name } from "@shared/schema";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface NameListProps {
   names?: Name[];
@@ -15,12 +18,21 @@ interface NameListProps {
 export default function NameList({ names = [], isLoading }: NameListProps) {
   const { toast } = useToast();
   const [newName, setNewName] = useState("");
+  const [localNames, setLocalNames] = useLocalStorage<Name[]>("forgiveness-names", []);
+
+  // Sincronizar nombres del servidor con almacenamiento local
+  useEffect(() => {
+    if (names.length > 0) {
+      setLocalNames(names);
+    }
+  }, [names, setLocalNames]);
 
   const addName = useMutation({
     mutationFn: async (name: string) => {
-      await apiRequest("POST", "/api/names", { name, forgiven: false });
+      const response = await apiRequest("POST", "/api/names", { name, forgiven: false });
+      return response;
     },
-    onSuccess: () => {
+    onSuccess: (newName) => {
       queryClient.invalidateQueries({ queryKey: ["/api/names"] });
       setNewName("");
       toast({
@@ -62,7 +74,7 @@ export default function NameList({ names = [], isLoading }: NameListProps) {
       </form>
 
       <div className="space-y-2">
-        {names.map((name) => (
+        {localNames.map((name) => (
           <div
             key={name.id}
             className="flex items-center gap-2 p-2 rounded hover:bg-accent"
@@ -76,9 +88,16 @@ export default function NameList({ names = [], isLoading }: NameListProps) {
                 })
               }
             />
-            <span className={name.forgiven ? "line-through text-muted-foreground" : ""}>
-              {name.name}
-            </span>
+            <div className="flex-1">
+              <span className={name.forgiven ? "line-through text-muted-foreground" : ""}>
+                {name.name}
+              </span>
+              {name.createdAt && (
+                <p className="text-xs text-muted-foreground">
+                  Agregado el {format(new Date(name.createdAt), "PP", { locale: es })}
+                </p>
+              )}
+            </div>
           </div>
         ))}
       </div>

@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import type { Note } from "@shared/schema";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface NoteSectionProps {
   notes?: Note[];
@@ -15,6 +18,14 @@ interface NoteSectionProps {
 export default function NoteSection({ notes = [], isLoading }: NoteSectionProps) {
   const { toast } = useToast();
   const [newNote, setNewNote] = useState("");
+  const [localNotes, setLocalNotes] = useLocalStorage<Note[]>("forgiveness-notes", []);
+
+  // Sincronizar notas del servidor con almacenamiento local
+  useEffect(() => {
+    if (notes.length > 0) {
+      setLocalNotes(notes);
+    }
+  }, [notes, setLocalNotes]);
 
   const addNote = useMutation({
     mutationFn: async (content: string) => {
@@ -57,10 +68,10 @@ export default function NoteSection({ notes = [], isLoading }: NoteSectionProps)
 
       <ScrollArea className="h-[300px] rounded-md border p-4">
         <div className="space-y-4">
-          {notes.map((note) => (
+          {localNotes.map((note) => (
             <div key={note.id} className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                {new Date(note.createdAt).toLocaleDateString("es")}
+                {note.createdAt && format(new Date(note.createdAt), "PPpp", { locale: es })}
               </p>
               <p className="text-sm">{note.content}</p>
             </div>

@@ -13,6 +13,7 @@ export const names = pgTable("names", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   forgiven: boolean("forgiven").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const notes = pgTable("notes", {

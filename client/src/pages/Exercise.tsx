@@ -5,9 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
+import HomeButton from "@/components/HomeButton";
 
 export default function Exercise() {
-  const [activeTab, setActiveTab] = useState("instrucciones");
+  const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -41,6 +42,7 @@ export default function Exercise() {
 
   return (
     <div className="min-h-screen bg-background p-4">
+      <HomeButton />
       <audio
         ref={audioRef}
         onError={handleAudioError}
@@ -55,18 +57,18 @@ export default function Exercise() {
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
           <h1 className="text-2xl font-light text-center mb-6">
-            Dios es el Amor en el que perdono.
+            Lección 46: Dios es el Amor en el que perdono.
           </h1>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>
+              <TabsTrigger value="introduccion">Introducción</TabsTrigger>
               <TabsTrigger value="nombres">Nombres</TabsTrigger>
               <TabsTrigger value="audio">Audio</TabsTrigger>
               <TabsTrigger value="notas">Notas</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="instrucciones" className="space-y-6">
+            <TabsContent value="introduccion" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p>Comienza, como de costumbre, repitiendo la idea de hoy para tus adentros. Cierra los ojos y dedica unos minutos a explorar tu mente en busca de aquellas personas que aún no has perdonado.</p>
 
