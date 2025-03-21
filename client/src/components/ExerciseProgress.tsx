@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +28,7 @@ export default function ExerciseProgress() {
 
     const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
     const dateKey = date.toISOString().split('T')[0];
-    
+
     progress[dateKey] = selectedExercise;
     localStorage.setItem('exerciseProgress', JSON.stringify(progress));
   };
@@ -38,6 +38,18 @@ export default function ExerciseProgress() {
     const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
     const dateKey = date.toISOString().split('T')[0];
     return progress[dateKey];
+  };
+
+  // Función para renderizar el contenido del día
+  const renderDayContent = (day: Date) => {
+    const exercise = getProgress(day);
+    return exercise ? (
+      <div className="relative w-full h-full">
+        <span className="absolute top-0 left-0 text-xs font-medium text-primary">
+          {exercise}
+        </span>
+      </div>
+    ) : null;
   };
 
   return (
@@ -60,6 +72,9 @@ export default function ExerciseProgress() {
             selected={date}
             onSelect={setDate}
             className="rounded-md border"
+            components={{
+              DayContent: ({ date }) => renderDayContent(date)
+            }}
           />
           <div className="mt-4">
             <Select value={selectedExercise} onValueChange={setSelectedExercise}>
