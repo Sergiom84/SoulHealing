@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalendarIcon } from "lucide-react";
+import { ListTodo } from "lucide-react";
 
 // Definir colores para cada ejercicio
 const exerciseColors = {
@@ -28,22 +28,15 @@ const exerciseColors = {
 
 export default function ExerciseProgress() {
   const [selectedExercise, setSelectedExercise] = useState<string>("");
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
-
-  // Cargar el progreso al iniciar
-  useEffect(() => {
-    const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
-    if (progress[selectedDate]) {
-      setSelectedExercise(progress[selectedDate]);
-    }
-  }, [selectedDate]);
 
   // Función para guardar el progreso
   const saveProgress = () => {
-    if (!selectedDate || !selectedExercise) return;
+    if (!selectedExercise) return;
 
+    // Guardar el ejercicio seleccionado
     const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
-    progress[selectedDate] = selectedExercise;
+    const today = new Date().toISOString().split('T')[0];
+    progress[today] = selectedExercise;
     localStorage.setItem('exerciseProgress', JSON.stringify(progress));
   };
 
@@ -51,57 +44,51 @@ export default function ExerciseProgress() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="fixed left-4 top-4">
-          <CalendarIcon className="h-5 w-5" />
+          <ListTodo className="h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
           <SheetTitle>Progreso de Ejercicios</SheetTitle>
           <SheetDescription>
-            Registra los ejercicios que has completado
+            Registra el ejercicio que has completado hoy
           </SheetDescription>
         </SheetHeader>
         <div className="py-4">
           <div className="relative mb-4">
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className={`w-full rounded-md border p-2 ${selectedExercise ? exerciseColors[selectedExercise as keyof typeof exerciseColors] : ''}`}
-            />
+            <Select value={selectedExercise} onValueChange={setSelectedExercise}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecciona un ejercicio" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["1"]}`} />
+                  Primer ejercicio
+                </SelectItem>
+                <SelectItem value="2" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["2"]}`} />
+                  Segundo ejercicio
+                </SelectItem>
+                <SelectItem value="3" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["3"]}`} />
+                  Tercer ejercicio
+                </SelectItem>
+                <SelectItem value="4" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["4"]}`} />
+                  Cuarto ejercicio
+                </SelectItem>
+                <SelectItem value="5" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["5"]}`} />
+                  Quinto ejercicio
+                </SelectItem>
+              </SelectContent>
+            </Select>
             {selectedExercise && (
               <div className="mt-2 text-sm text-muted-foreground">
                 Ejercicio seleccionado: {selectedExercise}
               </div>
             )}
           </div>
-          <Select value={selectedExercise} onValueChange={setSelectedExercise}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecciona un ejercicio" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1" className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["1"]}`} />
-                Primer ejercicio
-              </SelectItem>
-              <SelectItem value="2" className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["2"]}`} />
-                Segundo ejercicio
-              </SelectItem>
-              <SelectItem value="3" className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["3"]}`} />
-                Tercer ejercicio
-              </SelectItem>
-              <SelectItem value="4" className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["4"]}`} />
-                Cuarto ejercicio
-              </SelectItem>
-              <SelectItem value="5" className="flex items-center">
-                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["5"]}`} />
-                Quinto ejercicio
-              </SelectItem>
-            </SelectContent>
-          </Select>
           <Button className="mt-4 w-full" onClick={saveProgress}>
             Guardar Progreso
           </Button>
