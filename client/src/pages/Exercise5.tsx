@@ -50,7 +50,7 @@ export default function Exercise5() {
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
       >
-        <source src="/audio/leccion134.wav" type="audio/wav" />
+        <source src="/audio/leccion134.mp3" type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
