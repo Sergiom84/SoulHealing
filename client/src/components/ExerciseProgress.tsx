@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Calendar } from "@/components/ui/calendar";
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -28,39 +27,16 @@ const exerciseColors = {
 };
 
 export default function ExerciseProgress() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedExercise, setSelectedExercise] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   // Función para guardar el progreso
   const saveProgress = () => {
-    if (!date || !selectedExercise) return;
+    if (!selectedDate || !selectedExercise) return;
 
     const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
-    const dateKey = date.toISOString().split('T')[0];
-
-    progress[dateKey] = selectedExercise;
+    progress[selectedDate] = selectedExercise;
     localStorage.setItem('exerciseProgress', JSON.stringify(progress));
-  };
-
-  // Función para obtener el progreso de una fecha
-  const getProgress = (date: Date) => {
-    const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
-    const dateKey = date.toISOString().split('T')[0];
-    return progress[dateKey];
-  };
-
-  // Función para renderizar el contenido del día
-  const renderDayContent = (day: Date) => {
-    const exercise = getProgress(day);
-    if (!exercise) return null;
-
-    return (
-      <div className="relative w-full h-full">
-        <div 
-          className={`absolute inset-0 ${exerciseColors[exercise as keyof typeof exerciseColors]} rounded-md`}
-        />
-      </div>
-    );
   };
 
   return (
@@ -78,44 +54,39 @@ export default function ExerciseProgress() {
           </SheetDescription>
         </SheetHeader>
         <div className="py-4">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="rounded-md border [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9 [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10 [&_.rdp-day]:relative [&_.rdp-day]:z-0"
-            components={{
-              DayContent: ({ date }) => renderDayContent(date)
-            }}
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="w-full rounded-md border p-2 mb-4"
           />
-          <div className="mt-4">
-            <Select value={selectedExercise} onValueChange={setSelectedExercise}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona un ejercicio" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1" className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["1"]}`} />
-                  Primer ejercicio
-                </SelectItem>
-                <SelectItem value="2" className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["2"]}`} />
-                  Segundo ejercicio
-                </SelectItem>
-                <SelectItem value="3" className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["3"]}`} />
-                  Tercer ejercicio
-                </SelectItem>
-                <SelectItem value="4" className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["4"]}`} />
-                  Cuarto ejercicio
-                </SelectItem>
-                <SelectItem value="5" className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["5"]}`} />
-                  Quinto ejercicio
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Select value={selectedExercise} onValueChange={setSelectedExercise}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona un ejercicio" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1" className="flex items-center">
+                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["1"]}`} />
+                Primer ejercicio
+              </SelectItem>
+              <SelectItem value="2" className="flex items-center">
+                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["2"]}`} />
+                Segundo ejercicio
+              </SelectItem>
+              <SelectItem value="3" className="flex items-center">
+                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["3"]}`} />
+                Tercer ejercicio
+              </SelectItem>
+              <SelectItem value="4" className="flex items-center">
+                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["4"]}`} />
+                Cuarto ejercicio
+              </SelectItem>
+              <SelectItem value="5" className="flex items-center">
+                <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["5"]}`} />
+                Quinto ejercicio
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button className="mt-4 w-full" onClick={saveProgress}>
             Guardar Progreso
           </Button>
