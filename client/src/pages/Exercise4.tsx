@@ -33,10 +33,17 @@ export default function Exercise4() {
     }
   }, [playbackRate]);
 
+  const handleAudioError = () => {
+    console.error("Error loading audio file.");
+    // Add any additional error handling logic here, e.g., display an error message to the user.
+  };
+
+
   return (
     <div className="min-h-screen bg-background p-4">
       <audio
         ref={audioRef}
+        onError={handleAudioError}
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
