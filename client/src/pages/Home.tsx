@@ -102,6 +102,13 @@ function MainAppContent() {
         <Link href="/exercise4">
           <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300">
             <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="w-full h-40 mb-4 rounded-lg overflow-hidden">
+                <img 
+                  src="/images/background4.png" 
+                  alt="Corazón de luz" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h2 className="text-xl font-semibold mb-2">Cuarto método</h2>
               <p className="text-muted-foreground">El perdón es la llave de la felicidad.</p>
             </CardContent>
