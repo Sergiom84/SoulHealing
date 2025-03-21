@@ -6,18 +6,18 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    setLocation("/exercise");
+    setLocation("/");
   };
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      className="absolute top-4 left-4"
+      className="fixed left-4 top-4"
       title="Volver a ejercicios"
       onClick={handleClick}
     >
-      <Home className="h-[1.5rem] w-[1.5rem]" />
+      <Home className="h-5 w-5" />
       <span className="sr-only">Volver a ejercicios</span>
     </Button>
   );

@@ -15,8 +15,8 @@ import Exercise5 from "@/pages/Exercise5";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/exercise" component={Exercise} />
+      <Route path="/" component={Exercise} />
+      <Route path="/home" component={Home} />
       <Route path="/exercise2" component={Exercise2} />
       <Route path="/exercise3" component={Exercise3} />
       <Route path="/exercise4" component={Exercise4} />
