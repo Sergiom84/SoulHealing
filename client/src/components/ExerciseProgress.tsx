@@ -18,6 +18,15 @@ import {
 } from "@/components/ui/select";
 import { Calendar as CalendarIcon } from "lucide-react";
 
+// Definir colores para cada ejercicio
+const exerciseColors = {
+  "1": "bg-blue-100 dark:bg-blue-900/30",
+  "2": "bg-green-100 dark:bg-green-900/30",
+  "3": "bg-purple-100 dark:bg-purple-900/30",
+  "4": "bg-amber-100 dark:bg-amber-900/30",
+  "5": "bg-rose-100 dark:bg-rose-900/30"
+};
+
 export default function ExerciseProgress() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedExercise, setSelectedExercise] = useState<string>("");
@@ -46,12 +55,10 @@ export default function ExerciseProgress() {
     if (!exercise) return null;
 
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full">
         <div 
-          className="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-primary text-primary-foreground rounded-full text-[10px] font-semibold"
-        >
-          {exercise}
-        </div>
+          className={`absolute inset-0 ${exerciseColors[exercise as keyof typeof exerciseColors]} rounded-md`}
+        />
       </div>
     );
   };
@@ -86,11 +93,26 @@ export default function ExerciseProgress() {
                 <SelectValue placeholder="Selecciona un ejercicio" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">Primer ejercicio</SelectItem>
-                <SelectItem value="2">Segundo ejercicio</SelectItem>
-                <SelectItem value="3">Tercer ejercicio</SelectItem>
-                <SelectItem value="4">Cuarto ejercicio</SelectItem>
-                <SelectItem value="5">Quinto ejercicio</SelectItem>
+                <SelectItem value="1" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["1"]}`} />
+                  Primer ejercicio
+                </SelectItem>
+                <SelectItem value="2" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["2"]}`} />
+                  Segundo ejercicio
+                </SelectItem>
+                <SelectItem value="3" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["3"]}`} />
+                  Tercer ejercicio
+                </SelectItem>
+                <SelectItem value="4" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["4"]}`} />
+                  Cuarto ejercicio
+                </SelectItem>
+                <SelectItem value="5" className="flex items-center">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${exerciseColors["5"]}`} />
+                  Quinto ejercicio
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
