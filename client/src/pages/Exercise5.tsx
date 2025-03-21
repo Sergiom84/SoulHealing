@@ -63,19 +63,28 @@ export default function Exercise5() {
 
             <TabsContent value="introduccion" className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p>Intentaré ver qué es el perdón hoy. Ha sido mal entendido y se le han dado distintos significados. Se le ha hecho parecer una debilidad, un sacrificio orgulloso y altanero, un falso gesto de indulgencia y una cura que en realidad no sirve.</p>
+                <p>Escoge a un hermano, tal como el Espíritu te indique y cataloga sus pecados. Uno por uno a medida que cruza tu mente.</p>
 
-                <p>El perdón es tranquilo y sosegado. Mira, observa y no juzga. No ataca ni se defiende. Simplemente observa y espera y no juzga. No exige nada. Es un estado mental completamente abierto, sin ningún propósito salvo el de estar dispuesto a ver las cosas de manera diferente.</p>
+                <p>Asegúrate de no concentrarte en ninguno de ellos en particular, antes bien date cuenta de que te estás valiendo de sus ofensas para salvar al mundo de toda idea de pecado.</p>
 
-                <p>El perdón no tiene que ver con las apariencias ni con la conducta. No se centra en el cuerpo. Mira más allá de las apariencias, más allá de las acciones, más allá de la conducta que se observa en la superficie.</p>
+                <p>Examina brevemente todas las cosas negativas que hayas pensado acerca de él y pregúntate en cada caso, ¿me condenaría a mí mismo por haber hecho ésto?</p>
 
-                <p>Quiero hoy ver el perdón tal como es. Para ello, primero debo admitir que no sé lo que es. Y si pienso que lo sé, estoy creando obstáculos a mi aprendizaje. Quiero aprender lo que es el perdón, sin mis viejas ideas al respecto.</p>
+                <p>Libéralo de todos los pensamientos de pecado que hayas tenido en relación con él. Y tú mismo estarás preparado para ser libre.</p>
 
-                <p>El perdón me muestra que lo que pensaba real no lo es, y me ayuda a ver lo que por el contrario es real. El perdón es la gran liberadora de la culpa. Lo que veo como culpable no lo es, y culpa no hay.</p>
+                <p>Si has estado practicando hasta ahora de buen grado y con honestidad, empezarás a notar una sensación de que te elevas. Un gran alivio en tu pecho, y un sentimiento profundo e inequívoco de desahogo.</p>
 
-                <p>Así pues, Padre, quiero percibir el perdón tal como es. Permíteme ver la faz de Cristo resplandecer en todos aquellos a quienes miro. Enséñame a reconocer la luz de la verdad en ellos, y a ver más allá de las sombras del ego hasta su impecabilidad.</p>
+                <p>Elegimos a nuestro crucificado, le ponemos todos los catálogos de los pecados. Los examinamos y luego decimos. ¿Tú te acusarías a ti por todo lo que ha hecho?</p>
 
-                <p>Quiero contemplar a todas las personas a través de los ojos del perdón, para que pueda ver su santidad y aprender de ellos la verdad. Permíteme percibir el perdón tal como es.</p>
+                <p>Debes dedicar el resto del tiempo a experimentar que te escapas de todas las pesadas cadenas con las que quisiste encadenar a tu hermano, pero que de hecho te encadenaban a ti, evidentemente.</p>
+
+                <p>Lo que yo estoy viendo en mi hermano, antes lo he proyectado. Y si lo he proyectado, es que estaba en mi mente. Entonces, esa culpa que proyecto en mi hermano, yo la he vivido. Y la he sentido. Pero cuando la traigo a dentro de mi mente, y veo el agravio junto con la necesidad, te das cuenta de que es perdonable. Y si es perdonable en ti, es perdonable en el otro. De ésta manera, quedan perdonados los dos.</p>
+
+                <p>Tú has visto esa culpa y el condicionante que te forzó a hacerlo.</p>
+
+                <p className="mt-6"><strong>Ejemplo:</strong></p>
+                <p>Este es un ladrón, me está engañando con el dinero. Me está mintiendo para sacarme dinero, me está haciendo una cara y luego es otra.</p>
+
+                <p>Siguiendo con el ejemplo, quizás tenía una necesidad económica, quizás no tuvo más opción y se aprovechó de la situación como tú también lo habrías hecho. No puedes culpabilizarlo.</p>
               </div>
             </TabsContent>
 
