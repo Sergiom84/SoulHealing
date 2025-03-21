@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,11 +20,11 @@ import { Calendar as CalendarIcon } from "lucide-react";
 
 // Definir colores para cada ejercicio
 const exerciseColors = {
-  "1": "bg-blue-100/50 dark:bg-blue-900/30",
-  "2": "bg-green-100/50 dark:bg-green-900/30",
-  "3": "bg-purple-100/50 dark:bg-purple-900/30",
-  "4": "bg-amber-100/50 dark:bg-amber-900/30",
-  "5": "bg-rose-100/50 dark:bg-rose-900/30"
+  "1": "bg-blue-100 dark:bg-blue-900/30",
+  "2": "bg-green-100 dark:bg-green-900/30",
+  "3": "bg-purple-100 dark:bg-purple-900/30",
+  "4": "bg-amber-100 dark:bg-amber-900/30",
+  "5": "bg-rose-100 dark:bg-rose-900/30"
 };
 
 export default function ExerciseProgress() {
@@ -49,6 +49,20 @@ export default function ExerciseProgress() {
     return progress[dateKey];
   };
 
+  // Función para renderizar el contenido del día
+  const renderDayContent = (day: Date) => {
+    const exercise = getProgress(day);
+    if (!exercise) return null;
+
+    return (
+      <div className="relative w-full h-full">
+        <div 
+          className={`absolute inset-0 ${exerciseColors[exercise as keyof typeof exerciseColors]} rounded-md`}
+        />
+      </div>
+    );
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -68,7 +82,10 @@ export default function ExerciseProgress() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md border [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9 [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10 [&_.rdp-day]:relative [&_.rdp-day]:z-0 [&_.rdp-day_number]:text-black [&_.rdp-day_number]:font-medium [&_.rdp-day--selected]:bg-blue-500 [&_.rdp-day--selected]:text-white" //Added classnames for styling
+            className="rounded-md border [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9 [&_.rdp-day_button]:relative [&_.rdp-day_button]:z-10 [&_.rdp-day]:relative [&_.rdp-day]:z-0"
+            components={{
+              DayContent: ({ date }) => renderDayContent(date)
+            }}
           />
           <div className="mt-4">
             <Select value={selectedExercise} onValueChange={setSelectedExercise}>
