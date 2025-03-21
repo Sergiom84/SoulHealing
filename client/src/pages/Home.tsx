@@ -106,7 +106,8 @@ function MainAppContent() {
                 <img 
                   src="/images/background4.png" 
                   alt="Corazón de luz" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  style={{ objectPosition: 'center' }}
                 />
               </div>
               <h2 className="text-xl font-semibold mb-2">Cuarto método</h2>
