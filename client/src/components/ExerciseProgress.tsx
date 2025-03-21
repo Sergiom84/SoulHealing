@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -30,6 +30,14 @@ export default function ExerciseProgress() {
   const [selectedExercise, setSelectedExercise] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
+  // Cargar el progreso al iniciar
+  useEffect(() => {
+    const progress = JSON.parse(localStorage.getItem('exerciseProgress') || '{}');
+    if (progress[selectedDate]) {
+      setSelectedExercise(progress[selectedDate]);
+    }
+  }, [selectedDate]);
+
   // Función para guardar el progreso
   const saveProgress = () => {
     if (!selectedDate || !selectedExercise) return;
@@ -54,12 +62,19 @@ export default function ExerciseProgress() {
           </SheetDescription>
         </SheetHeader>
         <div className="py-4">
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="w-full rounded-md border p-2 mb-4"
-          />
+          <div className="relative mb-4">
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className={`w-full rounded-md border p-2 ${selectedExercise ? exerciseColors[selectedExercise as keyof typeof exerciseColors] : ''}`}
+            />
+            {selectedExercise && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Ejercicio seleccionado: {selectedExercise}
+              </div>
+            )}
+          </div>
           <Select value={selectedExercise} onValueChange={setSelectedExercise}>
             <SelectTrigger>
               <SelectValue placeholder="Selecciona un ejercicio" />
