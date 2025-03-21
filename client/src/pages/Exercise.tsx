@@ -33,10 +33,17 @@ export default function Exercise() {
     }
   }, [playbackRate]);
 
+  // Añadimos un manejador de errores para el audio
+  const handleAudioError = (e: Event) => {
+    const audioElement = e.target as HTMLAudioElement;
+    console.error('Error loading audio:', audioElement.error);
+  };
+
   return (
     <div className="min-h-screen bg-background p-4">
       <audio
         ref={audioRef}
+        onError={handleAudioError}
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
@@ -47,7 +54,10 @@ export default function Exercise() {
 
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
-          {/*Removed Title*/}
+          <h1 className="text-2xl font-light text-center mb-6">
+            Dios es el Amor en el que perdono.
+          </h1>
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
               <TabsTrigger value="instrucciones">Instrucciones</TabsTrigger>
