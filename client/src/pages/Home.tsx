@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { CheckCircle, Repeat, Heart, ScrollText } from "lucide-react";
 import InspiringQuotes from "@/components/InspiringQuotes";
 
 function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
@@ -24,7 +23,7 @@ function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
           className="px-6 py-3 rounded-2xl shadow hover:bg-primary/90 transition"
           onClick={onContinue}
         >
-          Entrar a la app
+          Entrar
         </Button>
       </motion.div>
     </div>
@@ -33,9 +32,16 @@ function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
 
 function MainAppContent() {
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 flex flex-col items-center justify-center">
+    <div 
+      className="min-h-screen p-6 flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: 'url("/images/background.png")',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundBlend: 'overlay'
+      }}
+    >
       <motion.h1
-        className="text-4xl font-serif mb-4"
+        className="text-4xl font-serif mb-4 text-white"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -53,51 +59,46 @@ function MainAppContent() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
         <Link href="/exercise">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/10">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <CheckCircle className="text-primary w-8 h-8 mb-2" />
-              <h2 className="text-xl font-semibold mb-2">Primer método</h2>
-              <p className="text-muted-foreground">Dios es el Amor en el que perdono.</p>
+              <h2 className="text-xl font-semibold mb-2 text-white">Primer método</h2>
+              <p className="text-gray-200">Dios es el Amor en el que perdono.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise2">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/10">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <Repeat className="text-primary w-8 h-8 mb-2" />
-              <h2 className="text-xl font-semibold mb-2">Segundo método</h2>
-              <p className="text-muted-foreground">El amor no abriga resentimientos.</p>
+              <h2 className="text-xl font-semibold mb-2 text-white">Segundo método</h2>
+              <p className="text-gray-200">El amor no abriga resentimientos.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise3">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/10">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <Heart className="text-primary w-8 h-8 mb-2" />
-              <h2 className="text-xl font-semibold mb-2">Tercer método</h2>
-              <p className="text-muted-foreground">Que los milagros reemplacen todos mis resentimientos.</p>
+              <h2 className="text-xl font-semibold mb-2 text-white">Tercer método</h2>
+              <p className="text-gray-200">Que los milagros reemplacen todos mis resentimientos.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise4">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/10">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <ScrollText className="text-primary w-8 h-8 mb-2" />
-              <h2 className="text-xl font-semibold mb-2">Cuarto método</h2>
-              <p className="text-muted-foreground">El perdón es la llave de la felicidad.</p>
+              <h2 className="text-xl font-semibold mb-2 text-white">Cuarto método</h2>
+              <p className="text-gray-200">El perdón es la llave de la felicidad.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise5" className="sm:col-span-2">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:border-primary transition-colors">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-white/10">
             <CardContent className="p-6 flex flex-col items-center text-center">
-              <ScrollText className="text-primary w-8 h-8 mb-2" />
-              <h2 className="text-xl font-semibold mb-2">Quinto método</h2>
-              <p className="text-muted-foreground">Quiero percibir el perdón tal como es.</p>
+              <h2 className="text-xl font-semibold mb-2 text-white">Quinto método</h2>
+              <p className="text-gray-200">Quiero percibir el perdón tal como es.</p>
             </CardContent>
           </Card>
         </Link>
