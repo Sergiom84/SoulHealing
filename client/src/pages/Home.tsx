@@ -61,7 +61,7 @@ function MainAppContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-2">Primer método</h2>
+              <h2 className="text-xl font-semibold mb-2">Primer ejercicio</h2>
               <p className="text-muted-foreground">Dios es el Amor en el que perdono.</p>
             </CardContent>
           </Card>
@@ -77,15 +77,15 @@ function MainAppContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-2">Segundo método</h2>
+              <h2 className="text-xl font-semibold mb-2">Segundo ejercicio</h2>
               <p className="text-muted-foreground">El amor no abriga resentimientos.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise3">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300">
-            <CardContent className="p-6 flex flex-col items-center text-center">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 min-h-[250px]">
+            <CardContent className="p-6 flex flex-col items-center text-center h-full">
               <div className="w-full h-40 mb-4 rounded-lg overflow-hidden">
                 <img 
                   src="/images/background3.png" 
@@ -93,15 +93,15 @@ function MainAppContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-2">Tercer método</h2>
+              <h2 className="text-xl font-semibold mb-2">Tercer ejercicio</h2>
               <p className="text-muted-foreground">Que los milagros reemplacen todos mis resentimientos.</p>
             </CardContent>
           </Card>
         </Link>
 
         <Link href="/exercise4">
-          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300">
-            <CardContent className="p-6 flex flex-col items-center text-center">
+          <Card className="rounded-2xl shadow-md border cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-300 min-h-[250px]">
+            <CardContent className="p-6 flex flex-col items-center text-center h-full">
               <div className="w-full h-40 mb-4 rounded-lg overflow-hidden">
                 <img 
                   src="/images/background4.png" 
@@ -110,7 +110,7 @@ function MainAppContent() {
                   style={{ objectPosition: 'center' }}
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-2">Cuarto método</h2>
+              <h2 className="text-xl font-semibold mb-2">Cuarto ejercicio</h2>
               <p className="text-muted-foreground">El perdón es la llave de la felicidad.</p>
             </CardContent>
           </Card>
@@ -127,7 +127,7 @@ function MainAppContent() {
                   style={{ objectPosition: 'center' }}
                 />
               </div>
-              <h2 className="text-xl font-semibold mb-2">Quinto método</h2>
+              <h2 className="text-xl font-semibold mb-2">Quinto ejercicio</h2>
               <p className="text-muted-foreground">Quiero percibir el perdón tal como es.</p>
             </CardContent>
           </Card>

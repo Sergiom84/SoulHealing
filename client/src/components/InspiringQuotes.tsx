@@ -7,7 +7,10 @@ const quotes = [
   "Desconozco si ésta situación es buena o mala, pero seguro que me trae un milagro.",
   "Muéstrame la ilusión tal y cómo es.",
   "Quiero verlo de otra manera.",
-  "¿Qué es el perdón sino estar dispuesto a que la verdad sea verdad?"
+  "¿Qué es el perdón sino estar dispuesto a que la verdad sea verdad?",
+  "Nada real puede ser amenazado.",
+  "Nada irreal existe.",
+  "Los pensamientos se expanden cuando se comparten."
 ];
 
 export default function InspiringQuotes() {
