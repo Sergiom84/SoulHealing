@@ -6,30 +6,46 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import type { Note } from "@shared/schema";
+import type { Note } from "@/types";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 interface NoteSectionProps {
   notes?: Note[];
   isLoading: boolean;
+  exerciseId: number; 
+  userId?: string;
 }
 
-export default function NoteSection({ notes = [], isLoading }: NoteSectionProps) {
+export default function NoteSection({ notes = [], isLoading, exerciseId, userId }: NoteSectionProps) {
   const { toast } = useToast();
   const [newNote, setNewNote] = useState("");
-  const [localNotes, setLocalNotes] = useLocalStorage<Note[]>("forgiveness-notes", []);
 
-  // Sincronizar notas del servidor con almacenamiento local
+  // ✅ clave dinámica por ejercicio
+  const [localNotes, setLocalNotes] = useLocalStorage<Note[]>(
+    `forgiveness-notes-${exerciseId}`,
+    []
+  );
+
+  // ✅ sincronizar con notas solo de este ejercicio
   useEffect(() => {
     if (notes.length > 0) {
-      setLocalNotes(notes);
+      const filtered = notes.filter((note) => note.exerciseId === exerciseId);
+      setLocalNotes(filtered);
     }
-  }, [notes, setLocalNotes]);
+  }, [notes, exerciseId, setLocalNotes]);
 
   const addNote = useMutation({
     mutationFn: async (content: string) => {
-      await apiRequest("POST", "/api/notes", { content });
+      if (!userId) throw new Error("No hay usuario autenticado");
+      
+      const newNote = await apiRequest("POST", "/api/notes", {
+        content,
+        userId,
+        exerciseId,
+      });
+    
+      return newNote as Note;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/notes"] });

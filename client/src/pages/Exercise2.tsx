@@ -6,20 +6,25 @@ import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
 import HomeButton from "@/components/HomeButton";
+import { Name, Note } from "@/types";
+import { useUser } from "@/hooks/useUser";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function Exercise2() {
+  const { user } = useUser();
+  const exerciseId = 2;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [playbackRate, setPlaybackRate] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { data: names, isLoading: namesLoading } = useQuery({
-    queryKey: ["/api/names"],
+  const { data: names, isLoading: namesLoading } = useQuery<Name[]>({
+    queryKey: [`/api/names/${exerciseId}`],
   });
 
-  const { data: notes, isLoading: notesLoading } = useQuery({
-    queryKey: ["/api/notes"],
+  const { data: notes, isLoading: notesLoading } = useQuery<Note[]>({
+    queryKey: [`/api/notes/${exerciseId}`],
   });
 
   useEffect(() => {
@@ -34,35 +39,42 @@ export default function Exercise2() {
     }
   }, [playbackRate]);
 
+  const handleAudioError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+    const audioElement = e.currentTarget;
+    console.error("Error loading audio:", audioElement.error);
+  };
+
   return (
-    <div className="min-h-screen bg-background p-4">
-      <HomeButton />
-      <audio
-        ref={audioRef}
-        onEnded={() => setIsPlaying(false)}
-        onPause={() => setIsPlaying(false)}
-        onPlay={() => setIsPlaying(true)}
-      >
-        <source src="/audio/leccion68.mp3" type="audio/mpeg" />
-        Tu navegador no soporta el elemento de audio.
-      </audio>
+    <RequireAuth>
+      <div className="min-h-screen bg-background p-4">
+        <HomeButton />
+        <audio
+          ref={audioRef}
+          onError={handleAudioError}
+          onEnded={() => setIsPlaying(false)}
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
+        >
+          <source src="/audio/leccion68.mp3" type="audio/mpeg" />
+          Tu navegador no soporta el elemento de audio.
+        </audio>
 
-      <Card className="max-w-4xl mx-auto">
-        <CardContent className="p-6">
-          <h1 className="text-2xl font-light text-center mb-6">
-            Lección 68: El amor no abriga resentimientos.
-          </h1>
+        <Card className="max-w-4xl mx-auto">
+          <CardContent className="p-6">
+            <h1 className="text-2xl font-light text-center mb-6">
+              Lección 68: El amor no abriga resentimientos.
+            </h1>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="introduccion">Intro</TabsTrigger>
-              <TabsTrigger value="nombres">Nombres</TabsTrigger>
-              <TabsTrigger value="audio">Audio</TabsTrigger>
-              <TabsTrigger value="notas">Notas</TabsTrigger>
-            </TabsList>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+              <TabsList className="grid grid-cols-4 w-full">
+                <TabsTrigger value="introduccion">Intro</TabsTrigger>
+                <TabsTrigger value="nombres">Nombres</TabsTrigger>
+                <TabsTrigger value="audio">Audio</TabsTrigger>
+                <TabsTrigger value="notas">Notas</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="introduccion" className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
+              <TabsContent value="introduccion" className="space-y-6">
+                <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p>Comienza la sesión de práctica buscando en tu mente a aquellas personas que son objeto de algunos de tus mayores resentimientos. Algunas de ellas serán muy fáciles de identificar.</p>
 
                 <p>Piensa luego en los resentimientos aparentemente insignificantes que abrigas contra aquellas personas a quienes aprecias e incluso piensas que amas. Muy pronto te darás cuenta de que no hay nadie contra quien no abrigues alguna clase de resentimiento. Siempre hay un resentimiento contra todas las personas. Esto te ha dejado solo en medio del universo, tal como te percibes a ti mismo.</p>
@@ -93,27 +105,38 @@ export default function Exercise2() {
             </TabsContent>
 
             <TabsContent value="nombres">
-              <NameList names={names} isLoading={namesLoading} />
-            </TabsContent>
+                <NameList
+                  names={names ?? []}
+                  isLoading={namesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
 
-            <TabsContent value="audio">
-              <AudioPlayer
-                isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying}
-                volume={volume}
-                setVolume={setVolume}
-                playbackRate={playbackRate}
-                setPlaybackRate={setPlaybackRate}
-                audioRef={audioRef}
-              />
-            </TabsContent>
+              <TabsContent value="audio">
+                <AudioPlayer
+                  isPlaying={isPlaying}
+                  setIsPlaying={setIsPlaying}
+                  volume={volume}
+                  setVolume={setVolume}
+                  playbackRate={playbackRate}
+                  setPlaybackRate={setPlaybackRate}
+                  audioRef={audioRef}
+                />
+              </TabsContent>
 
-            <TabsContent value="notas">
-              <NoteSection notes={notes} isLoading={notesLoading} />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+              <TabsContent value="notas">
+                <NoteSection
+                  notes={notes ?? []}
+                  isLoading={notesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+    </RequireAuth>
   );
 }

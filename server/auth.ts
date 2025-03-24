@@ -1,5 +1,5 @@
-import { Express } from "express";
-import session from "express-session";
+import { Express, Request, Response, NextFunction } from "express";
+import session, { Session, SessionData } from "express-session";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { insertUserSchema } from "@shared/schema";
@@ -99,7 +99,11 @@ export function setupAuth(app: Express) {
 }
 
 // Middleware de autenticación
-function authenticateUser(req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+function authenticateUser(
+  req: Request & { session: Session & Partial<SessionData> },
+  res: Response,
+  next: NextFunction
+) {
   if (!req.session.userId) {
     return res.status(401).json({ error: "No autenticado" });
   }

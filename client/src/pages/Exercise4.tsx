@@ -6,20 +6,25 @@ import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
 import HomeButton from "@/components/HomeButton";
+import { Name, Note } from "@/types";
+import { useUser } from "@/hooks/useUser";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function Exercise4() {
+  const { user } = useUser();
+  const exerciseId = 4;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [playbackRate, setPlaybackRate] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { data: names, isLoading: namesLoading } = useQuery({
-    queryKey: ["/api/names"],
+  const { data: names, isLoading: namesLoading } = useQuery<Name[]>({
+    queryKey: [`/api/names/${exerciseId}`],
   });
 
-  const { data: notes, isLoading: notesLoading } = useQuery({
-    queryKey: ["/api/notes"],
+  const { data: notes, isLoading: notesLoading } = useQuery<Note[]>({
+    queryKey: [`/api/notes/${exerciseId}`],
   });
 
   useEffect(() => {
@@ -36,39 +41,39 @@ export default function Exercise4() {
 
   const handleAudioError = () => {
     console.error("Error loading audio file.");
-    // Add any additional error handling logic here, e.g., display an error message to the user.
   };
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <HomeButton />
-      <audio
-        ref={audioRef}
-        onError={handleAudioError}
-        onEnded={() => setIsPlaying(false)}
-        onPause={() => setIsPlaying(false)}
-        onPlay={() => setIsPlaying(true)}
-      >
-        <source src="/audio/leccion121.mp3" type="audio/mpeg" />
-        Tu navegador no soporta el elemento de audio.
-      </audio>
+    <RequireAuth>
+      <div className="min-h-screen bg-background p-4">
+        <HomeButton />
+        <audio
+          ref={audioRef}
+          onError={handleAudioError}
+          onEnded={() => setIsPlaying(false)}
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
+        >
+          <source src="/audio/leccion121.mp3" type="audio/mpeg" />
+          Tu navegador no soporta el elemento de audio.
+        </audio>
 
-      <Card className="max-w-4xl mx-auto">
-        <CardContent className="p-6">
-          <h1 className="text-2xl font-light text-center mb-6">
-            Lección 121: El perdón es la llave de la felicidad.
-          </h1>
+        <Card className="max-w-4xl mx-auto">
+          <CardContent className="p-6">
+            <h1 className="text-2xl font-light text-center mb-6">
+              Lección 121: El perdón es la llave de la felicidad.
+            </h1>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="introduccion">Intro</TabsTrigger>
-              <TabsTrigger value="nombres">Nombres</TabsTrigger>
-              <TabsTrigger value="audio">Audio</TabsTrigger>
-              <TabsTrigger value="notas">Notas</TabsTrigger>
-            </TabsList>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+              <TabsList className="grid grid-cols-4 w-full">
+                <TabsTrigger value="introduccion">Intro</TabsTrigger>
+                <TabsTrigger value="nombres">Nombres</TabsTrigger>
+                <TabsTrigger value="audio">Audio</TabsTrigger>
+                <TabsTrigger value="notas">Notas</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="introduccion" className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
+              <TabsContent value="introduccion" className="space-y-6">
+                <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p>Comienza la sesión de práctica pensando en alguien que no te cae bien. Alguien que te irrite, alguien con quien lamentarías haberte encontrado, alguien a quien detestas vehementemente o que simplemente tratas de ignorar.</p>
 
                 <p>La forma en que tu hostilidad se manifiesta es irrelevante. Probablemente ya sabes de quién se trata. Ese mismo vale.</p>
@@ -94,27 +99,38 @@ export default function Exercise4() {
             </TabsContent>
 
             <TabsContent value="nombres">
-              <NameList names={names} isLoading={namesLoading} />
-            </TabsContent>
+                <NameList
+                  names={names ?? []}
+                  isLoading={namesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
 
-            <TabsContent value="audio">
-              <AudioPlayer
-                isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying}
-                volume={volume}
-                setVolume={setVolume}
-                playbackRate={playbackRate}
-                setPlaybackRate={setPlaybackRate}
-                audioRef={audioRef}
-              />
-            </TabsContent>
+              <TabsContent value="audio">
+                <AudioPlayer
+                  isPlaying={isPlaying}
+                  setIsPlaying={setIsPlaying}
+                  volume={volume}
+                  setVolume={setVolume}
+                  playbackRate={playbackRate}
+                  setPlaybackRate={setPlaybackRate}
+                  audioRef={audioRef}
+                />
+              </TabsContent>
 
-            <TabsContent value="notas">
-              <NoteSection notes={notes} isLoading={notesLoading} />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+              <TabsContent value="notas">
+                <NoteSection
+                  notes={notes ?? []}
+                  isLoading={notesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+    </RequireAuth>
   );
 }

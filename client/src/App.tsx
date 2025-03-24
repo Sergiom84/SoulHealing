@@ -16,7 +16,7 @@ import Auth from "@/pages/Auth";
 function Router() {
   return (
     <Switch>
-      <Route path="/auth" component={Auth} />
+      <Route path="/login" component={Auth} />
       <Route path="/home" component={Home} />
       <Route path="/exercise1" component={Exercise} />
       <Route path="/exercise2" component={Exercise2} />

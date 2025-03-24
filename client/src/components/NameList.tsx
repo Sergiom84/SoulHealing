@@ -6,38 +6,54 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useState, useEffect } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import type { Name } from "@shared/schema";
+import type { Name } from "@/types";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 interface NameListProps {
   names?: Name[];
   isLoading: boolean;
+  exerciseId: number;
+  userId?: string;
 }
 
-export default function NameList({ names = [], isLoading }: NameListProps) {
+export default function NameList({ names = [], isLoading, exerciseId, userId }: NameListProps) {
   const { toast } = useToast();
   const [newName, setNewName] = useState("");
-  const [localNames, setLocalNames] = useLocalStorage<Name[]>("forgiveness-names", []);
 
-  // Sincronizar nombres del servidor con almacenamiento local
+  // ✅ Clave dinámica para almacenamiento por ejercicio
+  const [localNames, setLocalNames] = useLocalStorage<Name[]>(
+    `forgiveness-names-${exerciseId}`,
+    []
+  );
+
+  // ✅ Sincronizar nombres del servidor con localStorage solo del ejercicio actual
   useEffect(() => {
     if (names.length > 0) {
-      setLocalNames(names);
+      const filtered = names.filter((n) => n.exerciseId === exerciseId);
+      setLocalNames(filtered);
     }
-  }, [names, setLocalNames]);
+  }, [names, exerciseId, setLocalNames]);
 
+  // ✅ Al agregar un nombre, se guarda con su exerciseId
   const addName = useMutation({
     mutationFn: async (name: string) => {
-      const response = await apiRequest("POST", "/api/names", { name, forgiven: false });
+      if (!userId) throw new Error("No hay usuario autenticado");
+    
+      const response = await apiRequest("POST", "/api/names", {
+        name,
+        forgiven: false,
+        userId,
+        exerciseId,
+      });
+    
       return response as Name;
     },
     onSuccess: (newName) => {
-      // Actualizar la lista local inmediatamente
-      setLocalNames(prev => [...prev, newName]);
-
+      setLocalNames((prev) => [...prev, newName]);
       queryClient.invalidateQueries({ queryKey: ["/api/names"] });
       setNewName("");
+
       toast({
         title: "Nombre agregado",
         description: "El nombre ha sido agregado a tu lista",

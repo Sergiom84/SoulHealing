@@ -6,20 +6,25 @@ import AudioPlayer from "@/components/AudioPlayer";
 import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
 import HomeButton from "@/components/HomeButton";
+import { Name, Note } from "@/types";
+import { useUser } from "@/hooks/useUser";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function Exercise() {
+  const { user } = useUser();
+  const exerciseId = 1;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [playbackRate, setPlaybackRate] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { data: names, isLoading: namesLoading } = useQuery({
-    queryKey: ["/api/names"],
+  const { data: names, isLoading: namesLoading } = useQuery<Name[]>({
+    queryKey: [`/api/names/${exerciseId}`],
   });
 
-  const { data: notes, isLoading: notesLoading } = useQuery({
-    queryKey: ["/api/notes"],
+  const { data: notes, isLoading: notesLoading } = useQuery<Note[]>({
+    queryKey: [`/api/notes/${exerciseId}`],
   });
 
   useEffect(() => {
@@ -34,42 +39,42 @@ export default function Exercise() {
     }
   }, [playbackRate]);
 
-  // Añadimos un manejador de errores para el audio
-  const handleAudioError = (e: Event) => {
-    const audioElement = e.target as HTMLAudioElement;
-    console.error('Error loading audio:', audioElement.error);
+  const handleAudioError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+    const audioElement = e.currentTarget;
+    console.error("Error loading audio:", audioElement.error);
   };
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <HomeButton />
-      <audio
-        ref={audioRef}
-        onError={handleAudioError}
-        onEnded={() => setIsPlaying(false)}
-        onPause={() => setIsPlaying(false)}
-        onPlay={() => setIsPlaying(true)}
-      >
-        <source src="/audio/leccion46.mp3" type="audio/mpeg" />
-        Tu navegador no soporta el elemento de audio.
-      </audio>
+    <RequireAuth>
+      <div className="min-h-screen bg-background p-4">
+        <HomeButton />
+        <audio
+          ref={audioRef}
+          onError={handleAudioError}
+          onEnded={() => setIsPlaying(false)}
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
+        >
+          <source src="/audio/leccion46.mp3" type="audio/mpeg" />
+          Tu navegador no soporta el elemento de audio.
+        </audio>
 
-      <Card className="max-w-4xl mx-auto">
-        <CardContent className="p-6">
-          <h1 className="text-2xl font-light text-center mb-6">
-            Lección 46: Dios es el Amor en el que perdono.
-          </h1>
+        <Card className="max-w-4xl mx-auto">
+          <CardContent className="p-6">
+            <h1 className="text-2xl font-light text-center mb-6">
+              Lección 46: Dios es el Amor en el que perdono.
+            </h1>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="introduccion">Intro</TabsTrigger>
-              <TabsTrigger value="nombres">Nombres</TabsTrigger>
-              <TabsTrigger value="audio">Audio</TabsTrigger>
-              <TabsTrigger value="notas">Notas</TabsTrigger>
-            </TabsList>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+              <TabsList className="grid grid-cols-4 w-full">
+                <TabsTrigger value="introduccion">Intro</TabsTrigger>
+                <TabsTrigger value="nombres">Nombres</TabsTrigger>
+                <TabsTrigger value="audio">Audio</TabsTrigger>
+                <TabsTrigger value="notas">Notas</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="introduccion" className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
+              <TabsContent value="introduccion" className="space-y-6">
+                <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p>Comienza, como de costumbre, repitiendo la idea de hoy para tus adentros. Cierra los ojos y dedica unos minutos a explorar tu mente en busca de aquellas personas que aún no has perdonado.</p>
 
                 <p>No importa en qué medida, o no, los hayas perdonado. Si estás haciendo bien el ejercicio, debes tener unos cuantos con los que hacer la práctica.</p>
@@ -108,27 +113,38 @@ export default function Exercise() {
             </TabsContent>
 
             <TabsContent value="nombres">
-              <NameList names={names} isLoading={namesLoading} />
-            </TabsContent>
+                <NameList
+                  names={names ?? []}
+                  isLoading={namesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
 
-            <TabsContent value="audio">
-              <AudioPlayer
-                isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying}
-                volume={volume}
-                setVolume={setVolume}
-                playbackRate={playbackRate}
-                setPlaybackRate={setPlaybackRate}
-                audioRef={audioRef}
-              />
-            </TabsContent>
+              <TabsContent value="audio">
+                <AudioPlayer
+                  isPlaying={isPlaying}
+                  setIsPlaying={setIsPlaying}
+                  volume={volume}
+                  setVolume={setVolume}
+                  playbackRate={playbackRate}
+                  setPlaybackRate={setPlaybackRate}
+                  audioRef={audioRef}
+                />
+              </TabsContent>
 
-            <TabsContent value="notas">
-              <NoteSection notes={notes} isLoading={notesLoading} />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+              <TabsContent value="notas">
+                <NoteSection
+                  notes={notes ?? []}
+                  isLoading={notesLoading}
+                  exerciseId={exerciseId}
+                  userId={user?.id}
+                />
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+    </RequireAuth>
   );
 }
