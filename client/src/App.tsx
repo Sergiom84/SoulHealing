@@ -11,10 +11,12 @@ import Exercise2 from "@/pages/Exercise2";
 import Exercise3 from "@/pages/Exercise3";
 import Exercise4 from "@/pages/Exercise4";
 import Exercise5 from "@/pages/Exercise5";
+import Auth from "@/pages/Auth";
 
 function Router() {
   return (
     <Switch>
+      <Route path="/auth" component={Auth} />
       <Route path="/home" component={Home} />
       <Route path="/exercise1" component={Exercise} />
       <Route path="/exercise2" component={Exercise2} />

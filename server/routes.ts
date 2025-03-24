@@ -2,16 +2,25 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
 import { insertNameSchema, insertNoteSchema } from "@shared/schema";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express) {
+  // Configurar autenticación
+  setupAuth(app);
+
   // Names routes
-  app.get("/api/names", async (_req, res) => {
-    const names = await storage.getNames();
+  app.get("/api/names/:exerciseId", async (req, res) => {
+    const exerciseId = parseInt(req.params.exerciseId);
+    const userId = req.session.userId!;
+    const names = await storage.getNames(userId, exerciseId);
     res.json(names);
   });
 
   app.post("/api/names", async (req, res) => {
-    const result = insertNameSchema.safeParse(req.body);
+    const result = insertNameSchema.safeParse({
+      ...req.body,
+      userId: req.session.userId
+    });
     if (!result.success) {
       return res.status(400).json({ error: result.error });
     }
@@ -36,13 +45,18 @@ export async function registerRoutes(app: Express) {
   });
 
   // Notes routes
-  app.get("/api/notes", async (_req, res) => {
-    const notes = await storage.getNotes();
+  app.get("/api/notes/:exerciseId", async (req, res) => {
+    const exerciseId = parseInt(req.params.exerciseId);
+    const userId = req.session.userId!;
+    const notes = await storage.getNotes(userId, exerciseId);
     res.json(notes);
   });
 
   app.post("/api/notes", async (req, res) => {
-    const result = insertNoteSchema.safeParse(req.body);
+    const result = insertNoteSchema.safeParse({
+      ...req.body,
+      userId: req.session.userId
+    });
     if (!result.success) {
       return res.status(400).json({ error: result.error });
     }
