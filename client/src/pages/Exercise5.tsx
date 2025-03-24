@@ -55,7 +55,7 @@ export default function Exercise5() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="introduccion">Introducción</TabsTrigger>
+              <TabsTrigger value="introduccion">Intro</TabsTrigger>
               <TabsTrigger value="nombres">Nombres</TabsTrigger>
               <TabsTrigger value="audio">Audio</TabsTrigger>
               <TabsTrigger value="notas">Notas</TabsTrigger>
