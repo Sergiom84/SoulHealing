@@ -11,8 +11,8 @@ export type Name = {
   export type Note = {
     id: number;
     content: string;
-    createdAt: Date | null;
-    userId: string;
-    exerciseId: number;
+    createdat: string; // ✅ ESTO
+    userid: string;
+    exerciseid: number;
   };
   

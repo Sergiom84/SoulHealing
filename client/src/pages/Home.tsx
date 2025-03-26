@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import InspiringQuotes from "@/components/InspiringQuotes";
+import UserGreeting from "@/components/UserGreeting";
+import { useUser } from "@/hooks/useUser";
+import Header from "@/components/Header";
 
 function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
   return (
@@ -31,8 +34,18 @@ function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
 }
 
 function MainAppContent() {
+  const { user } = useUser();
+  
   return (
     <div className="min-h-screen bg-background text-foreground p-6 flex flex-col items-center justify-center">
+      {/* Header con saludo personalizado a la izquierda */}
+      <div className="w-full max-w-4xl flex justify-between items-center mb-6">
+        <div className="flex-1">
+          <UserGreeting />
+        </div>
+      </div>
+      
+          
       <motion.h1
         className="text-4xl font-serif mb-4"
         initial={{ opacity: 0, y: -20 }}
@@ -141,8 +154,14 @@ export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return showWelcome ? (
-    <WelcomeScreen onContinue={() => setShowWelcome(false)} />
+    <>
+      <Header showHome={false} showCalendar={false} />
+      <WelcomeScreen onContinue={() => setShowWelcome(false)} />
+    </>
   ) : (
-    <MainAppContent />
+    <>
+      <Header showInfo />
+      <MainAppContent />
+    </>
   );
 }

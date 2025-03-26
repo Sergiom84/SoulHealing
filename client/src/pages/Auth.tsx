@@ -3,8 +3,8 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,39 +12,54 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const mutation = useMutation({
-    mutationFn: async (credentials: { email: string; password: string }) => {
-      const response = await fetch(`/api/${isLogin ? 'login' : 'register'}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Error en la autenticación');
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    
+    try {
+      if (isLogin) {
+        // Iniciar sesión
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Sesión iniciada",
+          description: "Bienvenido a Un Curso de Milagros",
+        });
+        setLocation("/home");
+      } else {
+        // Registrarse
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Registro exitoso",
+          description: "Bienvenido a Un Curso de Milagros",
+        });
+        setLocation("/home");
       }
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: isLogin ? "Sesión iniciada" : "Registro exitoso",
-        description: "Bienvenido a Un Curso de Milagros",
-      });
-      setLocation("/home");
-    },
-    onError: (error: Error) => {
+    } catch (err: any) {
+      setError(err.message || 'Ha ocurrido un error');
       toast({
         title: "Error",
-        description: error.message,
+        description: err.message || 'Ha ocurrido un error',
         variant: "destructive",
       });
-    },
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate({ email, password });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +71,7 @@ export default function Auth() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleAuth} className="space-y-4">
             <div className="space-y-2">
               <Input
                 type="email"
@@ -75,12 +90,13 @@ export default function Auth() {
                 required
               />
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <Button
               type="submit"
               className="w-full"
-              disabled={mutation.isPending}
+              disabled={loading}
             >
-              {mutation.isPending
+              {loading
                 ? "Procesando..."
                 : isLogin
                 ? "Iniciar Sesión"

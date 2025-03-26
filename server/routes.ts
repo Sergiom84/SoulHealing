@@ -19,7 +19,7 @@ export async function registerRoutes(app: Express) {
   app.post("/api/names", async (req, res) => {
     const result = insertNameSchema.safeParse({
       ...req.body,
-      userId: req.session.userId
+      user_id: req.session.userId
     });
     if (!result.success) {
       return res.status(400).json({ error: result.error });
@@ -55,7 +55,7 @@ export async function registerRoutes(app: Express) {
   app.post("/api/notes", async (req, res) => {
     const result = insertNoteSchema.safeParse({
       ...req.body,
-      userId: req.session.userId
+      user_id: req.session.userId
     });
     if (!result.success) {
       return res.status(400).json({ error: result.error });

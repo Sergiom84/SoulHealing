@@ -1,84 +1,92 @@
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { useState, useEffect } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useState } from "react";
 import type { Name } from "@/types";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useNames, addName, updateNameForgiveness } from "@/hooks/useSupabaseData";
 
 interface NameListProps {
-  names?: Name[];
-  isLoading: boolean;
   exerciseId: number;
   userId?: string;
 }
 
-export default function NameList({ names = [], isLoading, exerciseId, userId }: NameListProps) {
+export default function NameList({ exerciseId, userId }: NameListProps) {
   const { toast } = useToast();
   const [newName, setNewName] = useState("");
+  const [isAddingName, setIsAddingName] = useState(false);
+  const [isUpdatingForgiveness, setIsUpdatingForgiveness] = useState(false);
 
-  // ✅ Clave dinámica para almacenamiento por ejercicio
-  const [localNames, setLocalNames] = useLocalStorage<Name[]>(
-    `forgiveness-names-${exerciseId}`,
-    []
-  );
+  // Usar el hook personalizado para obtener nombres
+  const { names, loading: isLoading, error, refetch } = useNames(exerciseId, userId);
 
-  // ✅ Sincronizar nombres del servidor con localStorage solo del ejercicio actual
-  useEffect(() => {
-    if (names.length > 0) {
-      const filtered = names.filter((n) => n.exerciseId === exerciseId);
-      setLocalNames(filtered);
-    }
-  }, [names, exerciseId, setLocalNames]);
-
-  // ✅ Al agregar un nombre, se guarda con su exerciseId
-  const addName = useMutation({
-    mutationFn: async (name: string) => {
-      if (!userId) throw new Error("No hay usuario autenticado");
-    
-      const response = await apiRequest("POST", "/api/names", {
-        name,
-        forgiven: false,
-        userId,
-        exerciseId,
+  const handleAddName = async () => {
+    if (!userId) {
+      toast({
+        title: "Error",
+        description: "Debes iniciar sesión para agregar nombres",
+        variant: "destructive",
       });
+      return;
+    }
     
-      return response as Name;
-    },
-    onSuccess: (newName) => {
-      setLocalNames((prev) => [...prev, newName]);
-      queryClient.invalidateQueries({ queryKey: ["/api/names"] });
+    if (!newName.trim()) return;
+    
+    try {
+      setIsAddingName(true);
+      await addName(newName.trim(), exerciseId, userId);
       setNewName("");
-
+      
+      // Refrescar la lista de nombres tras agregar
+      await refetch();
+      
       toast({
         title: "Nombre agregado",
         description: "El nombre ha sido agregado a tu lista",
       });
-    },
-  });
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.message || "No se pudo agregar el nombre",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAddingName(false);
+    }
+  };
 
-  const toggleForgiveness = useMutation({
-    mutationFn: async ({ id, forgiven }: { id: number; forgiven: boolean }) => {
-      await apiRequest("PATCH", `/api/names/${id}`, { forgiven });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/names"] });
-    },
-  });
+  const handleToggleForgiveness = async (id: number, forgiven: boolean) => {
+    if (!userId) return;
+    
+    try {
+      setIsUpdatingForgiveness(true);
+      await updateNameForgiveness(id, forgiven);
+      // Refrescar la lista de nombres tras actualizar
+      await refetch();
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.message || "No se pudo actualizar el estado",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUpdatingForgiveness(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newName.trim()) {
-      addName.mutate(newName.trim());
-    }
+    handleAddName();
   };
 
   if (isLoading) {
     return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
   }
 
   return (
@@ -88,12 +96,15 @@ export default function NameList({ names = [], isLoading, exerciseId, userId }: 
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           placeholder="Ingresa un nombre para perdonar"
+          disabled={isAddingName}
         />
-        <Button type="submit">Agregar</Button>
+        <Button type="submit" disabled={isAddingName}>
+          {isAddingName ? "Agregando..." : "Agregar"}
+        </Button>
       </form>
 
       <div className="space-y-2">
-        {localNames.map((name) => (
+        {names.map((name) => (
           <div
             key={name.id}
             className="flex items-center gap-2 p-2 rounded hover:bg-accent"
@@ -101,11 +112,9 @@ export default function NameList({ names = [], isLoading, exerciseId, userId }: 
             <Checkbox
               checked={name.forgiven || false}
               onCheckedChange={(checked) =>
-                toggleForgiveness.mutate({
-                  id: name.id,
-                  forgiven: checked as boolean,
-                })
+                handleToggleForgiveness(name.id, checked as boolean)
               }
+              disabled={isUpdatingForgiveness}
             />
             <div className="flex-1">
               <span className={name.forgiven ? "line-through text-muted-foreground" : ""}>

@@ -12,7 +12,7 @@ export default function RequireAuth({ children }: RequireAuthProps) {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate("/auth");
+      navigate("/login");
     }
   }, [user, loading, navigate]);
 

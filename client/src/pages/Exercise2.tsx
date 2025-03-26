@@ -19,13 +19,7 @@ export default function Exercise2() {
   const [playbackRate, setPlaybackRate] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { data: names, isLoading: namesLoading } = useQuery<Name[]>({
-    queryKey: [`/api/names/${exerciseId}`],
-  });
-
-  const { data: notes, isLoading: notesLoading } = useQuery<Note[]>({
-    queryKey: [`/api/notes/${exerciseId}`],
-  });
+  // Ya no necesitamos las consultas de React Query, usamos nuestros hooks personalizados directamente en los componentes
 
   useEffect(() => {
     if (audioRef.current) {
@@ -106,8 +100,6 @@ export default function Exercise2() {
 
             <TabsContent value="nombres">
                 <NameList
-                  names={names ?? []}
-                  isLoading={namesLoading}
                   exerciseId={exerciseId}
                   userId={user?.id}
                 />
@@ -127,8 +119,6 @@ export default function Exercise2() {
 
               <TabsContent value="notas">
                 <NoteSection
-                  notes={notes ?? []}
-                  isLoading={notesLoading}
                   exerciseId={exerciseId}
                   userId={user?.id}
                 />
