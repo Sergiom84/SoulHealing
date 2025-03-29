@@ -3,6 +3,7 @@ import ExerciseCalendar from "@/components/ExerciseCalendar";
 import InfoSection from "@/components/InfoSection";
 import HomeButton from "@/components/HomeButton";
 import { useUser } from "@/hooks/useUser";
+import UserGreeting from "@/components/UserGreeting";
 
 type HeaderProps = {
   showHome?: boolean;
@@ -21,8 +22,11 @@ export default function Header({
     <>
       {/* Casita: solo si se permite */}
       {showHome && (
-        <div className="fixed top-4 left-4 z-50">
+        <div className="fixed top-4 left-4 z-50 flex flex-col items-start gap-2">
           <HomeButton />
+          <div className="mt-12"> {/* Aumentado el margen superior para separar más el saludo del icono */}
+            <UserGreeting />
+          </div>
         </div>
       )}
 

@@ -20,6 +20,15 @@ const exerciseOptions = [
   { id: 5, name: 'Lección 134: Quiero percibir el perdón tal como es' },
 ];
 
+// Colores más distinguibles para los ejercicios
+const exerciseColors = [
+  'bg-blue-500', // Azul más intenso
+  'bg-green-500', // Verde más intenso
+  'bg-yellow-500', // Amarillo más intenso
+  'bg-purple-500', // Púrpura más intenso
+  'bg-pink-500', // Rosa más intenso
+];
+
 export default function ExerciseCalendar({ userId }: CalendarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -73,9 +82,8 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
   const getDayColor = (day: Date): string => {
     const record = getExerciseForDay(day);
     if (!record) return '';
-    const colors = ['bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-purple-100', 'bg-pink-100'];
-    const colorIndex = (record.exerciseId - 1) % colors.length;
-    return colors[colorIndex];
+    const colorIndex = (record.exerciseId - 1) % exerciseColors.length;
+    return exerciseColors[colorIndex];
   };
 
   const previousMonth = () => {
@@ -102,7 +110,7 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
           <span>Calendario</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-background text-foreground">
         <DialogHeader>
           <DialogTitle>Calendario de Ejercicios</DialogTitle>
         </DialogHeader>
@@ -156,12 +164,16 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
               </CardHeader>
               <CardContent className="py-2 space-y-2">
                 <Select value={selectedExercise} onValueChange={setSelectedExercise}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background text-foreground">
                     <SelectValue placeholder="Selecciona un ejercicio" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background text-foreground">
                     {exerciseOptions.map(option => (
-                      <SelectItem key={option.id} value={option.id.toString()}>
+                      <SelectItem 
+                        key={option.id} 
+                        value={option.id.toString()}
+                        className="hover:bg-accent hover:text-accent-foreground"
+                      >
                         {option.name}
                       </SelectItem>
                     ))}
@@ -182,7 +194,7 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
           <div className="flex flex-wrap gap-2 mt-4">
             {exerciseOptions.map((option, index) => (
               <div key={option.id} className="flex items-center gap-1 text-xs">
-                <div className={`w-3 h-3 rounded-full ${['bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-purple-100', 'bg-pink-100'][index % 5]}`} />
+                <div className={`w-3 h-3 rounded-full ${exerciseColors[index % exerciseColors.length]}`} />
                 <span>Ejercicio {option.id}</span>
               </div>
             ))}

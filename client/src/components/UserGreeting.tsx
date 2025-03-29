@@ -12,8 +12,13 @@ export default function UserGreeting() {
   }
 
   return (
-    <div className="text-sm font-medium text-muted-foreground">
-      {greeting}, <span className="text-primary">{profile.display_name}</span>
+    <div className="text-base font-medium"> {/* Aumentado el tamaño de texto de sm a base */}
+      <span className="text-gray-400">
+        {greeting},
+      </span>{' '}
+      <span className="text-primary text-lg"> {/* Aumentado el tamaño y usando el color primario (azul) */}
+        {profile.display_name}
+      </span>
     </div>
   );
 }

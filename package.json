@@ -1,6 +1,7 @@
 {
   "name": "ucdm-client",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -8,26 +9,42 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "clsx": "^2.1.1",
-    "zod": "^3.23.8",
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-scroll-area": "^1.2.3",
+    "@radix-ui/react-select": "^2.1.6",
+    "@radix-ui/react-slider": "^1.2.3",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-switch": "^1.1.3",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.6",
     "@supabase/supabase-js": "^2.49.2",
-    "date-fns": "^3.6.0",
-    "lucide-react": "^0.453.0",
-    "react-hook-form": "^7.53.1",
     "@tanstack/react-query": "^5.60.5",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^12.6.2",
+    "lucide-react": "^0.453.0",
+    "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.1",
+    "recharts": "^2.13.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "react-day-picker": "^8.10.1",
-    "recharts": "^2.13.0"
+    "wouter": "^3.6.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.2",
-    "vite": "^5.4.14",
-    "tailwindcss": "^3.4.14",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47"
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.3.3",
+    "vite": "^5.4.14"
   }
 }

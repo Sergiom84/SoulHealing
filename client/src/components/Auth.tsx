@@ -143,7 +143,7 @@ export default function Auth({ onAuthSuccess }: { onAuthSuccess?: () => void }) 
         )}
 
         <Button 
-          className="w-full" 
+          className="w-full bg-primary hover:bg-primary/90" 
           onClick={handleAuth}
           disabled={loading}
         >

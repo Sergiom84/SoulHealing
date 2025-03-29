@@ -40,9 +40,7 @@ function MainAppContent() {
     <div className="min-h-screen bg-background text-foreground p-6 flex flex-col items-center justify-center">
       {/* Header con saludo personalizado a la izquierda */}
       <div className="w-full max-w-4xl flex justify-between items-center mb-6">
-        <div className="flex-1">
-          <UserGreeting />
-        </div>
+        {/* Eliminado el div con UserGreeting ya que lo moveremos al Header */}
       </div>
       
           
