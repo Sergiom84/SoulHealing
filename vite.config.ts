@@ -7,19 +7,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client", "src"),
       "@shared": path.resolve(__dirname, "shared"),
     },
   },
-  root: path.resolve(__dirname, "client"),
+  root: path.resolve(__dirname, "client"), // Directorio raíz dentro de client
   build: {
-    outDir: path.resolve(__dirname, "dist"), // <-- Esta es la única línea correcta
+    outDir: path.resolve(__dirname, "client", "dist"), // Directorio de salida correcto
     emptyOutDir: true,
-    assetsDir: "assets", // Mantener la carpeta de activos organizada
+    assetsDir: "assets", // Carpeta para recursos estáticos
   },
 });
