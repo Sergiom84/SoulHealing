@@ -25,12 +25,18 @@ export function useUserProfile(userId?: string) {
     const fetchProfile = async () => {
       try {
         setLoading(true);
+        console.log('Obteniendo perfil para usuario:', userId);
 
         const { data, error } = await supabase
           .from('user_profiles')
           .select('*')
           .eq('user_id', userId)
           .single();
+
+        console.log('Resultado de consulta de perfil:', { 
+          tieneData: !!data,
+          error: error ? error.message : null
+        });
 
         if (error && error.code !== 'PGRST116') throw error;
 
@@ -52,12 +58,23 @@ export function useUserProfile(userId?: string) {
 // Función para crear o actualizar el perfil del usuario
 export async function upsertUserProfile(displayName: string) {
   try {
+    console.log('Intentando actualizar perfil con nombre:', displayName);
+    
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError || !sessionData?.session?.user) {
-      throw sessionError || new Error("No hay sesión activa");
+    
+    console.log('Resultado de getSession en upsertUserProfile:', { 
+      tieneSession: !!sessionData?.session,
+      error: sessionError ? sessionError.message : null
+    });
+    
+    if (sessionError) throw sessionError;
+    
+    if (!sessionData?.session?.user) {
+      throw new Error("No hay sesión activa");
     }
+    
     const userId = sessionData.session.user.id;
-
+    
     const profile = {
       user_id: userId,
       display_name: displayName,
@@ -65,13 +82,21 @@ export async function upsertUserProfile(displayName: string) {
     };
 
     // Verificar si ya existe un perfil
-    const { data: existingProfile } = await supabase
+    const { data: existingProfile, error: queryError } = await supabase
       .from('user_profiles')
       .select('*')
       .eq('user_id', userId)
       .single();
+    
+    if (queryError && queryError.code !== 'PGRST116') {
+      console.error('Error al verificar perfil existente:', queryError);
+      throw queryError;
+    }
 
+    let result;
+    
     if (existingProfile) {
+      console.log('Actualizando perfil existente');
       // Actualizar perfil existente
       const { data, error } = await supabase
         .from('user_profiles')
@@ -80,9 +105,14 @@ export async function upsertUserProfile(displayName: string) {
         .select()
         .single();
 
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.error('Error al actualizar perfil:', error);
+        throw error;
+      }
+      
+      result = data;
     } else {
+      console.log('Creando nuevo perfil');
       // Crear nuevo perfil con created_at
       const newProfile = {
         ...profile,
@@ -95,9 +125,16 @@ export async function upsertUserProfile(displayName: string) {
         .select()
         .single();
 
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.error('Error al insertar perfil:', error);
+        throw error;
+      }
+      
+      result = data;
     }
+    
+    console.log('Perfil guardado exitosamente:', result);
+    return result;
   } catch (error: any) {
     console.error('Error updating user profile:', error);
     throw error;
