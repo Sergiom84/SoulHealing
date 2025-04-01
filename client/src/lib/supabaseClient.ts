@@ -38,6 +38,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       },
       removeItem: (key) => {
         try {
+          console.log(`Eliminando sesión con clave: ${key}`);
           localStorage.removeItem(key);
         } catch (error) {
           console.error('Error al eliminar sesión:', error);
@@ -51,6 +52,24 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     }
   }
 });
+
+// Función para verificar si hay una sesión activa al cargar la aplicación
+export async function checkAuthStatus() {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    if (data?.session) {
+      console.log('Sesión activa encontrada:', data.session.user);
+      return data.session.user;
+    } else {
+      console.log('No hay sesión activa');
+      return null;
+    }
+  } catch (err) {
+    console.error('Error al verificar el estado de autenticación:', err);
+    return null;
+  }
+}
 
 // Verificar estado de autenticación al cargar
 (async () => {
