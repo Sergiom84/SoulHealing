@@ -16,35 +16,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    storage: {
-      getItem: (key) => {
-        try {
-          const itemStr = localStorage.getItem(key);
-          if (!itemStr) return null;
-          console.log(`Recuperando sesión con clave: ${key}`);
-          return itemStr;
-        } catch (error) {
-          console.error('Error al recuperar sesión:', error);
-          return null;
-        }
-      },
-      setItem: (key, value) => {
-        try {
-          console.log(`Guardando sesión con clave: ${key}`);
-          localStorage.setItem(key, value);
-        } catch (error) {
-          console.error('Error al guardar sesión:', error);
-        }
-      },
-      removeItem: (key) => {
-        try {
-          console.log(`Eliminando sesión con clave: ${key}`);
-          localStorage.removeItem(key);
-        } catch (error) {
-          console.error('Error al eliminar sesión:', error);
-        }
-      }
-    }
+    storage: localStorage,
   },
   global: {
     headers: {

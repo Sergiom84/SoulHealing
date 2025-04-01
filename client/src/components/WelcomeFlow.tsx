@@ -32,6 +32,26 @@ export default function WelcomeFlow() {
           return;
         }
 
+        // Verificar si el perfil ya existe
+        const { data: existingProfile, error } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error al verificar el perfil existente:', error);
+          throw error;
+        }
+
+        if (existingProfile) {
+          console.log('Perfil ya existe:', existingProfile);
+          setUserId(user.id);
+          navigate('/dashboard'); // Redirigir directamente si ya existe el perfil
+          return;
+        }
+
+        console.log('Usuario autenticado pero sin perfil:', user);
         setUserId(user.id);
       } catch (err: any) {
         console.error('Error al obtener el usuario:', err);
