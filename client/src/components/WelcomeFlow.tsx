@@ -81,20 +81,23 @@ export default function WelcomeFlow() {
         return;
       }
 
-      // Guardar el nombre en la base de datos
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .upsert({ user_id: userId, display_name: displayName.trim() })
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      console.log('Nombre guardado exitosamente:', data);
-      alert('Nombre guardado exitosamente');
-
-      // Redirigir al home después de guardar
-      navigate('/home');
+      // Usar la función upsertUserProfile en lugar de llamar directamente a supabase
+      // Esto asegura que usamos la misma lógica en toda la aplicación
+      try {
+        const data = await upsertUserProfile(displayName.trim());
+        console.log('Nombre guardado exitosamente:', data);
+        
+        // Mostrar mensaje y esperar antes de redirigir
+        alert('Nombre guardado exitosamente');
+        
+        // Esperar un momento antes de redirigir para asegurar que la alerta se muestre
+        setTimeout(() => {
+          // Redirigir al home después de guardar
+          window.location.href = '/home'; // Usar window.location en lugar de navigate para forzar recarga completa
+        }, 500);
+      } catch (error: any) {
+        throw error;
+      }
     } catch (err: any) {
       console.error('Error al guardar el nombre:', err);
       setError(err.message || 'Error al guardar el nombre');

@@ -69,14 +69,46 @@ export async function upsertUserProfile(displayName: string) {
       updated_at: new Date().toISOString()
     };
 
-    const { data, error } = await supabase
+    // Primero verificar si ya existe un perfil para este usuario
+    const { data: existingProfile, error: checkError } = await supabase
       .from('user_profiles')
-      .upsert(profile)
-      .select()
-      .single();
+      .select('id')
+      .eq('user_id', userId)
+      .maybeSingle();
+      
+    if (checkError) throw checkError;
+    
+    let result;
+    
+    if (existingProfile) {
+      // Si existe, actualizar usando el ID existente
+      console.log('Actualizando perfil existente con ID:', existingProfile.id);
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .update({
+          display_name: displayName,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', existingProfile.id)
+        .select()
+        .single();
+        
+      if (error) throw error;
+      result = data;
+    } else {
+      // Si no existe, insertar nuevo
+      console.log('Creando nuevo perfil para usuario:', userId);
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .insert(profile)
+        .select()
+        .single();
+        
+      if (error) throw error;
+      result = data;
+    }
 
-    if (error) throw error;
-    return data;
+    return result;
   } catch (error: any) {
     console.error('Error al actualizar el perfil del usuario:', error);
     throw error;

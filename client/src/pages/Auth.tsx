@@ -46,9 +46,11 @@ export default function Auth() {
         
         toast({
           title: "Registro exitoso",
-          description: "Bienvenido a Un Curso de Milagros",
+          description: "Se ha enviado un correo de verificación a tu email. Por favor, verifica tu cuenta antes de continuar.",
         });
-        setLocation("/home");
+        
+        // No redirigir automáticamente, mostrar mensaje de verificación
+        setError("Por favor, verifica tu correo electrónico antes de iniciar sesión.");
       }
     } catch (err: any) {
       setError(err.message || 'Ha ocurrido un error');
