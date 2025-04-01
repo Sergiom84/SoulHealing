@@ -60,16 +60,29 @@ export default function WelcomeFlow() {
         setLoading(false);
         return;
       }
-      // Guardar el nombre en la base de datos
-      const { error } = await supabase
+
+      // Guardar el nombre en la base de datos y verificar el resultado
+      const { data, error } = await supabase
         .from('user_profiles')
-        .upsert({ user_id: userId, display_name: displayName.trim() });
+        .upsert({ user_id: userId, display_name: displayName.trim() })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error al guardar el nombre en Supabase:', error);
+        throw new Error('Error al guardar el nombre');
+      }
 
+      if (!data) {
+        console.error('El guardado no devolvió datos:', data);
+        throw new Error('El nombre no se guardó correctamente');
+      }
+
+      console.log('Nombre guardado exitosamente:', data);
       alert('Nombre guardado exitosamente');
+
       // Redirigir al dashboard principal después de guardar
-    navigate('/dashboard');
+      navigate('/dashboard');
     } catch (err: any) {
       console.error('Error al guardar el nombre:', err);
       setError(err.message || 'Error al guardar el nombre');
