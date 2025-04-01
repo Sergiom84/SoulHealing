@@ -47,7 +47,7 @@ export default function WelcomeFlow() {
         if (existingProfile) {
           console.log('Perfil ya existe:', existingProfile);
           setUserId(user.id);
-          navigate('/'); // Redirigir directamente si ya existe el perfil
+          navigate('/home'); // Redirigir directamente si ya existe el perfil
           return;
         }
 
@@ -81,31 +81,20 @@ export default function WelcomeFlow() {
         return;
       }
 
-      // Guardar el nombre en la base de datos y verificar el resultado
+      // Guardar el nombre en la base de datos
       const { data, error } = await supabase
         .from('user_profiles')
         .upsert({ user_id: userId, display_name: displayName.trim() })
         .select()
         .single();
 
-      if (error) {
-        console.error('Error al guardar el nombre en Supabase:', error);
-        throw new Error('Error al guardar el nombre');
-      }
-
-      if (!data) {
-        console.error('El guardado no devolvió datos:', data);
-        throw new Error('El nombre no se guardó correctamente');
-      }
+      if (error) throw error;
 
       console.log('Nombre guardado exitosamente:', data);
       alert('Nombre guardado exitosamente');
 
-      // Esperar un momento para asegurar que el estado se actualice
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Redirigir al home principal después de guardar
-      navigate('/');
+      // Redirigir al home después de guardar
+      navigate('/home');
     } catch (err: any) {
       console.error('Error al guardar el nombre:', err);
       setError(err.message || 'Error al guardar el nombre');
