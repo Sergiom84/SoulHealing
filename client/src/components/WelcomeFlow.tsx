@@ -47,7 +47,7 @@ export default function WelcomeFlow() {
         if (existingProfile) {
           console.log('Perfil ya existe:', existingProfile);
           setUserId(user.id);
-          navigate('/dashboard'); // Redirigir directamente si ya existe el perfil
+          navigate('/'); // Redirigir directamente si ya existe el perfil
           return;
         }
 
@@ -100,6 +100,9 @@ export default function WelcomeFlow() {
 
       console.log('Nombre guardado exitosamente:', data);
       alert('Nombre guardado exitosamente');
+
+      // Esperar un momento para asegurar que el estado se actualice
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Redirigir al home principal después de guardar
       navigate('/');
