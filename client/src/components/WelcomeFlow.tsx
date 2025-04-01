@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { supabase, checkAuthStatus } from '@/lib/supabaseClient';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,11 +7,13 @@ import { Label } from '@/components/ui/label';
 import { upsertUserProfile } from '@/hooks/useUserProfile';
 import { useLocation } from 'wouter';
 
-export default function WelcomeFlow() {
+// Modificado para aceptar children como prop
+export default function WelcomeFlow({ children }: { children?: ReactNode }) {
   const [displayName, setDisplayName] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [showNameForm, setShowNameForm] = useState(false);
   const [, navigate] = useLocation();
 
   useEffect(() => {
@@ -47,12 +49,12 @@ export default function WelcomeFlow() {
         if (existingProfile) {
           console.log('Perfil ya existe:', existingProfile);
           setUserId(user.id);
-          navigate('/home'); // Redirigir directamente si ya existe el perfil
-          return;
+          setShowNameForm(false); // No mostrar el formulario si ya existe el perfil
+        } else {
+          console.log('Usuario autenticado pero sin perfil:', user);
+          setUserId(user.id);
+          setShowNameForm(true); // Mostrar el formulario si no existe el perfil
         }
-
-        console.log('Usuario autenticado pero sin perfil:', user);
-        setUserId(user.id);
       } catch (err: any) {
         console.error('Error al obtener el usuario:', err);
         setError('Error al verificar la sesión');
@@ -81,20 +83,15 @@ export default function WelcomeFlow() {
         return;
       }
 
-      // Usar la función upsertUserProfile en lugar de llamar directamente a supabase
-      // Esto asegura que usamos la misma lógica en toda la aplicación
+      // Usar la función upsertUserProfile
       try {
         const data = await upsertUserProfile(displayName.trim());
         console.log('Nombre guardado exitosamente:', data);
         
-        // Mostrar mensaje y esperar antes de redirigir
+        // Mostrar mensaje y ocultar el formulario
         alert('Nombre guardado exitosamente');
+        setShowNameForm(false);
         
-        // Esperar un momento antes de redirigir para asegurar que la alerta se muestre
-        setTimeout(() => {
-          // Redirigir al home después de guardar
-          window.location.href = '/home'; // Usar window.location en lugar de navigate para forzar recarga completa
-        }, 500);
       } catch (error: any) {
         throw error;
       }
@@ -106,36 +103,71 @@ export default function WelcomeFlow() {
     }
   };
 
-  return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">¡Bienvenido!</CardTitle>
-        <CardDescription className="text-center">
-          Antes de empezar, dinos tu nombre
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <Label htmlFor="displayName">Tu nombre</Label>
-        <Input
-          id="displayName"
-          placeholder="Escribe tu nombre"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <Button 
-          className="w-full" 
-          onClick={handleSaveName} 
-          disabled={loading}
-        >
-          {loading ? 'Guardando...' : 'Guardar nombre'}
-        </Button>
-      </CardContent>
-      <CardFooter className="flex justify-center">
-        <p className="text-sm text-muted-foreground">
-          "El perdón es la llave de la felicidad"
-        </p>
-      </CardFooter>
-    </Card>
-  );
+  // Si está cargando, mostrar indicador de carga
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Cargando...</div>;
+  }
+
+  // Si hay error de autenticación, mostrar mensaje
+  if (error && !showNameForm) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">Error</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-red-500">{error}</p>
+            <Button 
+              className="w-full mt-4" 
+              onClick={() => navigate('/auth')}
+            >
+              Volver al inicio de sesión
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Si necesita ingresar su nombre, mostrar el formulario
+  if (showNameForm) {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">¡Bienvenido!</CardTitle>
+            <CardDescription className="text-center">
+              Antes de empezar, dinos tu nombre
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Label htmlFor="displayName">Tu nombre</Label>
+            <Input
+              id="displayName"
+              placeholder="Escribe tu nombre"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            <Button 
+              className="w-full" 
+              onClick={handleSaveName} 
+              disabled={loading}
+            >
+              {loading ? 'Guardando...' : 'Guardar nombre'}
+            </Button>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-muted-foreground">
+              "El perdón es la llave de la felicidad"
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+
+  // Si ya tiene perfil, mostrar los componentes hijos (rutas protegidas)
+  return <>{children}</>;
 }
