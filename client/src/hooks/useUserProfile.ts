@@ -17,27 +17,28 @@ export function useUserProfile(userId?: string) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        console.log('Obteniendo perfil para usuario:', userId);
+
+        // Obtener el usuario autenticado
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+        if (userError) throw userError;
+
+        const user = userData?.user;
+        if (!user) throw new Error("Usuario no autenticado");
 
         const { data, error } = await supabase
           .from('user_profiles')
           .select('*')
-          .eq('user_id', userId)
+          .eq('user_id', user.id)
           .single();
 
         if (error && error.code !== 'PGRST116') throw error;
 
         setProfile(data);
       } catch (err: any) {
-        console.error('Error fetching user profile:', err);
+        console.error('Error al obtener el perfil del usuario:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -53,14 +54,14 @@ export function useUserProfile(userId?: string) {
 // Función para crear o actualizar el perfil del usuario
 export async function upsertUserProfile(displayName: string) {
   try {
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    // Obtener el usuario autenticado directamente
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError) throw userError;
 
-    if (sessionError) throw sessionError;
-    if (!sessionData?.session?.user) {
-      throw new Error("No hay sesión activa");
-    }
+    const user = userData?.user;
+    if (!user) throw new Error("Usuario no autenticado");
 
-    const userId = sessionData.session.user.id;
+    const userId = user.id;
 
     const profile = {
       user_id: userId,
@@ -77,7 +78,7 @@ export async function upsertUserProfile(displayName: string) {
     if (error) throw error;
     return data;
   } catch (error: any) {
-    console.error('Error updating user profile:', error);
+    console.error('Error al actualizar el perfil del usuario:', error);
     throw error;
   }
 }
