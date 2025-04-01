@@ -5,9 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import NotificationSettings from '@/components/NotificationSettings';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function InfoSection() {
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
   
   return (
     <>
@@ -24,12 +26,23 @@ export default function InfoSection() {
           </DialogHeader>
           
           <Tabs defaultValue="guia" className="mt-4">
-            <TabsList className="grid grid-cols-4 w-full">
-              <TabsTrigger value="guia">Guía de Uso</TabsTrigger>
-              <TabsTrigger value="contacto">Contacto</TabsTrigger>
-              <TabsTrigger value="agradecimientos">Agradecimientos</TabsTrigger>
-              <TabsTrigger value="notificaciones">Notificaciones</TabsTrigger>
-            </TabsList>
+            {isMobile ? (
+              // Diseño de pestañas para móvil - apiladas en 2 filas
+              <TabsList className="grid grid-cols-2 w-full gap-1">
+                <TabsTrigger value="guia" className="text-xs px-1">Guía de Uso</TabsTrigger>
+                <TabsTrigger value="contacto" className="text-xs px-1">Contacto</TabsTrigger>
+                <TabsTrigger value="agradecimientos" className="text-xs px-1">Agradecimientos</TabsTrigger>
+                <TabsTrigger value="notificaciones" className="text-xs px-1">Notificaciones</TabsTrigger>
+              </TabsList>
+            ) : (
+              // Diseño original para escritorio
+              <TabsList className="grid grid-cols-4 w-full">
+                <TabsTrigger value="guia">Guía de Uso</TabsTrigger>
+                <TabsTrigger value="contacto">Contacto</TabsTrigger>
+                <TabsTrigger value="agradecimientos">Agradecimientos</TabsTrigger>
+                <TabsTrigger value="notificaciones">Notificaciones</TabsTrigger>
+              </TabsList>
+            )}
             
             <TabsContent value="guia" className="space-y-4 mt-4">
               <Card>
