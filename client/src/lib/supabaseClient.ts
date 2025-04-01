@@ -21,10 +21,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         try {
           const itemStr = localStorage.getItem(key);
           if (!itemStr) return null;
-          
-          // Para depuración
           console.log(`Recuperando sesión con clave: ${key}`);
-          
           return itemStr;
         } catch (error) {
           console.error('Error al recuperar sesión:', error);
@@ -33,9 +30,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       },
       setItem: (key, value) => {
         try {
-          // Para depuración
           console.log(`Guardando sesión con clave: ${key}`);
-          
           localStorage.setItem(key, value);
         } catch (error) {
           console.error('Error al guardar sesión:', error);
