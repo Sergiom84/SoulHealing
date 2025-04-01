@@ -101,8 +101,8 @@ export default function WelcomeFlow() {
       console.log('Nombre guardado exitosamente:', data);
       alert('Nombre guardado exitosamente');
 
-      // Redirigir al dashboard principal después de guardar
-      navigate('/dashboard');
+      // Redirigir al home principal después de guardar
+      navigate('/');
     } catch (err: any) {
       console.error('Error al guardar el nombre:', err);
       setError(err.message || 'Error al guardar el nombre');
