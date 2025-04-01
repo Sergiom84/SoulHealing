@@ -60,7 +60,7 @@ export default function WelcomeFlow() {
         setLoading(false);
         return;
       }
-
+      // Guardar el nombre en la base de datos
       const { error } = await supabase
         .from('user_profiles')
         .upsert({ user_id: userId, display_name: displayName.trim() });
@@ -68,6 +68,8 @@ export default function WelcomeFlow() {
       if (error) throw error;
 
       alert('Nombre guardado exitosamente');
+      // Redirigir al dashboard principal después de guardar
+    navigate('/dashboard');
     } catch (err: any) {
       console.error('Error al guardar el nombre:', err);
       setError(err.message || 'Error al guardar el nombre');
