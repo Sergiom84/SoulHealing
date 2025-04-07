@@ -7,6 +7,7 @@ import InspiringQuotes from "@/components/InspiringQuotes";
 import UserGreeting from "@/components/UserGreeting";
 import { useUser } from "@/hooks/useUser";
 import Header from "@/components/Header";
+import LessonCarousel from "@/components/LessonCarousel";
 
 function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
   return (
@@ -144,6 +145,16 @@ function MainAppContent() {
           </Card>
         </Link>
       </div>
+      
+      {/* Nuevo componente de carrusel para lecciones adicionales */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-16 w-full"
+      >
+        <LessonCarousel />
+      </motion.div>
     </div>
   );
 }
