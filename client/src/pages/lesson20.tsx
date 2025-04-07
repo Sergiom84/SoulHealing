@@ -10,7 +10,7 @@ import { Name, Note } from "@/types";
 import { useUser } from "@/hooks/useUser";
 import RequireAuth from "@/components/RequireAuth";
 
-export default function Lesson20() {
+export default function lesson20() {
   const { user } = useUser();
   const exerciseId = 20;
   const [activeTab, setActiveTab] = useState("introduccion");

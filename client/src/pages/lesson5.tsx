@@ -10,7 +10,7 @@ import { Name, Note } from "@/types";
 import { useUser } from "@/hooks/useUser";
 import RequireAuth from "@/components/RequireAuth";
 
-export default function Lesson5() {
+export default function lesson5() {
   const { user } = useUser();
   const exerciseId = 5;
   const [activeTab, setActiveTab] = useState("introduccion");
@@ -59,32 +59,33 @@ export default function Lesson5() {
 
         <Card className="max-w-4xl mx-auto">
           <CardContent className="p-6">
+            <img src="/images/1.png" alt="Imagen de Lección 5" className="w-full h-auto mb-4" />
             <h1 className="text-2xl font-light text-center mb-6">
               Lección 5: Nunca estoy disgustado por la razón que creo.
             </h1>
-
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-              <TabsList className="grid grid-cols-4 w-full">
-                <TabsTrigger value="introduccion">Intro</TabsTrigger>
-                <TabsTrigger value="nombres">Nombres</TabsTrigger>
-                <TabsTrigger value="audio">Audio</TabsTrigger>
-                <TabsTrigger value="notas">Notas</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="audio">
-                <AudioPlayer
-                  isPlaying={isPlaying}
-                  setIsPlaying={setIsPlaying}
-                  volume={volume}
-                  setVolume={setVolume}
-                  playbackRate={playbackRate}
-                  setPlaybackRate={setPlaybackRate}
-                  audioRef={audioRef}
-                />
-              </TabsContent>
-            </Tabs>
           </CardContent>
         </Card>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="grid grid-cols-4 w-full">
+            <TabsTrigger value="introduccion">Intro</TabsTrigger>
+            <TabsTrigger value="nombres">Nombres</TabsTrigger>
+            <TabsTrigger value="audio">Audio</TabsTrigger>
+            <TabsTrigger value="notas">Notas</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="audio">
+            <AudioPlayer
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              volume={volume}
+              setVolume={setVolume}
+              playbackRate={playbackRate}
+              setPlaybackRate={setPlaybackRate}
+              audioRef={audioRef}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </RequireAuth>
   );

@@ -19,5 +19,11 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "client", "dist"), // Directorio de salida correcto
     emptyOutDir: true,
     assetsDir: "assets", // Carpeta para recursos estáticos
+    rollupOptions: {
+      external: [],
+    },
+  },
+  optimizeDeps: {
+    include: ["embla-carousel-react"],
   },
 });
