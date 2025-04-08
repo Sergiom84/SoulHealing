@@ -40,7 +40,7 @@ const lessonData = [
 const LessonCarousel: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto mt-16">
-      <h2 className="text-2xl font-serif mb-6 text-center">Lecciones Avanzadas</h2>
+      <h2 className="text-2xl font-serif mb-6 text-center"></h2>
       
       {/* Versión para escritorio - visible solo en pantallas medianas y grandes */}
       <div className="hidden md:block">
