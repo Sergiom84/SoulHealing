@@ -12,25 +12,25 @@ import {
 // Datos de las lecciones con el texto actualizado proporcionado por el usuario
 const lessonData = [
   {
-    id: "lesson5",
+    id: "Lesson5",
     title: "Lección 5",
     description: "Nunca estoy disgustado por la razón que creo.",
     imageSrc: "/images/lessons/1.png",
   },
   {
-    id: "lesson20",
+    id: "Lesson20",
     title: "Lección 20",
     description: "Estoy decidido a ver.",
     imageSrc: "/images/lessons/2.png",
   },
   {
-    id: "lesson21",
+    id: "Lesson21",
     title: "Lección 21",
     description: "Estoy decidido a ver las cosas de otra manera.",
     imageSrc: "/images/lessons/3.png",
   },
   {
-    id: "lesson34",
+    id: "Lesson34",
     title: "Lección 34",
     description: "Podría ver paz en lugar de esto.",
     imageSrc: "/images/lessons/4.png",

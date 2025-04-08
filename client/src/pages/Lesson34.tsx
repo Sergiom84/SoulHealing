@@ -10,9 +10,9 @@ import { Name, Note } from "@/types";
 import { useUser } from "@/hooks/useUser";
 import RequireAuth from "@/components/RequireAuth";
 
-export default function lesson21() {
+export default function Lesson34() {
   const { user } = useUser();
-  const exerciseId = 21;
+  const exerciseId = 34;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
@@ -49,14 +49,14 @@ export default function lesson21() {
           onPause={() => setIsPlaying(false)}
           onPlay={() => setIsPlaying(true)}
         >
-          <source src="/audio/leccion21.mp3" type="audio/mpeg" />
+          <source src="/audio/leccion34.mp3" type="audio/mpeg" />
           Tu navegador no soporta el elemento de audio.
         </audio>
 
         <Card className="max-w-4xl mx-auto">
           <CardContent className="p-6">
             <h1 className="text-2xl font-light text-center mb-6">
-              Lección 21: Estoy decidido a ver las cosas de otra manera.
+              Lección 34: Podría ver paz en lugar de ésto.
             </h1>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
@@ -69,22 +69,23 @@ export default function lesson21() {
 
               <TabsContent value="introduccion" className="space-y-6">
                 <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p>Inicia las sesiones de práctica repitiendo la idea en tu interior. Luego cierra los ojos y busca con minuciosidad en tu mente aquellas situaciones pasadas, presentes o previstas que susciten ira en ti. La ira puede manifestarse en cualquier clase de reacción, desde una ligera irritación hasta la furia más desenfrenada. El grado de intensidad de la emoción experimentada es irrelevante. Te irás dando cuenta cada vez más de que una leve punzada de molestia no es otra cosa que un velo que cubre una intensa furia.</p>
+                <p>La idea de hoy comienza a describir las condiciones que prevalecen en la otra manera de ver. La paz mental es claramente una cuestión interna. Tiene que empezar con tus propios pensamientos y luego extenderse hacia afuera. Es de tu paz mental de donde nace una percepción pacífica del mundo.</p>
 
-                <p>Trata, por lo tanto, durante las sesiones de práctica, de no dejar escapar aquellos pensamientos de ira que consideras "insignificantes". Recuerda que no reconoces realmente qué es lo que suscita ira en ti, y nada de lo que puedas creer al respecto tiene significado alguno. Probablemente te sentirás tentado de emplear más tiempo en ciertas situaciones o personas que en otras, sobre la falsa base de que son más "obvias". Esto no es cierto. Es meramente un ejemplo de la creencia de que ciertas formas de ataque están más justificadas que otras.</p>
+                <p>Escudriña tu mente en busca de pensamientos de temor, situaciones que provoquen ansiedad, personas o acontecimientos "ofensivos" o cualquier otra cosa sobre la que estés abrigando pensamientos no amorosos. A medida que cada uno de estos pensamientos surja en tu mente, obsérvalo relajadamente, repitiendo la idea de hoy muy despacio, y luego déjalo ir y haz lo mismo con el siguiente.</p>
 
-                <p>Al escudriñar tu mente en busca de todas las formas en que se presentan los pensamientos de ataque, mantén cada uno de ellos presente mientras te dices a ti mismo:</p>
+                <p>Si comienza a resultarte difícil pensar en temas específicos, continúa repitiendo la idea para tus adentros sin prisas y sin aplicarla a nada en particular. Asegúrate, no obstante, de no excluir nada específicamente.</p>
+
+                <p>Las aplicaciones cortas deben ser frecuentes, y hacerse siempre que sientas que de alguna forma tu paz mental se está viendo amenazada. El propósito de esto es protegerte de la tentación a lo largo del día. Si se presentase alguna forma específica de tentación en tu conciencia, el ejercicio deberá hacerse de esta forma:</p>
                 <ul className="list-none pl-4">
-                  <li>Estoy decidido a ver a ___ [nombre de la persona] de otra manera.</li>
-                  <li>Estoy decidido a ver ___ [especifica la situación] de otra manera.</li>
+                  <li>Podría ver paz en esta situación en lugar de lo que ahora veo en ella.</li>
                 </ul>
 
-                <p>Trata de ser tan específico como te sea posible. Puede, por ejemplo, que concentres tu ira en una característica determinada de alguna persona en particular, creyendo que la ira se limita a ese aspecto. Si tu percepción sufre de esa forma de distorsión, di:</p>
+                <p>Si los ataques a tu paz mental se manifiestan en forma de emociones adversas más generalizadas, tales como depresión, ansiedad o preocupación, usa la idea en su forma original. Si ves que necesitas aplicar la idea de hoy más de una vez para que te ayude a cambiar de parecer con respecto a alguna situación determinada, trata de dedicar varios minutos a repetirla hasta que sientas una sensación de alivio. Te ayudará si te dices a ti mismo lo siguiente:</p>
                 <ul className="list-none pl-4">
-                  <li>Estoy decidido a ver [especifica la característica] de [nombre de la persona] de otra manera.</li>
+                  <li>Puedo sustituir mis sentimientos de depresión, ansiedad o preocupación [o mis pensamientos acerca de esta situación, persona o acontecimiento] por paz.</li>
                 </ul>
 
-                <p>Se te exhorta a que lleves a cabo cinco sesiones de práctica de un minuto completo cada una.</p>
+                <p>Para los ejercicios de hoy, realiza tres sesiones largas: una por la mañana, otra por la noche y una tercera cuando lo consideres oportuno. Todas las sesiones deben hacerse con los ojos cerrados, dirigiendo la práctica a tu mundo interno. Dedica unos cinco minutos a cada sesión.</p>
               </div>
             </TabsContent>
 

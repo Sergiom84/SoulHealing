@@ -1,16 +1,19 @@
+// client/src/LessonRoutes.tsx
 import { Route } from "wouter";
-import Lesson5 from "./pages/lesson5";
-import Lesson20 from "./pages/lesson20";
-import Lesson21 from "./pages/lesson21";
-import Lesson34 from "./pages/lesson34";
+import Lesson5 from "./pages/Lesson5";
+import Lesson20 from "./pages/Lesson20";
+import Lesson21 from "./pages/Lesson21";
+import Lesson34 from "./pages/Lesson34";
+import Register from "./pages/Register"; // Importamos el componente Register
 
 export function LessonRoutes() {
   return (
     <>
-      <Route path="/lesson5" component={Lesson5} />
-      <Route path="/lesson20" component={Lesson20} />
-      <Route path="/lesson21" component={Lesson21} />
-      <Route path="/lesson34" component={Lesson34} />
+      <Route path="/Lesson5" component={Lesson5} />
+      <Route path="/Lesson20" component={Lesson20} />
+      <Route path="/Lesson21" component={Lesson21} />
+      <Route path="/Lesson34" component={Lesson34} />
+      <Route path="/register" component={Register} /> {/* Ruta para Register */}
     </>
   );
 }
