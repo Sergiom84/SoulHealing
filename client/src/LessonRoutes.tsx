@@ -1,3 +1,4 @@
+// client/src/LessonRoutes.tsx
 import { Route } from "wouter";
 import Lesson5 from "./pages/Lesson5";
 import Lesson20 from "./pages/Lesson20";

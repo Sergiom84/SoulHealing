@@ -6,7 +6,7 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    setLocation("/home");  // Ruta a la página principal de ejercicios
+    setLocation("/");  // Ruta corregida a la raíz
   };
 
   return (
@@ -14,11 +14,11 @@ export default function HomeButton() {
       variant="ghost"
       size="icon"
       className="fixed left-4 top-4"
-      title="Volver a ejercicios"
+      title="Volver a inicio"
       onClick={handleClick}
     >
       <Home className="h-5 w-5" />
-      <span className="sr-only">Volver a ejercicios</span>
+      <span className="sr-only">Volver a inicio</span>
     </Button>
   );
 }
