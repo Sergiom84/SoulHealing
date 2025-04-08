@@ -12,7 +12,7 @@ import RequireAuth from "@/components/RequireAuth";
 
 export default function Lesson34() {
   const { user } = useUser();
-  const exerciseId = 34;
+  const exerciseId = 9;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);

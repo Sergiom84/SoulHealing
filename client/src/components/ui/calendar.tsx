@@ -7,6 +7,18 @@ import { buttonVariants } from "@/components/ui/button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+const exerciseColors = [
+  'bg-blue-500',    // Lección 46
+  'bg-green-500',   // Lección 68
+  'bg-yellow-500',  // Lección 78
+  'bg-purple-500',  // Lección 121
+  'bg-pink-500',    // Lección 134
+  'bg-red-500',     // Lección 5
+  'bg-teal-500',    // Lección 20
+  'bg-indigo-500',  // Lección 21
+  'bg-orange-500',  // Lección 34
+];
+
 function Calendar({
   className,
   classNames,

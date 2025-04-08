@@ -18,15 +18,23 @@ const exerciseOptions = [
   { id: 3, name: 'Lección 78: Que los milagros reemplacen todos mis resentimientos' },
   { id: 4, name: 'Lección 121: El perdón es la llave de la felicidad' },
   { id: 5, name: 'Lección 134: Quiero percibir el perdón tal como es' },
+  { id: 6, name: 'Lección 5: Nunca estoy disgustado por la razón que creo' },
+  { id: 7, name: 'Lección 20: Estoy decidido a ver' },
+  { id: 8, name: 'Lección 21: Estoy decidido a ver las cosas de otra manera' },
+  { id: 9, name: 'Lección 34: Podría ver paz en lugar de ésto' },
 ];
 
 // Colores más distinguibles para los ejercicios
 const exerciseColors = [
-  'bg-blue-500', // Azul más intenso
-  'bg-green-500', // Verde más intenso
-  'bg-yellow-500', // Amarillo más intenso
-  'bg-purple-500', // Púrpura más intenso
-  'bg-pink-500', // Rosa más intenso
+  'bg-blue-500',    // Lección 46: Dios es el Amor en el que perdono
+  'bg-green-500',   // Lección 68: El amor no abriga resentimientos
+  'bg-yellow-500',  // Lección 78: Que los milagros reemplacen todos mis resentimientos
+  'bg-purple-500',  // Lección 121: El perdón es la llave de la felicidad
+  'bg-pink-500',    // Lección 134: Quiero percibir el perdón tal como es
+  'bg-red-500',     // Lección 5: Nunca estoy disgustado por la razón que creo
+  'bg-teal-500',    // Lección 20: Estoy decidido a ver
+  'bg-indigo-500',  // Lección 21: Estoy decidido a ver las cosas de otra manera
+  'bg-orange-500',  // Lección 34: Podría ver paz en lugar de ésto
 ];
 
 export default function ExerciseCalendar({ userId }: CalendarProps) {
