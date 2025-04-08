@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, Volume2, Timer, RotateCcw, RotateCw, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, Pause, Volume2, RotateCcw, RotateCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { type RefObject, useCallback, useEffect, useState } from "react";
 
 interface AudioPlayerProps {
@@ -14,6 +14,13 @@ interface AudioPlayerProps {
   audioRef: RefObject<HTMLAudioElement | null>;
   title?: string;
 }
+
+// Función para formatear el tiempo en mm:ss
+const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
 
 export default function AudioPlayer({
   isPlaying,
@@ -95,7 +102,7 @@ export default function AudioPlayer({
     <Card>
       <CardContent className="p-6 space-y-4">
         {title && <h3 className="text-lg font-medium text-center">{title}</h3>}
-        
+
         <div className="flex items-center justify-center gap-4">
           <Button onClick={skipBackward}>
             <ChevronLeft /> 10s
@@ -115,7 +122,7 @@ export default function AudioPlayer({
             onValueChange={handleProgressChange}
             className="w-full"
           />
-          <span>{Math.floor(progress)} / {Math.floor(duration)} s</span>
+          <span>{formatTime(progress)} / {formatTime(duration)}</span>
         </div>
 
         <div className="flex items-center justify-center gap-4 mt-2">
