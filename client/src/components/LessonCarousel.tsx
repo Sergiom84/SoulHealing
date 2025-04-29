@@ -15,25 +15,25 @@ const lessonData = [
     id: "Lesson5",
     title: "Lección 5",
     description: "Nunca estoy disgustado por la razón que creo.",
-    imageSrc: "/images/lessons/1.png",
+    imageSrc: "/images/1.png",
   },
   {
     id: "Lesson20",
     title: "Lección 20",
     description: "Estoy decidido a ver.",
-    imageSrc: "/images/lessons/2.png",
+    imageSrc: "/images/2.png",
   },
   {
     id: "Lesson21",
     title: "Lección 21",
     description: "Estoy decidido a ver las cosas de otra manera.",
-    imageSrc: "/images/lessons/3.png",
+    imageSrc: "/images/3.png",
   },
   {
     id: "Lesson34",
     title: "Lección 34",
     description: "Podría ver paz en lugar de esto.",
-    imageSrc: "/images/lessons/4.png",
+    imageSrc: "/images/4.png",
   },
 ];
 

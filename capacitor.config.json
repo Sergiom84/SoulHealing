@@ -1,0 +1,9 @@
+{
+    "appId": "com.UCDM.rutinaperdon",
+    "appName": "Rutina de Perdón",
+    "webDir": "client/dist",
+    "server": {
+      "androidScheme": "https"
+    }
+  }
+  

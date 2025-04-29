@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Rutina de Perdón</string>
+    <string name="title_activity_main">Rutina de Perdón</string>
+    <string name="package_name">com.UCDM.rutinaperdon</string>
+    <string name="custom_url_scheme">com.UCDM.rutinaperdon</string>
+</resources>

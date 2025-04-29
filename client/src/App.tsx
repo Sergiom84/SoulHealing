@@ -1,15 +1,18 @@
-// client/src/App.tsx
 import { Route, Switch } from "wouter";
 import { Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { LessonRoutes } from "./LessonRoutes";
+import { usePushNotifications } from "./usePushNotifications";
 
 // Lazy loading de componentes
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Exercise = lazy(() => import("./pages/Exercise"));
+
+// ❗Importación directa para evitar posibles fallos en Android
+import Exercise from "./pages/Exercise";
+
 const Exercise2 = lazy(() => import("./pages/Exercise2"));
 const Exercise3 = lazy(() => import("./pages/Exercise3"));
 const Exercise4 = lazy(() => import("./pages/Exercise4"));
@@ -18,6 +21,10 @@ const Exercise5 = lazy(() => import("./pages/Exercise5"));
 const queryClient = new QueryClient();
 
 function App() {
+  usePushNotifications();
+
+  console.log("⚡️ App.tsx está renderizando"); // 🐞 Log para verificar el montaje del componente
+
   return (
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<div>Loading...</div>}>
