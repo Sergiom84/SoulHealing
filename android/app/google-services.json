@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "447400710858",
+    "project_id": "rutinaucdm",
+    "storage_bucket": "rutinaucdm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447400710858:android:9d2f3d03c341255ed21a33",
+        "android_client_info": {
+          "package_name": "com.UCDM.rutinaperdon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2lQEBw2SnK91l4OaSAsSqM3dwOUV5UWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
