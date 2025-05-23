@@ -1,21 +1,16 @@
-// ─── variables de versión visibles por TODOS los proyectos ─────────────
-ext {
-    kotlin_version    = '1.8.22'
-    appcompat_version = '1.6.1'
-    core_version      = '1.12.0'
-    fragment_version  = '1.6.2'
-}
-
 // ─── repos y plugins de compilación ────────────────────────────────────
 buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.1.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.gms:google-services:4.3.15"
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.google.gms:google-services:4.3.15'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22"
     }
 }
 
@@ -28,12 +23,12 @@ allprojects {
     // fuerza versiones estables
     configurations.all {
         resolutionStrategy {
-            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-            force "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-            force "androidx.appcompat:appcompat:$appcompat_version"
-            force "androidx.appcompat:appcompat-resources:$appcompat_version"
-            force "androidx.core:core:$core_version"
-            force "androidx.fragment:fragment:$fragment_version"
+            force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
+            force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
+            force "androidx.appcompat:appcompat:1.6.1"
+            force "androidx.appcompat:appcompat-resources:1.6.1"
+            force "androidx.core:core:1.12.0"
+            force "androidx.fragment:fragment:1.6.2"
             exclude group: 'androidx.appcompat', module: 'appcompat'
             exclude group: 'androidx.appcompat', module: 'appcompat-resources'
             exclude group: 'androidx.core',     module: 'core'
@@ -45,18 +40,31 @@ allprojects {
 task clean(type: Delete) { delete rootProject.buildDir }
 
 // ─── ajustes comunes para todos los sub-módulos Android ────────────────
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 subprojects { proj ->
-
     proj.afterEvaluate {
+        if (plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')) {
+            android {
+                compileSdkVersion 34
+                buildToolsVersion '34.0.0'
+                
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
 
-        if (plugins.hasPlugin('com.android.application') ||
-                plugins.hasPlugin('com.android.library')) {
+                buildFeatures {
+                    compose true
+                }
 
-            android.compileOptions {
-                sourceCompatibility JavaVersion.VERSION_17
-                targetCompatibility JavaVersion.VERSION_17
+                composeOptions {
+                    kotlinCompilerExtensionVersion '1.4.7'
+                }
+
+                tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                    kotlinOptions {
+                        jvmTarget = '17'
+                    }
+                }
             }
         }
 
@@ -67,17 +75,6 @@ subprojects { proj ->
             it.options.release.set(17)
         }
 
-        // Kotlin
-        tasks.withType(KotlinCompile).configureEach {
-            kotlinOptions.jvmTarget = '17'
-        }
 
-        // dependencias base para estilos/atributos
-        dependencies {
-            add("implementation", "androidx.appcompat:appcompat:$appcompat_version")
-            add("implementation", "androidx.core:core-ktx:$core_version")
-            add("implementation", "com.google.android.material:material:1.9.0")
-            add("implementation", "androidx.fragment:fragment:$fragment_version")
-        }
     }
 }
