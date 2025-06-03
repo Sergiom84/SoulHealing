@@ -1,4 +1,5 @@
-import { Route, Switch } from "wouter";
+import "./index.css";
+import { Router, Route, Switch } from "wouter";
 import { Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
@@ -27,24 +28,26 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/exercise1" component={Exercise} />
-          <Route path="/exercise2" component={Exercise2} />
-          <Route path="/exercise3" component={Exercise3} />
-          <Route path="/exercise4" component={Exercise4} />
-          <Route path="/exercise5" component={Exercise5} />
+      <Router base="/">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/exercise1" component={Exercise} />
+            <Route path="/exercise2" component={Exercise2} />
+            <Route path="/exercise3" component={Exercise3} />
+            <Route path="/exercise4" component={Exercise4} />
+            <Route path="/exercise5" component={Exercise5} />
 
-          {/* Las rutas de las lecciones se gestionan dentro de LessonRoutes */}
-          <LessonRoutes />
+            {/* Las rutas de las lecciones se gestionan dentro de LessonRoutes */}
+            <LessonRoutes />
 
-          <Route>404, Not Found!</Route>
-        </Switch>
-      </Suspense>
-      <Toaster />
+            <Route>404, Not Found!</Route>
+          </Switch>
+        </Suspense>
+        <Toaster />
+      </Router>
     </QueryClientProvider>
   );
 }

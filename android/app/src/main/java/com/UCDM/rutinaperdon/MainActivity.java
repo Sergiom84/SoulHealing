@@ -15,8 +15,13 @@ public class MainActivity extends BridgeActivity {
         WebView.setWebContentsDebuggingEnabled(true);
 
         // 2) Obtén el WebView que gestiona Capacitor internamente
-        //    Este método devuelve la vista que realmente renderiza tu app web.
-        WebView webView = (WebView) getBridge().getWebView().getView();
+        WebView webView = null;
+        try {
+            webView = (WebView) getBridge().getWebView().getView();
+        } catch (Exception e) {
+            // Seguridad: evita crash si no está disponible aún
+            e.printStackTrace();
+        }
 
         if (webView != null) {
             // 3) Permitir mixed content (HTTP dentro de HTTPS)
