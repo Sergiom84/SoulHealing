@@ -1,23 +1,15 @@
 import { Home } from "lucide-react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Capacitor } from '@capacitor/core';
 
 export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
     console.log("Pulsado botón Home");
-    
-    // Detectar si estamos en entorno nativo o web
-    if (Capacitor.isNativePlatform()) {
-      // En entorno nativo, usar window.location para navegación más directa
-      window.location.href = './index.html';
-      // Alternativa: window.history.pushState({}, '', './');
-    } else {
-      // En entorno web, usar wouter normalmente
-      setLocation("/");
-    }
+
+    // Navegación uniforme para web y plataforma nativa
+    setLocation("/");
   };
 
   return (
