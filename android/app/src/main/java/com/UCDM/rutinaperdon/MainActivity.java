@@ -1,42 +1,33 @@
 package com.UCDM.rutinaperdon;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebSettings;
 import com.getcapacitor.BridgeActivity;
+
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 public class MainActivity extends BridgeActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1) Habilita debugging remoto de WebView
-        WebView.setWebContentsDebuggingEnabled(true);
-
-        // 2) Obtén el WebView que gestiona Capacitor internamente
-        WebView webView = null;
-        try {
-            webView = (WebView) getBridge().getWebView().getView();
-        } catch (Exception e) {
-            // Seguridad: evita crash si no está disponible aún
-            e.printStackTrace();
-        }
-
+        // Si quieres personalizar la configuración del WebView
+        WebView webView = (WebView) findViewById(com.getcapacitor.android.R.id.webview);
         if (webView != null) {
-            // 3) Permitir mixed content (HTTP dentro de HTTPS)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                webView.getSettings().setMixedContentMode(
-                        WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                );
-            }
+            WebSettings webSettings = webView.getSettings();
 
-            // 4) Ajustes de seguridad y rendimiento
-            WebSettings settings = webView.getSettings();
-            settings.setDomStorageEnabled(true);
-            settings.setAllowFileAccess(true);
-            settings.setAllowContentAccess(true);
-            settings.setJavaScriptEnabled(true);
+            // Permitir almacenamiento local (importantísimo para apps PWA)
+            webSettings.setDomStorageEnabled(true);
+
+            // Permitir acceso a archivos locales
+            webSettings.setAllowFileAccess(true);
+            webSettings.setAllowContentAccess(true);
+
+            // Permitir contenido mixto (HTTP dentro de HTTPS) — necesario si usas recursos HTTP
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+            // Si usas alguna funcionalidad de cookies
+            // android.webkit.CookieManager.getInstance().setAcceptCookie(true);
         }
     }
 }

@@ -25,7 +25,7 @@ export default function Header({
     <>
       {/* Diseño para móvil */}
       {isMobile ? (
-        <div className="w-full px-4 py-2 flex flex-col">
+        <header className="w-full sticky top-0 px-4 pt-8 pb-2 flex flex-col bg-background z-50">
           {/* Primera fila: Home a la izquierda y Theme Toggle + Auth a la derecha */}
           <div className="w-full flex justify-between items-center mb-4 px-2">
             <div className="flex-shrink-0">
@@ -47,7 +47,7 @@ export default function Header({
             {showCalendar && <ExerciseCalendar userId={user?.id} />}
             {showInfo && <InfoSection />}
           </div>
-        </div>
+        </header>
       ) : (
         // Diseño escritorio
         <>

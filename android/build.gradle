@@ -1,4 +1,3 @@
-// ─── repos y plugins de compilación ────────────────────────────────────
 buildscript {
     repositories {
         google()
@@ -8,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.android.tools.build:gradle:8.6.0'
         classpath 'com.google.gms:google-services:4.3.15'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22"
     }
@@ -25,12 +24,10 @@ allprojects {
         resolutionStrategy {
             force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
             force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
-            force "androidx.appcompat:appcompat:1.6.1"
+            force "androidx.appcompat:appcompat:1.6.1" // <-- Cambiado a versión estable
             force "androidx.appcompat:appcompat-resources:1.6.1"
             force "androidx.core:core:1.12.0"
             force "androidx.fragment:fragment:1.6.2"
-            exclude group: 'androidx.appcompat', module: 'appcompat'
-            exclude group: 'androidx.appcompat', module: 'appcompat-resources'
             exclude group: 'androidx.core',     module: 'core'
             exclude group: 'androidx.fragment', module: 'fragment'
         }
@@ -43,22 +40,22 @@ task clean(type: Delete) { delete rootProject.buildDir }
 subprojects { proj ->
     proj.afterEvaluate {
         if (plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')) {
-            android {
-                compileSdkVersion 34
+            proj.android {
+                compileSdkVersion 34 // <-- Cambiado
                 buildToolsVersion '34.0.0'
-                
+
                 compileOptions {
                     sourceCompatibility JavaVersion.VERSION_17
                     targetCompatibility JavaVersion.VERSION_17
                 }
 
-                buildFeatures {
-                    compose true
-                }
-
-                composeOptions {
-                    kotlinCompilerExtensionVersion '1.4.7'
-                }
+                // Si no usas Jetpack Compose, puedes eliminar lo siguiente:
+                // buildFeatures {
+                //     compose true
+                // }
+                // composeOptions {
+                //     kotlinCompilerExtensionVersion '1.4.7'
+                // }
 
                 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
                     kotlinOptions {
@@ -68,13 +65,10 @@ subprojects { proj ->
             }
         }
 
-        // Java puro
+        // Java puro - Consistencia con Java 17
         tasks.withType(JavaCompile).configureEach {
             it.sourceCompatibility = '17'
             it.targetCompatibility = '17'
-            it.options.release.set(17)
         }
-
-
     }
 }

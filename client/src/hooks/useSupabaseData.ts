@@ -24,6 +24,9 @@ export function useNames(exerciseId: number, userId?: string) {
         .eq('exerciseid', exerciseId)
         .order('createdat', { ascending: false });
 
+
+        
+
       if (error) throw error;
 
       setNames(data || []);

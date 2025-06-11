@@ -35,6 +35,7 @@ export default function Auth() {
           description: "Bienvenido a Un Curso de Milagros",
         });
         setLocation("/home");
+        setLocation("/");
       } else {
         // Registrarse
         const { data, error } = await supabase.auth.signUp({
