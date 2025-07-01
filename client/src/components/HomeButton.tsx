@@ -7,7 +7,7 @@ export default function HomeButton() {
   const [, setLocation] = useLocation();
 
   const handleClick = () => {
-    console.log("Pulsado botón Home");
+    console.log("Botón Home pulsado");
     if (Capacitor.isNativePlatform()) {
       // En entorno nativo, recargar la página principal
       window.location.href = "./index.html";

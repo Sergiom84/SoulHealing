@@ -12,7 +12,7 @@ export function usePushNotifications() {
 
     // Token asignado al dispositivo
     PushNotifications.addListener("registration", token => {
-      console.log("📲 Token recibido:", token.value);
+      console.log("📲 Token recibido:", !!token.value);
     });
 
     // Error al registrar
@@ -22,12 +22,12 @@ export function usePushNotifications() {
 
     // Notificación recibida en primer plano
     PushNotifications.addListener("pushNotificationReceived", notification => {
-      console.log("📥 Notificación recibida:", notification);
+      console.log("📥 Notificación recibida", !!notification);
     });
 
     // Notificación tocada desde el centro de notificaciones
     PushNotifications.addListener("pushNotificationActionPerformed", action => {
-      console.log("👆 Notificación abierta:", action.notification);
+      console.log("👆 Notificación abierta", !!action.notification);
     });
   }, []);
 }

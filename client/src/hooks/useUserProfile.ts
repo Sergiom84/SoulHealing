@@ -82,7 +82,7 @@ export async function upsertUserProfile(displayName: string) {
     
     if (existingProfile) {
       // Si existe, actualizar usando el ID existente
-      console.log('Actualizando perfil existente con ID:', existingProfile.id);
+      console.log('Actualizando perfil existente:', !!existingProfile.id);
       const { data, error } = await supabase
         .from('user_profiles')
         .update({
@@ -97,7 +97,7 @@ export async function upsertUserProfile(displayName: string) {
       result = data;
     } else {
       // Si no existe, insertar nuevo
-      console.log('Creando nuevo perfil para usuario:', userId);
+      console.log('Creando nuevo perfil para usuario:', !!userId);
       const { data, error } = await supabase
         .from('user_profiles')
         .insert(profile)

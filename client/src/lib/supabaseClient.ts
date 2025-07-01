@@ -5,9 +5,9 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://eflsmqrxpoupmy
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmbHNtcXJ4cG91cG15aGJkb2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4NDA5NTAsImV4cCI6MjA1ODQxNjk1MH0.yV4wLNB6odsCzqVqI9ND3n8oPy5kQqL_01pjNir5sr4';
 
 // Añadir logging para depuración
-console.log('Inicializando Supabase con:', { 
-  url: supabaseUrl,
-  keyLength: supabaseAnonKey ? supabaseAnonKey.length : 0
+console.log('Inicializando Supabase con:', {
+  urlLoaded: !!supabaseUrl,
+  anonKeyLoaded: !!supabaseAnonKey
 });
 
 // Configuración mejorada para entorno de producción
@@ -31,7 +31,7 @@ export async function checkAuthStatus() {
     const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
     if (data?.session) {
-      console.log('Sesión activa encontrada:', data.session.user);
+      console.log('Sesión activa encontrada');
       return data.session.user;
     } else {
       console.log('No hay sesión activa');
@@ -49,7 +49,7 @@ export async function checkAuthStatus() {
     const { data, error } = await supabase.auth.getSession();
     console.log('Estado inicial de sesión:', {
       tieneSession: !!data.session,
-      error: error ? error.message : null
+      tieneError: !!error
     });
   } catch (err) {
     console.error('Error al verificar sesión inicial:', err);
