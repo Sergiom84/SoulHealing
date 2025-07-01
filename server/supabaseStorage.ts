@@ -5,8 +5,11 @@ import session from "express-session";
 
 // Verificación de variables de entorno
 console.log("⚙️ Verificando variables de entorno:");
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
-console.log("SUPABASE_ANON_KEY:", process.env.SUPABASE_ANON_KEY);
+console.log("SUPABASE_URL presente:", Boolean(process.env.SUPABASE_URL));
+console.log(
+  "SUPABASE_ANON_KEY longitud:",
+  process.env.SUPABASE_ANON_KEY?.length || 0
+);
 
 // Cliente Supabase
 const supabase = createClient(
