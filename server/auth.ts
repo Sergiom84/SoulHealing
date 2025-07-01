@@ -12,10 +12,15 @@ declare module "express-session" {
 }
 
 export function setupAuth(app: Express) {
+  const sessionSecret = process.env.SESSION_SECRET;
+  if (!sessionSecret) {
+    throw new Error("SESSION_SECRET environment variable is not defined");
+  }
+
   // Configuración de sesión
   app.use(
     session({
-      secret: "your-secret-key", // En producción, usar variable de entorno
+      secret: sessionSecret,
       resave: false,
       saveUninitialized: false,
       cookie: {
