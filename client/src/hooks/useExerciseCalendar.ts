@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { listCalendarEntries, addCalendarEntry } from '@/lib/db';
 
 // Modelo para el frontend (camelCase)
 export type ExerciseRecord = {
@@ -10,7 +10,7 @@ export type ExerciseRecord = {
   createdAt?: string;
 };
 
-// Hook para obtener registros desde Supabase
+// Hook para obtener registros desde local storage
 export function useExerciseRecords(userId?: string) {
   const [records, setRecords] = useState<ExerciseRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,27 +25,21 @@ export function useExerciseRecords(userId?: string) {
 
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('exercise_records')
-        .select('*')
-        .eq("user_id", userId)
-        .order('completed_date', { ascending: false });
-
-      if (error) throw error;
-
-      // Mapear los datos snake_case → camelCase
-      const formatted = (data || []).map((row: any) => ({
+      const data = await listCalendarEntries();
+      
+      // Mapear datos locales a formato esperado
+      const formatted = (data || []).map((row) => ({
         id: row.id,
-        userId: row.user_id,
-        exerciseId: row.exercise_id,
-        completedDate: row.completed_date,
+        userId: 'local-user',
+        exerciseId: row.exerciseId,
+        completedDate: row.date,
         createdAt: row.created_at,
       }));
 
       setRecords(formatted);
     } catch (err: any) {
       console.error('Error fetching exercise records:', err);
-      setError(err.message);
+      setError(err.message || 'Error local');
     } finally {
       setLoading(false);
     }
@@ -65,40 +59,27 @@ export async function addExerciseRecord(
   completedDate: string
 ) {
   try {
-    const { data: existingRecords, error: fetchError } = await supabase
-      .from('exercise_records')
-      .select('*')
-      .eq("user_id", userId)
-      .eq('completed_date', completedDate);
-
-    if (fetchError) throw fetchError;
-
-    if (existingRecords && existingRecords.length > 0) {
-      const { error } = await supabase
-        .from('exercise_records')
-        .update({ exercise_id: exerciseId })
-        .eq('id', existingRecords[0].id);
-
-      if (error) throw error;
-      return existingRecords[0];
+    // Verificar si ya existe un registro para esta fecha
+    const existing = await listCalendarEntries({ from: completedDate, to: completedDate });
+    
+    if (existing && existing.length > 0) {
+      // En una implementación más completa, podrías actualizar el registro existente
+      // Por ahora, simplemente devolvemos el existente
+      return existing[0];
     }
 
-    const newRecord = {
-      user_id: userId,
-      exercise_id: exerciseId,
-      completed_date: completedDate,
-      created_at: new Date().toISOString(),
+    await addCalendarEntry({
+      date: completedDate,
+      exerciseId: exerciseId,
+      note: `Ejercicio ${exerciseId} completado`
+    });
+
+    return {
+      userId: 'local-user',
+      exerciseId,
+      completedDate,
+      createdAt: new Date().toISOString(),
     };
-
-    const { data, error } = await supabase
-      .from('exercise_records')
-      .insert([newRecord])
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    return data;
   } catch (error: any) {
     console.error('Error adding exercise record:', error);
     throw error;
@@ -108,24 +89,17 @@ export async function addExerciseRecord(
 // Obtener el ejercicio para una fecha específica
 export async function getExerciseForDate(userId: string, date: string) {
   try {
-    const { data, error } = await supabase
-      .from('exercise_records')
-      .select('*')
-      .eq("user_id", userId)
-      .eq('completed_date', date)
-      .single();
-
-    if (error && error.code !== 'PGRST116') throw error;
-
-    if (!data) return null;
-
-    // Mapear de snake_case a camelCase
+    const data = await listCalendarEntries({ from: date, to: date });
+    
+    if (!data || data.length === 0) return null;
+    
+    const record = data[0];
     return {
-      id: data.id,
-      userId: data.user_id,
-      exerciseId: data.exercise_id,
-      completedDate: data.completed_date,
-      createdAt: data.created_at,
+      id: record.id,
+      userId: 'local-user',
+      exerciseId: record.exerciseId,
+      completedDate: record.date,
+      createdAt: record.created_at,
     };
   } catch (error: any) {
     console.error('Error getting exercise for date:', error);
