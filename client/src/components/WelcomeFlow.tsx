@@ -23,7 +23,7 @@ export default function WelcomeFlow({ children }: { children?: ReactNode }) {
         const user = await checkAuthStatus();
 
         if (!user) {
-          console.log('Redirigiendo al login, usuario no autenticado.');
+          console.log('Usuario no autenticado, redirigiendo al login');
           navigate('/auth');
           return;
         }
@@ -47,11 +47,11 @@ export default function WelcomeFlow({ children }: { children?: ReactNode }) {
         }
 
         if (existingProfile) {
-          console.log('Perfil ya existe:', existingProfile);
+          console.log('Perfil ya existe');
           setUserId(user.id);
           setShowNameForm(false); // No mostrar el formulario si ya existe el perfil
         } else {
-          console.log('Usuario autenticado pero sin perfil:', user);
+          console.log('Usuario autenticado pero sin perfil');
           setUserId(user.id);
           setShowNameForm(true); // Mostrar el formulario si no existe el perfil
         }
@@ -86,7 +86,7 @@ export default function WelcomeFlow({ children }: { children?: ReactNode }) {
       // Usar la función upsertUserProfile
       try {
         const data = await upsertUserProfile(displayName.trim());
-        console.log('Nombre guardado exitosamente:', data);
+        console.log('Nombre guardado exitosamente');
         
         // Mostrar mensaje y ocultar el formulario
         alert('Nombre guardado exitosamente');

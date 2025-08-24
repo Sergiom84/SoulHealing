@@ -7,7 +7,8 @@ function Register() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí colocarías la lógica para registrar al usuario (por ejemplo, utilizando supabase.auth.signUp)
-    console.log('Registrando usuario:', email);
+    // Opcional: confirmar que el email fue introducido
+    console.log('Registrando usuario, email proporcionado:', !!email);
   };
 
   return (

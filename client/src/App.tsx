@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 function App() {
   usePushNotifications();
 
-  console.log("⚡️ App.tsx está renderizando"); // 🐞 Log para verificar el montaje del componente
+  console.log("App.tsx renderizado");
 
   return (
     <QueryClientProvider client={queryClient}>

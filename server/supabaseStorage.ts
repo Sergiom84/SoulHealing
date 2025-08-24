@@ -5,8 +5,8 @@ import session from "express-session";
 
 // Verificación de variables de entorno
 console.log("⚙️ Verificando variables de entorno:");
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
-console.log("SUPABASE_ANON_KEY:", process.env.SUPABASE_ANON_KEY);
+console.log("SUPABASE_URL cargada:", !!process.env.SUPABASE_URL);
+console.log("SUPABASE_ANON_KEY cargada:", !!process.env.SUPABASE_ANON_KEY);
 
 // Cliente Supabase
 const supabase = createClient(
@@ -19,7 +19,7 @@ export class SupabaseStorage implements IStorage {
 
   // --- NAMES ---
   async getNames(userId: string, exerciseId: number): Promise<Name[]> {
-    console.log("→ getNames ejecutado con:", { userId, exerciseId });
+    console.log("→ getNames ejecutado");
 
     const { data, error } = await supabase
       .from("names")
@@ -33,12 +33,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Datos obtenidos:", data);
+    console.log("✅ Datos obtenidos");
     return data as Name[];
   }
 
   async addName(input: InsertName): Promise<Name> {
-    console.log("→ addName ejecutado con:", input);
+    console.log("→ addName ejecutado");
 
     const { data, error } = await supabase
       .from("names")
@@ -51,12 +51,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Nombre agregado:", data);
+    console.log("✅ Nombre agregado");
     return data as Name;
   }
 
   async updateName(id: number, forgiven: boolean): Promise<Name> {
-    console.log("→ updateName ejecutado con:", { id, forgiven });
+    console.log("→ updateName ejecutado");
 
     const { data, error } = await supabase
       .from("names")
@@ -70,12 +70,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Nombre actualizado:", data);
+    console.log("✅ Nombre actualizado");
     return data as Name;
   }
 
   async deleteName(id: number): Promise<void> {
-    console.log("→ deleteName ejecutado con ID:", id);
+    console.log("→ deleteName ejecutado");
 
     const { error } = await supabase
       .from("names")
@@ -92,7 +92,7 @@ export class SupabaseStorage implements IStorage {
 
   // --- NOTES ---
   async getNotes(userId: string, exerciseId: number): Promise<Note[]> {
-    console.log("→ getNotes ejecutado con:", { userId, exerciseId });
+    console.log("→ getNotes ejecutado");
 
     const { data, error } = await supabase
       .from("notes")
@@ -106,12 +106,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Notas obtenidas:", data);
+    console.log("✅ Notas obtenidas");
     return data as Note[];
   }
 
   async addNote(input: InsertNote): Promise<Note> {
-    console.log("→ addNote ejecutado con:", input);
+    console.log("→ addNote ejecutado");
 
     const { data, error } = await supabase
       .from("notes")
@@ -124,12 +124,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Nota agregada:", data);
+    console.log("✅ Nota agregada");
     return data as Note;
   }
 
   async deleteNote(id: number): Promise<void> {
-    console.log("→ deleteNote ejecutado con ID:", id);
+    console.log("→ deleteNote ejecutado");
 
     const { error } = await supabase
       .from("notes")
@@ -146,7 +146,7 @@ export class SupabaseStorage implements IStorage {
 
   // --- USERS ---
   async createUser(user: InsertUser): Promise<User> {
-    console.log("→ createUser ejecutado con:", user);
+    console.log("→ createUser ejecutado");
 
     const { data, error } = await supabase
       .from("users")
@@ -159,12 +159,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Usuario creado:", data);
+    console.log("✅ Usuario creado");
     return data as User;
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
-    console.log("→ getUserByEmail ejecutado con email:", email);
+    console.log("→ getUserByEmail ejecutado");
 
     const { data, error } = await supabase
       .from("users")
@@ -177,12 +177,12 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Usuario obtenido por email:", data);
+    console.log("✅ Usuario obtenido por email");
     return data || null;
   }
 
   async getUserById(id: string): Promise<User | null> {
-    console.log("→ getUserById ejecutado con ID:", id);
+    console.log("→ getUserById ejecutado");
 
     const { data, error } = await supabase
       .from("users")
@@ -195,7 +195,7 @@ export class SupabaseStorage implements IStorage {
       throw error;
     }
 
-    console.log("✅ Usuario obtenido por ID:", data);
+    console.log("✅ Usuario obtenido por ID");
     return data || null;
   }
 }
