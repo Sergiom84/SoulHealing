@@ -140,3 +140,7 @@ out
 .yarn/install-state.gz
 .pnp.*
 .vercel
+
+# Firebase configuration
+android/app/google-services.json
+
