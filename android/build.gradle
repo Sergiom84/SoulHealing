@@ -24,12 +24,11 @@ allprojects {
         resolutionStrategy {
             force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
             force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
-            force "androidx.appcompat:appcompat:1.6.1" // <-- Cambiado a versión estable
+            force "androidx.appcompat:appcompat:1.6.1"
             force "androidx.appcompat:appcompat-resources:1.6.1"
-            force "androidx.core:core:1.12.0"
-            force "androidx.fragment:fragment:1.6.2"
-            exclude group: 'androidx.core',     module: 'core'
-            exclude group: 'androidx.fragment', module: 'fragment'
+            force "androidx.core:core:1.9.0"
+            force "androidx.fragment:fragment:1.5.6"
+            force "androidx.webkit:webkit:1.6.1"
         }
     }
 }
@@ -41,8 +40,7 @@ subprojects { proj ->
     proj.afterEvaluate {
         if (plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')) {
             proj.android {
-                compileSdkVersion 34 // <-- Cambiado
-                buildToolsVersion '34.0.0'
+                compileSdkVersion 34
 
                 compileOptions {
                     sourceCompatibility JavaVersion.VERSION_17

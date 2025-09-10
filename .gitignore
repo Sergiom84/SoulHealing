@@ -8,7 +8,8 @@ node_modules
 
 # Archivos de configuración y caché de Vite
 dist
-.vscode
+.vscode/*
+!.vscode/extensions.json
 .replit
 .DS_Store
 

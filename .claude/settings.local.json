@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(dir androidappsrcmainresmipmap-hdpi)",
+      "Bash(npx cap:*)",
+      "Bash(mkdir:*)",
+      "Bash(gradlew.bat assembleDebug:*)",
+      "Bash(./gradlew.bat:*)",
+      "Bash(java:*)",
+      "Bash(echo $JAVA_HOME)",
+      "Bash(dir:*)",
+      "Bash(gradlew.bat assembleRelease:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
