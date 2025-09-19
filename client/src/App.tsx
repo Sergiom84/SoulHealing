@@ -8,8 +8,11 @@ import { usePushNotifications } from "./usePushNotifications";
 
 // Lazy loading de componentes
 const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
+// const Login = lazy(() => import("./pages/Login")); // Comentado - usando sistema simplificado
+// const Register = lazy(() => import("./pages/Register")); // Comentado - usando sistema simplificado
+
+// Nueva importación para entrada de nombre
+import NameEntry from "./components/NameEntry";
 
 // ❗Importación directa para evitar posibles fallos en Android
 import Exercise from "./pages/Exercise";
@@ -32,8 +35,8 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
+            <Route path="/login" component={NameEntry} />
+            {/* <Route path="/register" component={Register} /> Comentado */}
             <Route path="/exercise1" component={Exercise} />
             <Route path="/exercise2" component={Exercise2} />
             <Route path="/exercise3" component={Exercise3} />

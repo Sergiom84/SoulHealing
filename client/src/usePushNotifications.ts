@@ -1,3 +1,4 @@
+/* PUSH NOTIFICATIONS DESHABILITADAS - AHORA USANDO NOTIFICACIONES LOCALES
 import { useEffect } from "react";
 import { PushNotifications } from "@capacitor/push-notifications";
 
@@ -30,4 +31,34 @@ export function usePushNotifications() {
       console.log("👆 Notificación abierta:", action.notification);
     });
   }, []);
+}
+*/
+
+import { useEffect } from "react";
+import { useLocalNotifications } from "./hooks/useLocalNotifications";
+
+// Nueva función usando notificaciones locales
+export function usePushNotifications() {
+  const { initializeNotifications, scheduleReminders } = useLocalNotifications();
+
+  useEffect(() => {
+    const setupNotifications = async () => {
+      try {
+        await initializeNotifications();
+        
+        // Programar recordatorios basados en configuración del usuario
+        const savedReminders = localStorage.getItem('reminderTimes');
+        if (savedReminders) {
+          const times = JSON.parse(savedReminders);
+          await scheduleReminders(times);
+        }
+        
+        console.log("🔔 Notificaciones locales inicializadas correctamente");
+      } catch (error) {
+        console.error("❌ Error al configurar notificaciones locales:", error);
+      }
+    };
+
+    setupNotifications();
+  }, [initializeNotifications, scheduleReminders]);
 }

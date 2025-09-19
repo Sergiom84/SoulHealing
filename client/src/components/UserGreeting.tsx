@@ -1,23 +1,31 @@
 import React from 'react';
-import { useUserProfile, getTimeBasedGreeting } from '@/hooks/useUserProfile';
-import { useUser } from '@/hooks/useUser';
+// import { useUserProfile, getTimeBasedGreeting } from '@/hooks/useUserProfile'; // Comentado
+// import { useUser } from '@/hooks/useUser'; // Comentado
+import { useSimpleUser } from '@/hooks/useSimpleUser';
+
+// Función simplificada para saludo
+function getTimeBasedGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Buenos días';
+  if (hour < 18) return 'Buenas tardes';
+  return 'Buenas noches';
+}
 
 export default function UserGreeting() {
-  const { user } = useUser();
-  const { profile, loading } = useUserProfile(user?.id);
+  const { user } = useSimpleUser();
   const greeting = getTimeBasedGreeting();
 
-  if (loading || !profile) {
+  if (!user) {
     return null;
   }
 
   return (
-    <div className="text-base font-medium"> {/* Aumentado el tamaño de texto de sm a base */}
+    <div className="text-base font-medium">
       <span className="text-gray-400">
         {greeting},
       </span>{' '}
-      <span className="text-primary text-lg"> {/* Aumentado el tamaño y usando el color primario (azul) */}
-        {profile.display_name}
+      <span className="text-primary text-lg">
+        {user.name}
       </span>
     </div>
   );

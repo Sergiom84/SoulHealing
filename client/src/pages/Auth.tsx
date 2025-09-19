@@ -1,3 +1,4 @@
+/* SISTEMA DE AUTENTICACIÓN COMENTADO - USAR SOLO NOMBRE
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
+*/
 
+// Nueva importación simplificada
+import NameEntry from "@/components/NameEntry";
+
+/* CÓDIGO DE AUTENTICACIÓN COMPLETA COMENTADO - AHORA SOLO USAMOS NOMBRE
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -122,4 +128,10 @@ export default function Auth() {
       </Card>
     </div>
   );
+}
+*/
+
+// Nueva función simplificada - solo entrada de nombre
+export default function Auth() {
+  return <NameEntry />;
 }

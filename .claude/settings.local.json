@@ -13,7 +13,12 @@
       "Bash(echo $JAVA_HOME)",
       "Bash(dir:*)",
       "Bash(gradlew.bat assembleRelease:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(echo $ANDROID_HOME)",
+      "Bash(.gradlew.bat assembleDebug)",
+      "Bash(npx tsc:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)"
     ],
     "deny": [],
     "ask": []

@@ -6,9 +6,9 @@ android {
     defaultConfig {
         applicationId "com.UCDM.rutinaperdon"
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 34
+        versionCode 2
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged APK.
@@ -44,10 +44,11 @@ dependencies {
 
     // Capacitor Core Dependencies
     implementation project(':capacitor-android')
-    implementation project(':capacitor-push-notifications')
+    implementation project(':capacitor-local-notifications')
+    // implementation project(':capacitor-push-notifications') // Comentado - no necesario
 
-    // Google Services
-    implementation 'com.google.firebase:firebase-messaging:23.4.1'
+    // Google Services - Comentado para evitar errores
+    // implementation 'com.google.firebase:firebase-messaging:23.4.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -56,6 +57,8 @@ dependencies {
 
 apply from: 'capacitor.build.gradle'
 
+// Firebase deshabilitado para versión simplificada
+/* 
 try {
     def servicesJSON = file('google-services.json')
     if (servicesJSON.text) {
@@ -64,3 +67,4 @@ try {
 } catch(Exception e) {
     logger.info "google-services.json not found, google-services plugin not applied. Push Notifications won't work"
 }
+*/

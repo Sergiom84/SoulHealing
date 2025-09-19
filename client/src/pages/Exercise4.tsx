@@ -7,11 +7,12 @@ import NameList from "@/components/NameList";
 import NoteSection from "@/components/NoteSection";
 import HomeButton from "@/components/HomeButton";
 import { Name, Note } from "@/types";
-import { useUser } from "@/hooks/useUser";
+// import { useUser } from "@/hooks/useUser"; // Comentado - usando sistema simplificado
+import { useSimpleUser } from "@/hooks/useSimpleUser";
 import RequireAuth from "@/components/RequireAuth";
 
 export default function Exercise4() {
-  const { user } = useUser();
+  const { user } = useSimpleUser();
   const exerciseId = 4;
   const [activeTab, setActiveTab] = useState("introduccion");
   const [isPlaying, setIsPlaying] = useState(false);

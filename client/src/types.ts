@@ -14,5 +14,6 @@ export type Name = {
     createdat: string; // ✅ ESTO
     userid: string;
     exerciseid: number;
+    read: boolean;
   };
   

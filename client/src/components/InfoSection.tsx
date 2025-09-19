@@ -27,20 +27,24 @@ export default function InfoSection() {
           
           <Tabs defaultValue="guia" className="mt-4">
             {isMobile ? (
-              // Diseño de pestañas para móvil - apiladas en 2 filas
-              <TabsList className="grid grid-cols-2 w-full gap-1">
-                <TabsTrigger value="guia" className="text-xs px-1">Guía de Uso</TabsTrigger>
-                <TabsTrigger value="contacto" className="text-xs px-1">Contacto</TabsTrigger>
-                <TabsTrigger value="agradecimientos" className="text-xs px-1">Agradecimientos</TabsTrigger>
-                <TabsTrigger value="notificaciones" className="text-xs px-1">Notificaciones</TabsTrigger>
-              </TabsList>
+              // Diseño de pestañas para móvil - mejor espaciado en 2 filas
+              <div className="space-y-3">
+                <TabsList className="grid grid-cols-2 w-full gap-2 h-auto p-1">
+                  <TabsTrigger value="guia" className="text-sm px-2 py-2 h-auto">Guía de Uso</TabsTrigger>
+                  <TabsTrigger value="contacto" className="text-sm px-2 py-2 h-auto">Contacto</TabsTrigger>
+                </TabsList>
+                <TabsList className="grid grid-cols-2 w-full gap-2 h-auto p-1">
+                  <TabsTrigger value="agradecimientos" className="text-sm px-2 py-2 h-auto">Agradecimientos</TabsTrigger>
+                  <TabsTrigger value="notificaciones" className="text-sm px-2 py-2 h-auto">Notificaciones</TabsTrigger>
+                </TabsList>
+              </div>
             ) : (
-              // Diseño original para escritorio
-              <TabsList className="grid grid-cols-4 w-full">
-                <TabsTrigger value="guia">Guía de Uso</TabsTrigger>
-                <TabsTrigger value="contacto">Contacto</TabsTrigger>
-                <TabsTrigger value="agradecimientos">Agradecimientos</TabsTrigger>
-                <TabsTrigger value="notificaciones">Notificaciones</TabsTrigger>
+              // Diseño original para escritorio con mejor espaciado
+              <TabsList className="grid grid-cols-4 w-full gap-1 p-1">
+                <TabsTrigger value="guia" className="px-3 py-2">Guía de Uso</TabsTrigger>
+                <TabsTrigger value="contacto" className="px-3 py-2">Contacto</TabsTrigger>
+                <TabsTrigger value="agradecimientos" className="px-3 py-2">Agradecimientos</TabsTrigger>
+                <TabsTrigger value="notificaciones" className="px-3 py-2">Notificaciones</TabsTrigger>
               </TabsList>
             )}
             
@@ -49,7 +53,7 @@ export default function InfoSection() {
                 <CardHeader>
                   <CardTitle>Cómo realizar los ejercicios</CardTitle>
                   <CardDescription>
-                    
+                    Sigue estos pasos para obtener el máximo beneficio de cada ejercicio
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -101,34 +105,27 @@ export default function InfoSection() {
                 <CardHeader>
                   <CardTitle>Contacto</CardTitle>
                   <CardDescription>
-                   
+                    Si tienes preguntas o sugerencias, no dudes en contactarme
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
                     <h3 className="font-medium text-primary mb-2">Correo electrónico</h3>
-                    <p className="text-sm">sergiohernandezlara07@gmail.com</p>
+                    <p className="text-sm">Sergio.hlara84@gmail.com</p>
                     <p className="mt-4 text-sm text-muted-foreground">
                       Envíame tus sugerencias, comentarios o experiencias con la aplicación.
-                                          </p>
+                    </p>
                   </div>
                   
                   <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
-                    <h3 className="font-medium text-primary mb-2"></h3>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <p className="font-medium"></p>
-                        <p className="text-muted-foreground"></p>
-                      </div>
-                      <div>
-                        <p className="font-medium"></p>
-                        <p className="text-muted-foreground"></p>
-                      </div>
-                    </div>
+                    <h3 className="font-medium text-primary mb-2">Desarrollador</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Esta aplicación fue desarrollada con dedicación para apoyar tu práctica diaria del perdón.
+                    </p>
                   </div>
                   
                   <p className="text-sm text-center text-muted-foreground mt-4">
-                    
+                    "El amor es el camino que recorro con gratitud."
                   </p>
                 </CardContent>
               </Card>
@@ -137,7 +134,7 @@ export default function InfoSection() {
             <TabsContent value="agradecimientos" className="space-y-4 mt-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>Agradecimientos</CardTitle>
+                  <CardTitle></CardTitle>
                   <CardDescription>
                     
                   </CardDescription>
@@ -149,13 +146,13 @@ export default function InfoSection() {
                   </div>
                   
                   <div className="space-y-2">
-                    <h3 className="font-medium"></h3>
-                    <p className="text-sm"></p>
+                    <h3 className="font-medium">Un Curso de Milagros</h3>
+                    <p className="text-sm">Por las enseñanzas que transforman vidas a través del perdón.</p>
                   </div>
                   
                   <div className="space-y-2">
-                    <h3 className="font-medium"></h3>
-                    <p className="text-sm"></p>
+                    <h3 className="font-medium">La comunidad UCDM</h3>
+                    <p className="text-sm">Por mantener vivo el mensaje de amor y perdón en el mundo.</p>
                   </div>
                   
                   <div className="space-y-2">

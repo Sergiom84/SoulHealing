@@ -1,183 +1,186 @@
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/lib/supabaseClient';
-import { useUser } from '@/hooks/useUser';
-
-// Frases para cada ejercicio
-const EXERCISE_PHRASES = {
-  1: "Dios es el Amor en el que perdono.",
-  2: "El Amor no abriga resentimientos.",
-  3: "Que los milagros reemplacen todos mis resentimientos.",
-  4: "El perdón es la llave de la felicidad.",
-  5: "Quiero percibir el perdón tal como es."
-};
+import { useToast } from '@/hooks/use-toast';
+import { useLocalNotifications, ReminderTime } from '@/hooks/useLocalNotifications';
+import { Bell, Plus, Trash2, TestTube } from 'lucide-react';
 
 export default function NotificationSettings() {
-  const { user } = useUser();
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [frequency, setFrequency] = useState(4); // Horas por defecto
-  const [loading, setLoading] = useState(false);
-  const [savedStatus, setSavedStatus] = useState('');
+  const [reminders, setReminders] = useState<ReminderTime[]>([]);
+  const { scheduleReminders, testNotification, DEFAULT_REMINDERS } = useLocalNotifications();
+  const { toast } = useToast();
 
-  // Cargar configuración de notificaciones al iniciar
-  useState(() => {
-    if (user?.id) {
-      loadNotificationSettings();
+  useEffect(() => {
+    // Cargar configuración guardada
+    const saved = localStorage.getItem('reminderTimes');
+    if (saved) {
+      setReminders(JSON.parse(saved));
+    } else {
+      setReminders(DEFAULT_REMINDERS);
     }
-  }, [user?.id]);
+  }, [DEFAULT_REMINDERS]);
 
-  const loadNotificationSettings = async () => {
+  const saveReminders = async () => {
     try {
-      setLoading(true);
+      localStorage.setItem('reminderTimes', JSON.stringify(reminders));
+      await scheduleReminders(reminders);
       
-      const { data, error } = await supabase
-        .from('notification_settings')
-        .select('*')
-        .eq('user_id', user?.id)
-        .single();
+      const enabledCount = reminders.filter(r => r.enabled).length;
       
-      if (error && error.code !== 'PGRST116') throw error;
-      
-      if (data) {
-        setNotificationsEnabled(data.enabled);
-        setFrequency(data.frequency_hours);
-      }
+      toast({
+        title: "Configuración guardada",
+        description: `${enabledCount} recordatorios programados correctamente`,
+      });
     } catch (error) {
-      console.error('Error loading notification settings:', error);
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Error",
+        description: "No se pudieron programar las notificaciones",
+        variant: "destructive",
+      });
     }
   };
 
-  const saveNotificationSettings = async () => {
-    if (!user?.id) return;
-    
+  const toggleReminder = (index: number) => {
+    const updated = [...reminders];
+    updated[index].enabled = !updated[index].enabled;
+    setReminders(updated);
+  };
+
+  const updateTime = (index: number, hour: number, minute: number) => {
+    const updated = [...reminders];
+    updated[index].hour = hour;
+    updated[index].minute = minute;
+    setReminders(updated);
+  };
+
+  const addReminder = () => {
+    const newReminder: ReminderTime = {
+      hour: 12,
+      minute: 0,
+      enabled: true,
+      label: `Recordatorio ${reminders.length + 1}`
+    };
+    setReminders([...reminders, newReminder]);
+  };
+
+  const removeReminder = (index: number) => {
+    const updated = reminders.filter((_, i) => i !== index);
+    setReminders(updated);
+  };
+
+  const updateLabel = (index: number, label: string) => {
+    const updated = [...reminders];
+    updated[index].label = label;
+    setReminders(updated);
+  };
+
+  const handleTestNotification = async () => {
     try {
-      setLoading(true);
-      
-      const settings = {
-        user_id: user.id,
-        enabled: notificationsEnabled,
-        frequency_hours: frequency,
-        updated_at: new Date().toISOString()
-      };
-      
-      // Verificar si ya existe una configuración
-      const { data: existingSettings } = await supabase
-        .from('notification_settings')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      
-      let result;
-      
-      if (existingSettings) {
-        // Actualizar configuración existente
-        result = await supabase
-          .from('notification_settings')
-          .update(settings)
-          .eq('user_id', user.id);
-      } else {
-        // Crear nueva configuración
-        settings.created_at = new Date().toISOString();
-        result = await supabase
-          .from('notification_settings')
-          .insert([settings]);
-      }
-      
-      if (result.error) throw result.error;
-      
-      setSavedStatus('Configuración guardada correctamente');
-      setTimeout(() => setSavedStatus(''), 3000);
+      await testNotification();
+      toast({
+        title: "Notificación de prueba enviada",
+        description: "Deberías recibir una notificación en 3 segundos",
+      });
     } catch (error) {
-      console.error('Error saving notification settings:', error);
-      setSavedStatus('Error al guardar la configuración');
-      setTimeout(() => setSavedStatus(''), 3000);
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Error en la prueba",
+        description: "No se pudo enviar la notificación de prueba",
+        variant: "destructive",
+      });
     }
+  };
+
+  const formatTime = (hour: number, minute: number) => {
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
   };
 
   return (
-    <Tabs defaultValue="settings" className="w-full">
-      <TabsList className="grid grid-cols-2 w-full">
-        <TabsTrigger value="settings">Configuración</TabsTrigger>
-        <TabsTrigger value="preview">Vista previa</TabsTrigger>
-      </TabsList>
-      
-      <TabsContent value="settings" className="space-y-4 mt-4">
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="notifications">Activar notificaciones</Label>
-              <p className="text-sm text-muted-foreground">
-                Recibe recordatorios para tus ejercicios
-              </p>
-            </div>
-            <Switch
-              id="notifications"
-              checked={notificationsEnabled}
-              onCheckedChange={setNotificationsEnabled}
-              disabled={loading}
-            />
-          </div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Bell size={20} />
+            Configuración de Recordatorios
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-muted-foreground text-sm">
+            Configura cuando quieres recibir recordatorios para tu práctica espiritual.
+          </p>
           
-          <div className="space-y-2">
-            <Label>Frecuencia de notificaciones</Label>
-            <div className="flex flex-col space-y-2">
-              <Slider
-                disabled={!notificationsEnabled || loading}
-                min={1}
-                max={24}
-                step={1}
-                value={[frequency]}
-                onValueChange={(value) => setFrequency(value[0])}
-              />
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">1 hora</span>
-                <span className="text-sm font-medium">{frequency} {frequency === 1 ? 'hora' : 'horas'}</span>
-                <span className="text-sm text-muted-foreground">24 horas</span>
+          {reminders.map((reminder, index) => (
+            <div key={index} className="border rounded-lg p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={reminder.enabled}
+                    onCheckedChange={() => toggleReminder(index)}
+                  />
+                  <div className="grid gap-1">
+                    <Input
+                      value={reminder.label}
+                      onChange={(e) => updateLabel(index, e.target.value)}
+                      className="font-medium"
+                      placeholder="Nombre del recordatorio"
+                    />
+                  </div>
+                </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeReminder(index)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Label>Hora:</Label>
+                <Input
+                  type="time"
+                  value={formatTime(reminder.hour, reminder.minute)}
+                  onChange={(e) => {
+                    const [h, m] = e.target.value.split(":");
+                    const hour = Math.max(0, Math.min(23, parseInt(h || "0")));
+                    const minute = Math.max(0, Math.min(59, parseInt(m || "0")));
+                    updateTime(index, hour, minute);
+                  }}
+                  className="w-32"
+                />
               </div>
             </div>
+          ))}
+          
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={addReminder}
+              className="flex items-center gap-2"
+            >
+              <Plus size={16} />
+              Agregar Recordatorio
+            </Button>
+            
+            <Button
+              variant="outline"
+              onClick={handleTestNotification}
+              className="flex items-center gap-2"
+            >
+              <TestTube size={16} />
+              Probar Notificación
+            </Button>
           </div>
           
-          <button
-            className={`w-full py-2 px-4 rounded-md ${
-              loading ? 'bg-gray-300' : 'bg-primary text-primary-foreground hover:bg-primary/90'
-            }`}
-            onClick={saveNotificationSettings}
-            disabled={loading}
-          >
-            {loading ? 'Guardando...' : 'Guardar configuración'}
-          </button>
-          
-          {savedStatus && (
-            <p className="text-sm text-center text-green-600">{savedStatus}</p>
-          )}
-        </div>
-      </TabsContent>
-      
-      <TabsContent value="preview" className="space-y-4 mt-4">
-        <p className="text-sm text-muted-foreground mb-4">
-          Estas son las frases que recibirás como recordatorio para cada ejercicio:
-        </p>
-        
-        {Object.entries(EXERCISE_PHRASES).map(([exerciseId, phrase]) => (
-          <Card key={exerciseId} className="mb-4">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">Ejercicio {exerciseId}</CardTitle>
-              <CardDescription>Recordatorio</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm italic">"{phrase}"</p>
-            </CardContent>
-          </Card>
-        ))}
-      </TabsContent>
-    </Tabs>
+          <Button onClick={saveReminders} className="w-full">
+            Guardar Configuración
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

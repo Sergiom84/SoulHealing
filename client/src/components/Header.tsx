@@ -2,10 +2,12 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import ExerciseCalendar from "@/components/ExerciseCalendar";
 import InfoSection from "@/components/InfoSection";
 import HomeButton from "@/components/HomeButton";
-import { useUser } from "@/hooks/useUser";
+// import { useUser } from "@/hooks/useUser"; // Comentado - usando sistema simplificado
+import { useSimpleUser } from "@/hooks/useSimpleUser";
 import UserGreeting from "@/components/UserGreeting";
 import { useIsMobile } from "@/hooks/use-mobile";
 import AuthIndicator from './AuthIndicator';
+import NotificationButton from './NotificationButton';
 
 type HeaderProps = {
   showHome?: boolean;
@@ -18,7 +20,7 @@ export default function Header({
   showCalendar = true,
   showInfo = false,
 }: HeaderProps) {
-  const { user } = useUser();
+  const { user } = useSimpleUser();
   const isMobile = useIsMobile();
 
   return (
@@ -32,6 +34,7 @@ export default function Header({
               {showHome && <HomeButton />}
             </div>
             <div className="flex-shrink-0 ml-auto flex items-center gap-3">
+              <NotificationButton />
               <ThemeToggle />
               <AuthIndicator />
             </div>
@@ -44,7 +47,7 @@ export default function Header({
 
           {/* Tercera fila: Calendario e Info */}
           <div className="w-full flex justify-end gap-2 mt-2">
-            {showCalendar && <ExerciseCalendar userId={user?.id} />}
+            {showCalendar && <ExerciseCalendar />}
             {showInfo && <InfoSection />}
           </div>
         </header>
@@ -63,10 +66,11 @@ export default function Header({
 
           {/* Esquina superior derecha */}
           <header className="fixed top-4 right-4 z-50 flex flex-col items-end gap-2">
+            <NotificationButton />
             <ThemeToggle />
             <AuthIndicator />
             <div className="flex gap-2 mt-2">
-              {showCalendar && <ExerciseCalendar userId={user?.id} />}
+              {showCalendar && <ExerciseCalendar />}
               {showInfo && <InfoSection />}
             </div>
           </header>

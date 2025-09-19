@@ -8,13 +8,8 @@ export default function HomeButton() {
 
   const handleClick = () => {
     console.log("Pulsado botón Home");
-    if (Capacitor.isNativePlatform()) {
-      // En entorno nativo, recargar la página principal
-      window.location.href = "./index.html";
-    } else {
-      // En entorno web, navegar con el router SPA
-      setLocation("/");
-    }
+    // Siempre navegar a la ruta principal usando el router
+    setLocation("/");
   };
 
   return (

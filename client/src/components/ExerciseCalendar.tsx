@@ -6,38 +6,27 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useExerciseRecords, addExerciseRecord, ExerciseRecord } from '@/hooks/useExerciseCalendar';
+import { useLocalDatabase } from '@/hooks/useLocalDatabase';
+import { useToast } from '@/hooks/use-toast';
 
 interface CalendarProps {
-  userId?: string;
+  // No necesitamos userId ahora que usamos almacenamiento local
 }
 
-const exerciseOptions = [
-  { id: 1, name: 'Lección 46: Dios es el Amor en el que perdono' },
-  { id: 2, name: 'Lección 68: El amor no abriga resentimientos' },
-  { id: 3, name: 'Lección 78: Que los milagros reemplacen todos mis resentimientos' },
-  { id: 4, name: 'Lección 121: El perdón es la llave de la felicidad' },
-  { id: 5, name: 'Lección 134: Quiero percibir el perdón tal como es' },
-  { id: 6, name: 'Lección 5: Nunca estoy disgustado por la razón que creo' },
-  { id: 7, name: 'Lección 20: Estoy decidido a ver' },
-  { id: 8, name: 'Lección 21: Estoy decidido a ver las cosas de otra manera' },
-  { id: 9, name: 'Lección 34: Podría ver paz en lugar de ésto' },
-];
-
-// Colores más distinguibles para los ejercicios
+// Colores para las lecciones
 const exerciseColors = [
-  'bg-blue-500',    // Lección 46: Dios es el Amor en el que perdono
-  'bg-green-500',   // Lección 68: El amor no abriga resentimientos
-  'bg-yellow-500',  // Lección 78: Que los milagros reemplacen todos mis resentimientos
-  'bg-purple-500',  // Lección 121: El perdón es la llave de la felicidad
-  'bg-pink-500',    // Lección 134: Quiero percibir el perdón tal como es
-  'bg-red-500',     // Lección 5: Nunca estoy disgustado por la razón que creo
-  'bg-teal-500',    // Lección 20: Estoy decidido a ver
-  'bg-indigo-500',  // Lección 21: Estoy decidido a ver las cosas de otra manera
-  'bg-orange-500',  // Lección 34: Podría ver paz en lugar de ésto
+  'bg-blue-500',
+  'bg-green-500',
+  'bg-yellow-500',
+  'bg-purple-500',
+  'bg-pink-500',
+  'bg-red-500',
+  'bg-teal-500',
+  'bg-indigo-500',
+  'bg-orange-500',
 ];
 
-export default function ExerciseCalendar({ userId }: CalendarProps) {
+export default function ExerciseCalendar({}: CalendarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -45,7 +34,8 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
   const [saving, setSaving] = useState(false);
   const [calendarDays, setCalendarDays] = useState<Date[]>([]);
 
-  const { records, loading, refetch } = useExerciseRecords(userId);
+  const { addLessonEntry, getLessonsForDate, removeLessonEntry, getAvailableLessons } = useLocalDatabase();
+  const { toast } = useToast();
 
   useEffect(() => {
     const start = startOfMonth(currentMonth);
@@ -54,24 +44,46 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
     setCalendarDays(days);
   }, [currentMonth]);
 
-  const getExerciseForDay = (day: Date): ExerciseRecord | undefined => {
+  const getExerciseForDay = (day: Date) => {
     const dateStr = format(day, 'yyyy-MM-dd');
-    return records.find(record => record.completedDate === dateStr);
+    const lessons = getLessonsForDate(dateStr);
+    return lessons.length > 0 ? lessons[0] : null; // Retornar la primera lección del día
   };
 
   const handleSaveExercise = async () => {
-    if (!userId || !selectedDate || !selectedExercise) return;
+    if (!selectedDate || !selectedExercise) return;
 
     try {
       setSaving(true);
       const dateStr = format(selectedDate, 'yyyy-MM-dd');
-      await addExerciseRecord(userId, parseInt(selectedExercise), dateStr);
-      await refetch();
-      setIsOpen(false);
+      const lessonNumber = parseInt(selectedExercise);
+      
+      // Eliminar lección existente si la hay
+      const existingLessons = getLessonsForDate(dateStr);
+      existingLessons.forEach(lesson => {
+        removeLessonEntry(dateStr, lesson.lessonNumber);
+      });
+      
+      // Agregar nueva lección
+      addLessonEntry(dateStr, lessonNumber);
+      
+      const lessonObj = getAvailableLessons().find(l => l.number === lessonNumber);
+      const label = lessonObj ? lessonObj.title : `Ejercicio ${lessonNumber}`;
+
+      toast({
+        title: "Lección guardada",
+        description: `${label} registrado para ${format(selectedDate, 'dd/MM/yyyy')}`,
+      });
+      
       setSelectedDate(null);
       setSelectedExercise('');
     } catch (error) {
       console.error('Error al guardar el ejercicio:', error);
+      toast({
+        title: "Error",
+        description: "No se pudo guardar la lección",
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
@@ -79,18 +91,18 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
 
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
-    const existingRecord = getExerciseForDay(day);
-    if (existingRecord) {
-      setSelectedExercise(existingRecord.exerciseId.toString());
+    const existingLesson = getExerciseForDay(day);
+    if (existingLesson) {
+      setSelectedExercise(existingLesson.lessonNumber.toString());
     } else {
       setSelectedExercise('');
     }
   };
 
   const getDayColor = (day: Date): string => {
-    const record = getExerciseForDay(day);
-    if (!record) return '';
-    const colorIndex = (record.exerciseId - 1) % exerciseColors.length;
+    const lesson = getExerciseForDay(day);
+    if (!lesson) return '';
+    const colorIndex = (lesson.lessonNumber - 1) % exerciseColors.length;
     return exerciseColors[colorIndex];
   };
 
@@ -176,13 +188,13 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
                     <SelectValue placeholder="Selecciona un ejercicio" />
                   </SelectTrigger>
                   <SelectContent className="bg-background text-foreground">
-                    {exerciseOptions.map(option => (
+                    {getAvailableLessons().map(lesson => (
                       <SelectItem 
-                        key={option.id} 
-                        value={option.id.toString()}
+                        key={lesson.number} 
+                        value={lesson.number.toString()}
                         className="hover:bg-accent hover:text-accent-foreground"
                       >
-                        {option.name}
+                        {lesson.title}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -199,14 +211,7 @@ export default function ExerciseCalendar({ userId }: CalendarProps) {
             </Card>
           )}
 
-          <div className="flex flex-wrap gap-2 mt-4">
-            {exerciseOptions.map((option, index) => (
-              <div key={option.id} className="flex items-center gap-1 text-xs">
-                <div className={`w-3 h-3 rounded-full ${exerciseColors[index % exerciseColors.length]}`} />
-                <span>Ejercicio {option.id}</span>
-              </div>
-            ))}
-          </div>
+
         </div>
       </DialogContent>
     </Dialog>
