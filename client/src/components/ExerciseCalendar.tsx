@@ -51,30 +51,38 @@ export default function ExerciseCalendar({}: CalendarProps) {
   };
 
   const handleSaveExercise = async () => {
-    if (!selectedDate || !selectedExercise) return;
+    if (!selectedDate) return;
 
     try {
       setSaving(true);
       const dateStr = format(selectedDate, 'yyyy-MM-dd');
-      const lessonNumber = parseInt(selectedExercise);
-      
+
       // Eliminar lección existente si la hay
       const existingLessons = getLessonsForDate(dateStr);
       existingLessons.forEach(lesson => {
         removeLessonEntry(dateStr, lesson.lessonNumber);
       });
-      
-      // Agregar nueva lección
-      addLessonEntry(dateStr, lessonNumber);
-      
-      const lessonObj = getAvailableLessons().find(l => l.number === lessonNumber);
-      const label = lessonObj ? lessonObj.title : `Ejercicio ${lessonNumber}`;
 
-      toast({
-        title: "Lección guardada",
-        description: `${label} registrado para ${format(selectedDate, 'dd/MM/yyyy')}`,
-      });
-      
+      // Si no hay ejercicio seleccionado (deseleccionar), solo eliminar
+      if (!selectedExercise) {
+        toast({
+          title: "Selección eliminada",
+          description: `Lección eliminada para ${format(selectedDate, 'dd/MM/yyyy')}`,
+        });
+      } else {
+        // Agregar nueva lección
+        const lessonNumber = parseInt(selectedExercise);
+        addLessonEntry(dateStr, lessonNumber);
+
+        const lessonObj = getAvailableLessons().find(l => l.number === lessonNumber);
+        const label = lessonObj ? lessonObj.title : `Ejercicio ${lessonNumber}`;
+
+        toast({
+          title: "Lección guardada",
+          description: `${label} registrado para ${format(selectedDate, 'dd/MM/yyyy')}`,
+        });
+      }
+
       setSelectedDate(null);
       setSelectedExercise('');
     } catch (error) {
@@ -188,9 +196,15 @@ export default function ExerciseCalendar({}: CalendarProps) {
                     <SelectValue placeholder="Selecciona un ejercicio" />
                   </SelectTrigger>
                   <SelectContent className="bg-background text-foreground">
+                    <SelectItem
+                      value=""
+                      className="hover:bg-accent hover:text-accent-foreground"
+                    >
+                      Deseleccionar
+                    </SelectItem>
                     {getAvailableLessons().map(lesson => (
-                      <SelectItem 
-                        key={lesson.number} 
+                      <SelectItem
+                        key={lesson.number}
                         value={lesson.number.toString()}
                         className="hover:bg-accent hover:text-accent-foreground"
                       >
@@ -203,7 +217,7 @@ export default function ExerciseCalendar({}: CalendarProps) {
                 <Button
                   className="w-full"
                   onClick={handleSaveExercise}
-                  disabled={!selectedExercise || saving}
+                  disabled={saving}
                 >
                   {saving ? 'Guardando...' : 'Guardar'}
                 </Button>

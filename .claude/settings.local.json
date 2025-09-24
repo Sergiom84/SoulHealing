@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -v -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass 'Uc_@205_GjL@\\')",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -v -keystore \"C:\\Users\\Sergio\\.android\\debug.keystore\" -storepass android)",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass soulhealing)",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass password)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []
