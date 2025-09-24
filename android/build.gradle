@@ -1,15 +1,12 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.6.0'
-        classpath 'com.google.gms:google-services:4.3.15'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22"
+        // Esta es la línea clave que define DÓNDE encontrar el plugin
+        classpath 'com.android.tools.build:gradle:8.1.1'
     }
 }
 
@@ -18,55 +15,8 @@ allprojects {
         google()
         mavenCentral()
     }
-
-    // fuerza versiones estables
-    configurations.all {
-        resolutionStrategy {
-            force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
-            force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
-            force "androidx.appcompat:appcompat:1.6.1"
-            force "androidx.appcompat:appcompat-resources:1.6.1"
-            force "androidx.core:core:1.9.0"
-            force "androidx.fragment:fragment:1.5.6"
-            force "androidx.webkit:webkit:1.6.1"
-        }
-    }
 }
 
-task clean(type: Delete) { delete rootProject.buildDir }
-
-// ─── ajustes comunes para todos los sub-módulos Android ────────────────
-subprojects { proj ->
-    proj.afterEvaluate {
-        if (plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')) {
-            proj.android {
-                compileSdkVersion 34
-
-                compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_17
-                    targetCompatibility JavaVersion.VERSION_17
-                }
-
-                // Si no usas Jetpack Compose, puedes eliminar lo siguiente:
-                // buildFeatures {
-                //     compose true
-                // }
-                // composeOptions {
-                //     kotlinCompilerExtensionVersion '1.4.7'
-                // }
-
-                tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-                    kotlinOptions {
-                        jvmTarget = '17'
-                    }
-                }
-            }
-        }
-
-        // Java puro - Consistencia con Java 17
-        tasks.withType(JavaCompile).configureEach {
-            it.sourceCompatibility = '17'
-            it.targetCompatibility = '17'
-        }
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

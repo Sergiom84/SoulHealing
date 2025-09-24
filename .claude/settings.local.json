@@ -1,24 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build:*)",
-      "Bash(node:*)",
-      "Bash(npm:*)",
-      "Bash(dir androidappsrcmainresmipmap-hdpi)",
-      "Bash(npx cap:*)",
-      "Bash(mkdir:*)",
-      "Bash(gradlew.bat assembleDebug:*)",
-      "Bash(./gradlew.bat:*)",
-      "Bash(java:*)",
-      "Bash(echo $JAVA_HOME)",
-      "Bash(dir:*)",
-      "Bash(gradlew.bat assembleRelease:*)",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -v -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass 'Uc_@205_GjL@\\')",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -v -keystore \"C:\\Users\\Sergio\\.android\\debug.keystore\" -storepass android)",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass soulhealing)",
+      "Bash(\"/c/Program Files/Eclipse Adoptium/jdk-17.0.14.7-hotspot/bin/keytool.exe\" -list -keystore \"C:\\Users\\Sergio\\Documents\\Android\\Soulhealing\\Soulhealing.jks\" -storepass password)",
       "Bash(git add:*)",
-      "Bash(echo $ANDROID_HOME)",
-      "Bash(.gradlew.bat assembleDebug)",
-      "Bash(npx tsc:*)",
-      "Bash(git init:*)",
-      "Bash(git remote add:*)"
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

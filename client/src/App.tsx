@@ -1,10 +1,12 @@
 import "./index.css";
 import { Router, Route, Switch } from "wouter";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { LessonRoutes } from "./LessonRoutes";
 import { usePushNotifications } from "./usePushNotifications";
+import { App as CapacitorApp } from "@capacitor/app";
+import { useLocation } from "wouter";
 
 // Lazy loading de componentes
 const Home = lazy(() => import("./pages/Home"));
@@ -24,31 +26,51 @@ const Exercise5 = lazy(() => import("./pages/Exercise5"));
 
 const queryClient = new QueryClient();
 
+function AppRoutes() {
+  const [location, setLocation] = useLocation();
+
+  useEffect(() => {
+    const handleBackButton = () => {
+      if (location !== "/") {
+        setLocation("/");
+        return false;
+      }
+      return true;
+    };
+
+    CapacitorApp.addListener('backButton', handleBackButton);
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
+  }, [location, setLocation]);
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/login" component={NameEntry} />
+        <Route path="/exercise1" component={Exercise} />
+        <Route path="/exercise2" component={Exercise2} />
+        <Route path="/exercise3" component={Exercise3} />
+        <Route path="/exercise4" component={Exercise4} />
+        <Route path="/exercise5" component={Exercise5} />
+        <LessonRoutes />
+        <Route>404, Not Found!</Route>
+      </Switch>
+    </Suspense>
+  );
+}
+
 function App() {
   usePushNotifications();
 
-  console.log("⚡️ App.tsx está renderizando"); // 🐞 Log para verificar el montaje del componente
+  console.log("⚡️ App.tsx está renderizando");
 
   return (
     <QueryClientProvider client={queryClient}>
       <Router base="/">
-        <Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/login" component={NameEntry} />
-            {/* <Route path="/register" component={Register} /> Comentado */}
-            <Route path="/exercise1" component={Exercise} />
-            <Route path="/exercise2" component={Exercise2} />
-            <Route path="/exercise3" component={Exercise3} />
-            <Route path="/exercise4" component={Exercise4} />
-            <Route path="/exercise5" component={Exercise5} />
-
-            {/* Las rutas de las lecciones se gestionan dentro de LessonRoutes */}
-            <LessonRoutes />
-
-            <Route>404, Not Found!</Route>
-          </Switch>
-        </Suspense>
+        <AppRoutes />
         <Toaster />
       </Router>
     </QueryClientProvider>
